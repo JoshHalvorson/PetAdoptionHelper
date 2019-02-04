@@ -3,6 +3,7 @@ package com.joshuahalvorson.petadoptionhelper.view;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -25,11 +26,13 @@ import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
 import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelters;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        AnimalListFragment.OnFragmentInteractionListener{
 
     private PetFinderApiViewModel viewModel;
 
@@ -50,26 +53,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new AnimalListFragment())
+                .addToBackStack(null)
+                .commit();
+
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
-
-        LiveData<AnimalsOverview> data = viewModel.getPetsInArea(98092, "json");
-        data.observe(this, new Observer<AnimalsOverview>() {
-            @Override
-            public void onChanged(@Nullable AnimalsOverview animalsOverview) {
-                if(animalsOverview != null){
-                    AnimalPetfinder petfinder = animalsOverview.getPetfinder();
-                    if(petfinder != null){
-                        Pets pets = petfinder.getPets();
-                        if(pets != null){
-                            //have list of pets here
-                            List<Pet> petList = pets.getPet();
-                            Log.i("petsList", petList.get(0).getName().get$t());
-                        }
-                    }
-
-                }
-            }
-        });
 
         LiveData<SheltersOverview> sheltersData = viewModel.getSheltersInArea(98092, "json");
         sheltersData.observe(this, new Observer<SheltersOverview>() {
@@ -125,5 +115,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onAnimalListFragmentInteraction(Uri uri) {
+        Log.i("animalListInteraction", "clicked");
     }
 }
