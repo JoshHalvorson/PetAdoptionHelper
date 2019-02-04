@@ -1,10 +1,7 @@
-package com.joshuahalvorson.petadoptionhelper.Network;
+package com.joshuahalvorson.petadoptionhelper.network;
 
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
-import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

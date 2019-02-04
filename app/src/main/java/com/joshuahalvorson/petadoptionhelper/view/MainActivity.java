@@ -1,4 +1,4 @@
-package com.joshuahalvorson.petadoptionhelper;
+package com.joshuahalvorson.petadoptionhelper.view;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -15,7 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.joshuahalvorson.petadoptionhelper.Network.PetFinderApiViewModel;
+import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;

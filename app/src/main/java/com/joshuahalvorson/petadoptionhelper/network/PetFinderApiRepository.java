@@ -1,17 +1,12 @@
-package com.joshuahalvorson.petadoptionhelper.Network;
+package com.joshuahalvorson.petadoptionhelper.network;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
-import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
