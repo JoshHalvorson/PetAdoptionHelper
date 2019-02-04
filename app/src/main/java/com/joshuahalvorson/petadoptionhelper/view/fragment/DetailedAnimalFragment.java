@@ -85,11 +85,25 @@ public class DetailedAnimalFragment extends Fragment {
         petAge.setText("Age: " + pet.getAge().get$t());
         petSex.setText("Sex: " + pet.getSex().get$t());
         petSize.setText("Size: " + pet.getSize().get$t());
-        petBreeds.setText(
-                "Breeds: " + removeCharsFromString(pet.getBreeds().getBreed().toString(), chars));
+
+        if(pet.getBreeds().getBreed() != null){
+            petBreeds.setText(
+                    "Breeds: " +
+                            removeCharsFromString(pet.getBreeds().getBreed().toString(), chars));
+        }else{
+            petBreeds.setText("Breeds: Breeds not listed");
+        }
+
         petDesc.setText(pet.getDescription().get$t());
-        petOptions.setText(
-                "Options: " + removeCharsFromString(pet.getOptions().getOption().toString(), chars));
+
+        if(pet.getOptions().getOption() != null){
+            petOptions.setText(
+                    "Options: " +
+                            removeCharsFromString(pet.getOptions().getOption().toString(), chars));
+        }else{
+            petOptions.setText("Options: No options");
+        }
+
         petContact.setText("Contact info: " + pet.getContact().getPhone().get$t());
 
         List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
