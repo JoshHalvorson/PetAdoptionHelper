@@ -9,13 +9,13 @@ public class Breeds {
 
     @SerializedName("breed")
     @Expose
-    private List<Breed> breed = null;
+    private Object breed = null;
 
-    public List<Breed> getBreed() {
+    public Object getBreed() {
         return breed;
     }
 
-    public void setBreed(List<Breed> breed) {
+    public void setBreed(Object breed) {
         this.breed = breed;
     }
 
