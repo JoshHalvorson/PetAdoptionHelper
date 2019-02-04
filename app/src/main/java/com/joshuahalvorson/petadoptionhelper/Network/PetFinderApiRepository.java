@@ -19,24 +19,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PetFinderApiRepository {
 
+    private static Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(PetFinderApiInterface.base_url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+    private static PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);
 
     private static AnimalsOverview animalsOverview;
 
     public static MutableLiveData<AnimalsOverview> getPetsInArea(int zipcode, String format){
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetFinderApiInterface.base_url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);
-
-
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();*/
 
         final MutableLiveData<AnimalsOverview> data = new MutableLiveData<>();
         Call<AnimalsOverview> call = client.getPetsInLocation(Key.API_KEY, zipcode, format);
