@@ -6,11 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
+import com.joshuahalvorson.petadoptionhelper.animal.Photo;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 
 
@@ -41,10 +44,15 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.petName.setText(petList.get(i).getName().get$t());
 
+        List<Photo> photoList = petList.get(i).getMedia().getPhotos().getPhoto();
+        Glide.with(viewHolder.petImage.getContext())
+                .load(photoList.get(1).get$t())
+                .into(viewHolder.petImage);
+
         String desc = petList.get(i).getDescription().get$t();
         if(desc != null){
-            if(desc.length() > 200){
-                desc = desc.substring(0, 200);
+            if(desc.length() > 150){
+                desc = desc.substring(0, 150);
                 desc += "...";
                 viewHolder.petDesc.setText(desc);
             }
@@ -69,13 +77,16 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
-        public TextView petName, petDesc;
+        TextView petName, petDesc;
+        ImageView petImage;
+        //TODO: add last updated date to element
 
         public ViewHolder(View view) {
             super(view);
             this.view = view;
             petName = view.findViewById(R.id.pet_name);
             petDesc = view.findViewById(R.id.pet_desc);
+            petImage = view.findViewById(R.id.pet_image);
         }
 
         @Override
