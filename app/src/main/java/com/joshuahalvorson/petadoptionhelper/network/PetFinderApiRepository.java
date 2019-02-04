@@ -2,11 +2,9 @@ package com.joshuahalvorson.petadoptionhelper.network;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
-
 import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -72,10 +70,12 @@ public class PetFinderApiRepository {
         PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<SheltersOverview> data = new MutableLiveData<>();
-        Call<SheltersOverview> call = client.getSheltersInLocation(Key.API_KEY, zipcode, format, offset);
+        Call<SheltersOverview> call =
+                client.getSheltersInLocation(Key.API_KEY, zipcode, format, offset);
         call.enqueue(new Callback<SheltersOverview>() {
             @Override
-            public void onResponse(Call<SheltersOverview> call, Response<SheltersOverview> response) {
+            public void onResponse(Call<SheltersOverview> call,
+                                   Response<SheltersOverview> response) {
                 sheltersOverview = response.body();
                 data.setValue(sheltersOverview);
             }

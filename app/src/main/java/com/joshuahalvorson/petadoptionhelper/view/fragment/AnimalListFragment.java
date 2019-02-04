@@ -9,18 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
@@ -28,7 +24,6 @@ import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +31,6 @@ public class AnimalListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private PetListRecyclerViewAdapter adapter;
-    private RecyclerView recyclerView;
     private PetFinderApiViewModel viewModel;
     private LinearLayoutManager layoutManager;
 
@@ -64,7 +58,7 @@ public class AnimalListFragment extends Fragment {
 
         progressCircle = view.findViewById(R.id.loading_circle);
 
-        recyclerView = view.findViewById(R.id.pet_list_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.pet_list_recycler_view);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -118,7 +112,8 @@ public class AnimalListFragment extends Fragment {
                             adapter.notifyDataSetChanged();
                             progressCircle.setVisibility(View.GONE);
 
-                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
+                            RecyclerView.SmoothScroller smoothScroller =
+                                    new LinearSmoothScroller(getContext()) {
                                 @Override protected int getVerticalSnapPreference() {
                                     return LinearSmoothScroller.SNAP_TO_START;
                                 }
