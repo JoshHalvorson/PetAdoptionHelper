@@ -7,6 +7,8 @@ import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,14 +26,22 @@ public class PetFinderApiRepository {
     private static AnimalsOverview animalsOverview;
     private static SheltersOverview sheltersOverview;
 
-    public static MutableLiveData<AnimalsOverview> getPetsInArea(int zipcode, String format){
+    public static MutableLiveData<AnimalsOverview> getPetsInArea(
+            int zipcode, String format, String offset){
 
         /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();*/
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PetFinderApiInterface.base_url)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<AnimalsOverview> data = new MutableLiveData<>();
-        Call<AnimalsOverview> call = client.getPetsInLocation(Key.API_KEY, zipcode, format);
+        Call<AnimalsOverview> call = client.getPetsInLocation(Key.API_KEY, zipcode, format, offset);
         call.enqueue(new Callback<AnimalsOverview>() {
             @Override
             public void onResponse(Call<AnimalsOverview> call, Response<AnimalsOverview> response) {
@@ -47,14 +57,22 @@ public class PetFinderApiRepository {
         return data;
     }
 
-    public static MutableLiveData<SheltersOverview> getSheltersInArea(int zipcode, String format){
+    public static MutableLiveData<SheltersOverview> getSheltersInArea(
+            int zipcode, String format, String offset){
 
         /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();*/
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PetFinderApiInterface.base_url)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<SheltersOverview> data = new MutableLiveData<>();
-        Call<SheltersOverview> call = client.getSheltersInLocation(Key.API_KEY, zipcode, format);
+        Call<SheltersOverview> call = client.getSheltersInLocation(Key.API_KEY, zipcode, format, offset);
         call.enqueue(new Callback<SheltersOverview>() {
             @Override
             public void onResponse(Call<SheltersOverview> call, Response<SheltersOverview> response) {

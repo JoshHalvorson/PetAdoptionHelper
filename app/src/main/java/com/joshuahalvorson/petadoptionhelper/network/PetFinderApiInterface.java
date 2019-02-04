@@ -15,12 +15,16 @@ public interface PetFinderApiInterface {
     Call<AnimalsOverview> getPetsInLocation(
             @Query("key") String key,
             @Query("location") int zip,
-            @Query("format") String format);
+            @Query("format") String format,
+            @Query("offset") String offset
+    );
 
     @GET("shelter.find")
     Call<SheltersOverview> getSheltersInLocation(
             @Query("key") String key,
             @Query("location") int zip,
-            @Query("format") String format);
+            @Query("format") String format,
+            @Query("offset") String offset
+    );
 
 }

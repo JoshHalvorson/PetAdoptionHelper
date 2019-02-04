@@ -37,6 +37,10 @@ public class AnimalListFragment extends Fragment {
 
     private List<Pet> petList;
 
+    PetFinderApiViewModel viewModel;
+
+    int pageOffset = 0;
+
     public AnimalListFragment() {
 
     }
@@ -53,7 +57,7 @@ public class AnimalListFragment extends Fragment {
         petList = new ArrayList<>();
 
         RecyclerView recyclerView = view.findViewById(R.id.pet_list_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
@@ -65,14 +69,34 @@ public class AnimalListFragment extends Fragment {
         adapter = new PetListRecyclerViewAdapter(petList);
 
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() -1){
+                    pageOffset += 25;
+                    getPetList(98092, Integer.toString(pageOffset));
+                }
+            }
+        });
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PetFinderApiViewModel viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
-        LiveData<AnimalsOverview> data = viewModel.getPetsInArea(98092, "json");
+        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
+        getPetList(98092, Integer.toString(pageOffset));
+
+    }
+
+    private void getPetList(int zipcode, String offset) {
+        LiveData<AnimalsOverview> data = viewModel.getPetsInArea(zipcode, "json", offset);
         data.observe(this, new Observer<AnimalsOverview>() {
             @Override
             public void onChanged(@Nullable AnimalsOverview animalsOverview) {
@@ -81,11 +105,8 @@ public class AnimalListFragment extends Fragment {
                     if(petfinder != null){
                         Pets pets = petfinder.getPets();
                         if(pets != null){
-                            //have list of pets here
-                            petList.clear();
                             petList.addAll(pets.getPet());
                             adapter.notifyDataSetChanged();
-                            Log.i("petsList", petList.get(0).getName().get$t());
                         }
                     }
 

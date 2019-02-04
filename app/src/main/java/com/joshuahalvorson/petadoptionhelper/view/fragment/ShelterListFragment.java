@@ -35,7 +35,11 @@ public class ShelterListFragment extends Fragment {
 
     private ShelterListRecyclerViewAdapter adapter;
 
+    private PetFinderApiViewModel viewModel;
+
     private List<Shelter> shelterList;
+
+    int pageOffset = 0;
 
     public ShelterListFragment() {
 
@@ -53,7 +57,7 @@ public class ShelterListFragment extends Fragment {
         shelterList = new ArrayList<>();
 
         RecyclerView recyclerView = view.findViewById(R.id.shelter_list_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
@@ -65,16 +69,34 @@ public class ShelterListFragment extends Fragment {
         adapter = new ShelterListRecyclerViewAdapter(shelterList);
 
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(layoutManager.findLastCompletelyVisibleItemPosition() == shelterList.size() -1){
+                    pageOffset += 25;
+                    getShelterList(98092, Integer.toString(pageOffset));
+                }
+            }
+        });
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        PetFinderApiViewModel viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
+        getShelterList(98092, Integer.toString(pageOffset));
+    }
 
+    private void getShelterList(int zipcode, String offset) {
         LiveData<SheltersOverview> sheltersData =
-                viewModel.getSheltersInArea(98092, "json");
+                viewModel.getSheltersInArea(98092, "json", offset);
         sheltersData.observe(this, new Observer<SheltersOverview>() {
             @Override
             public void onChanged(@Nullable SheltersOverview sheltersOverview) {
@@ -83,11 +105,8 @@ public class ShelterListFragment extends Fragment {
                     if(sheltersOverviewPetfinder != null){
                         Shelters shelters = sheltersOverviewPetfinder.getShelters();
                         if(shelters != null){
-                            //have list of pets here
-                            shelterList.clear();
                             shelterList.addAll(shelters.getShelter());
                             adapter.notifyDataSetChanged();
-                            Log.i("shelterList", shelterList.get(0).getName().get$t());
                         }
                     }
 

@@ -12,13 +12,14 @@ public class PetFinderApiViewModel extends ViewModel {
     private MutableLiveData<AnimalsOverview> data;
     private MutableLiveData<SheltersOverview> sheltersOverviewMutableLiveData;
 
-    public LiveData<AnimalsOverview> getPetsInArea(int zipcode, String format){
-        data = PetFinderApiRepository.getPetsInArea(zipcode, format);
+    public LiveData<AnimalsOverview> getPetsInArea(int zipcode, String format, String offset){
+        data = PetFinderApiRepository.getPetsInArea(zipcode, format, offset);
         return data;
     }
 
-    public LiveData<SheltersOverview> getSheltersInArea(int zipcode, String format){
-        sheltersOverviewMutableLiveData = PetFinderApiRepository.getSheltersInArea(zipcode, format);
+    public LiveData<SheltersOverview> getSheltersInArea(int zipcode, String format, String offset){
+        sheltersOverviewMutableLiveData =
+                PetFinderApiRepository.getSheltersInArea(zipcode, format, offset);
         return sheltersOverviewMutableLiveData;
     }
 

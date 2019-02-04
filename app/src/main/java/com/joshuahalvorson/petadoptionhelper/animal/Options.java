@@ -9,13 +9,13 @@ public class Options {
 
     @SerializedName("option")
     @Expose
-    private List<Option> option = null;
+    private Object option = null;
 
-    public List<Option> getOption() {
+    public Object getOption() {
         return option;
     }
 
-    public void setOption(List<Option> option) {
+    public void setOption(Object option) {
         this.option = option;
     }
 
