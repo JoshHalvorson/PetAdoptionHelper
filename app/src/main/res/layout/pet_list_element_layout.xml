@@ -11,20 +11,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/pet_image"
             android:layout_width="200dp"
             android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="11dp"
@@ -41,6 +47,12 @@
             <TextView
                 android:id="@+id/pet_desc"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/pet_last_updated"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 

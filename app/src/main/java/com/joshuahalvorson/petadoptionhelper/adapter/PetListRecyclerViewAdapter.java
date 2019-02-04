@@ -66,6 +66,11 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             }
         }
 
+        String lastUpdated = petList.get(i).getLastUpdate().get$t().substring(0, 10);
+        if(lastUpdated != null){
+            viewHolder.lastUpdated.setText("Last updated: " + lastUpdated);
+        }
+
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,9 +90,8 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
-        TextView petName, petDesc;
+        TextView petName, petDesc, lastUpdated;
         ImageView petImage;
-        //TODO: add last updated date to element
 
         public ViewHolder(View view) {
             super(view);
@@ -95,6 +99,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             petName = view.findViewById(R.id.pet_name);
             petDesc = view.findViewById(R.id.pet_desc);
             petImage = view.findViewById(R.id.pet_image);
+            lastUpdated = view.findViewById(R.id.pet_last_updated);
         }
 
         @Override
