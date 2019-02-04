@@ -9,12 +9,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
+import com.joshuahalvorson.petadoptionhelper.animal.Photo;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailedAnimalFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -22,7 +26,8 @@ public class DetailedAnimalFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private TextView name;
+    private TextView petName, petAge, petSex, petSize, petBreeds, petDesc, petOptions, petContact;
+    private ImageView petImage;
 
     public DetailedAnimalFragment() {
 
@@ -53,13 +58,52 @@ public class DetailedAnimalFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        name = view.findViewById(R.id.name);
+        petImage = view.findViewById(R.id.pet_image);
+        petName = view.findViewById(R.id.pet_name);
+        petAge = view.findViewById(R.id.pet_age);
+        petSex = view.findViewById(R.id.pet_sex);
+        petSize = view.findViewById(R.id.pet_size);
+        petBreeds = view.findViewById(R.id.pet_breeds);
+        petDesc = view.findViewById(R.id.pet_desc);
+        petOptions = view.findViewById(R.id.pet_options);
+        petContact = view.findViewById(R.id.pet_contact);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        name.setText(pet.getName().get$t());
+
+        List<String> chars = new ArrayList<>();
+        chars.add("\\[");
+        chars.add("\\]");
+        chars.add("\\{");
+        chars.add("\\}");
+        chars.add("\\$t");
+        chars.add("\\=");
+
+        petName.setText(pet.getName().get$t());
+        petAge.setText("Age: " + pet.getAge().get$t());
+        petSex.setText("Sex: " + pet.getSex().get$t());
+        petSize.setText("Size: " + pet.getSize().get$t());
+        petBreeds.setText(
+                "Breeds: " + removeCharsFromString(pet.getBreeds().getBreed().toString(), chars));
+        petDesc.setText(pet.getDescription().get$t());
+        petOptions.setText(
+                "Options: " + removeCharsFromString(pet.getOptions().getOption().toString(), chars));
+        petContact.setText("Contact info: " + pet.getContact().getPhone().get$t());
+
+        List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
+
+        Glide.with(getContext())
+                .load(photoList.get(2).get$t())
+                .into(petImage);
+    }
+
+    private String removeCharsFromString(String string, List<String> charactersToRemove){
+        for(int i = 0; i < charactersToRemove.size(); i++){
+            string = string.replaceAll(charactersToRemove.get(i), "");
+        }
+        return string;
     }
 
     public void onButtonPressed(Uri uri) {
