@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
+
 
 import java.util.List;
 
@@ -18,8 +21,12 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
 
     private final List<Pet> petList;
 
-    public PetListRecyclerViewAdapter(List<Pet> petList) {
+    private AnimalListFragment.OnFragmentInteractionListener listener;
+
+    public PetListRecyclerViewAdapter(List<Pet> petList,
+                                      AnimalListFragment.OnFragmentInteractionListener listener) {
         this.petList = petList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,9 +38,18 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.petName.setText(petList.get(i).getName().get$t());
         viewHolder.petDesc.setText(petList.get(i).getDescription().get$t());
+
+        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onAnimalListFragmentInteraction(petList.get(i));
+                }
+            }
+        });
     }
 
     @Override

@@ -68,7 +68,7 @@ public class AnimalListFragment extends Fragment {
                         recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        adapter = new PetListRecyclerViewAdapter(petList);
+        adapter = new PetListRecyclerViewAdapter(petList, mListener);
 
         recyclerView.setAdapter(adapter);
 
@@ -128,12 +128,6 @@ public class AnimalListFragment extends Fragment {
         });
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onAnimalListFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -152,6 +146,6 @@ public class AnimalListFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onAnimalListFragmentInteraction(Uri uri);
+        void onAnimalListFragmentInteraction(Pet item);
     }
 }

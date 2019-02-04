@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import com.joshuahalvorson.petadoptionhelper.R;
@@ -115,13 +116,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onAnimalListFragmentInteraction(Uri uri) {
-        Log.i("animalListInteraction", "clicked");
-    }
 
     @Override
     public void onShelterListFragmentInteraction(Uri uri) {
         Log.i("shelterListInteraction", "clicked");
+    }
+
+    @Override
+    public void onAnimalListFragmentInteraction(Pet item) {
+        Toast.makeText(getApplicationContext(), item.getName().get$t(), Toast.LENGTH_LONG).show();
     }
 }
