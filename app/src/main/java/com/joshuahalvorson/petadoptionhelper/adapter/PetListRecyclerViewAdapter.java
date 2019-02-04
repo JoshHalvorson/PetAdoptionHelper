@@ -14,9 +14,11 @@ import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Photo;
+import com.joshuahalvorson.petadoptionhelper.animal.Photos;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,10 +46,16 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.petName.setText(petList.get(i).getName().get$t());
 
-        List<Photo> photoList = petList.get(i).getMedia().getPhotos().getPhoto();
-        Glide.with(viewHolder.petImage.getContext())
-                .load(photoList.get(1).get$t())
-                .into(viewHolder.petImage);
+        List<Photo> photoList = new ArrayList<>();
+        Photos photos= petList.get(i).getMedia().getPhotos();
+        if(photos != null){
+            photoList = photos.getPhoto();
+
+            Glide.with(viewHolder.petImage.getContext())
+                    .load(photoList.get(1).get$t())
+                    .into(viewHolder.petImage);
+        }
+
 
         String desc = petList.get(i).getDescription().get$t();
         if(desc != null){
