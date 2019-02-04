@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
@@ -41,6 +42,8 @@ public class AnimalListFragment extends Fragment {
 
     int pageOffset = 0;
 
+    ProgressBar progressCircle;
+
     public AnimalListFragment() {
 
     }
@@ -52,9 +55,12 @@ public class AnimalListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         petList = new ArrayList<>();
+
+
+        progressCircle = view.findViewById(R.id.loading_circle);
 
         RecyclerView recyclerView = view.findViewById(R.id.pet_list_recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -80,6 +86,7 @@ public class AnimalListFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() -1){
                     pageOffset += 25;
+                    progressCircle.setVisibility(View.VISIBLE);
                     getPetList(98092, Integer.toString(pageOffset));
                 }
             }
@@ -107,6 +114,7 @@ public class AnimalListFragment extends Fragment {
                         if(pets != null){
                             petList.addAll(pets.getPet());
                             adapter.notifyDataSetChanged();
+                            progressCircle.setVisibility(View.GONE);
                         }
                     }
 

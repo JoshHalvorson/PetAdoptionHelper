@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
@@ -41,6 +42,8 @@ public class ShelterListFragment extends Fragment {
 
     int pageOffset = 0;
 
+    ProgressBar progressCircle;
+
     public ShelterListFragment() {
 
     }
@@ -55,6 +58,8 @@ public class ShelterListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         shelterList = new ArrayList<>();
+
+        progressCircle = view.findViewById(R.id.loading_circle);
 
         RecyclerView recyclerView = view.findViewById(R.id.shelter_list_recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -80,6 +85,7 @@ public class ShelterListFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == shelterList.size() -1){
                     pageOffset += 25;
+                    progressCircle.setVisibility(View.VISIBLE);
                     getShelterList(98092, Integer.toString(pageOffset));
                 }
             }
@@ -107,6 +113,8 @@ public class ShelterListFragment extends Fragment {
                         if(shelters != null){
                             shelterList.addAll(shelters.getShelter());
                             adapter.notifyDataSetChanged();
+                            progressCircle.setVisibility(View.GONE);
+
                         }
                     }
 
