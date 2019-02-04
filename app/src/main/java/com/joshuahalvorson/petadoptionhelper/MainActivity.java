@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import com.joshuahalvorson.petadoptionhelper.Network.PetFinderApiViewModel;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
-import com.joshuahalvorson.petadoptionhelper.animal.Petfinder;
+import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable AnimalsOverview animalsOverview) {
                 if(animalsOverview != null){
-                    Petfinder petfinder = animalsOverview.getPetfinder();
+                    AnimalPetfinder petfinder = animalsOverview.getPetfinder();
                     if(petfinder != null){
                         Pets pets = petfinder.getPets();
                         if(pets != null){

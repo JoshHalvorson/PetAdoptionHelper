@@ -4,7 +4,7 @@ package com.joshuahalvorson.petadoptionhelper.shelter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Petfinder {
+public class ShelterPetfinder {
 
     @SerializedName("@xmlns:xsi")
     @Expose

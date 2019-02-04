@@ -14,7 +14,7 @@ public class AnimalsOverview {
     private String version;
     @SerializedName("petfinder")
     @Expose
-    private Petfinder petfinder;
+    private AnimalPetfinder petfinder;
 
     public String getEncoding() {
         return encoding;
@@ -32,11 +32,11 @@ public class AnimalsOverview {
         this.version = version;
     }
 
-    public Petfinder getPetfinder() {
+    public AnimalPetfinder getPetfinder() {
         return petfinder;
     }
 
-    public void setPetfinder(Petfinder petfinder) {
+    public void setPetfinder(AnimalPetfinder petfinder) {
         this.petfinder = petfinder;
     }
 

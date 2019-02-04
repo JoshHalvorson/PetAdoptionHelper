@@ -14,7 +14,7 @@ public class ShletersOverview {
     private String version;
     @SerializedName("petfinder")
     @Expose
-    private Petfinder petfinder;
+    private ShelterPetfinder petfinder;
 
     public String getEncoding() {
         return encoding;
@@ -32,11 +32,11 @@ public class ShletersOverview {
         this.version = version;
     }
 
-    public Petfinder getPetfinder() {
+    public ShelterPetfinder getPetfinder() {
         return petfinder;
     }
 
-    public void setPetfinder(Petfinder petfinder) {
+    public void setPetfinder(ShelterPetfinder petfinder) {
         this.petfinder = petfinder;
     }
 
