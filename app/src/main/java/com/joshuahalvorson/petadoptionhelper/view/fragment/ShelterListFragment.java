@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,14 +36,15 @@ public class ShelterListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ShelterListRecyclerViewAdapter adapter;
-
+    private RecyclerView recyclerView;
     private PetFinderApiViewModel viewModel;
+    private LinearLayoutManager layoutManager;
 
     private List<Shelter> shelterList;
 
     int pageOffset = 0;
 
-    ProgressBar progressCircle;
+    private ProgressBar progressCircle;
 
     public ShelterListFragment() {
 
@@ -61,8 +63,8 @@ public class ShelterListFragment extends Fragment {
 
         progressCircle = view.findViewById(R.id.loading_circle);
 
-        RecyclerView recyclerView = view.findViewById(R.id.shelter_list_recycler_view);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView = view.findViewById(R.id.shelter_list_recycler_view);
+        layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
@@ -115,6 +117,13 @@ public class ShelterListFragment extends Fragment {
                             adapter.notifyDataSetChanged();
                             progressCircle.setVisibility(View.GONE);
 
+                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
+                                @Override protected int getVerticalSnapPreference() {
+                                    return LinearSmoothScroller.SNAP_TO_START;
+                                }
+                            };
+                            smoothScroller.setTargetPosition(pageOffset);
+                            layoutManager.startSmoothScroll(smoothScroller);
                         }
                     }
 
