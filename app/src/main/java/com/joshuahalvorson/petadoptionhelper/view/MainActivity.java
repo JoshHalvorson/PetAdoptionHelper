@@ -27,12 +27,14 @@ import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelters;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.ShelterListFragment;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        AnimalListFragment.OnFragmentInteractionListener{
+        AnimalListFragment.OnFragmentInteractionListener,
+        ShelterListFragment.OnFragmentInteractionListener{
 
     private PetFinderApiViewModel viewModel;
 
@@ -55,30 +57,9 @@ public class MainActivity extends AppCompatActivity
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new AnimalListFragment())
+                .replace(R.id.fragment_container, new ShelterListFragment())
                 .addToBackStack(null)
                 .commit();
-
-        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
-
-        LiveData<SheltersOverview> sheltersData = viewModel.getSheltersInArea(98092, "json");
-        sheltersData.observe(this, new Observer<SheltersOverview>() {
-            @Override
-            public void onChanged(@Nullable SheltersOverview sheltersOverview) {
-                if(sheltersOverview != null){
-                    ShelterPetfinder sheltersOverviewPetfinder = sheltersOverview.getPetfinder();
-                    if(sheltersOverviewPetfinder != null){
-                        Shelters shelters = sheltersOverviewPetfinder.getShelters();
-                        if(shelters != null){
-                            //have list of pets here
-                            List<Shelter> shelterList = shelters.getShelter();
-                            Log.i("shelterList", shelterList.get(0).getName().get$t());
-                        }
-                    }
-
-                }
-            }
-        });
     }
 
     @Override
@@ -120,5 +101,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onAnimalListFragmentInteraction(Uri uri) {
         Log.i("animalListInteraction", "clicked");
+    }
+
+    @Override
+    public void onShelterListFragmentInteraction(Uri uri) {
+        Log.i("shelterListInteraction", "clicked");
     }
 }
