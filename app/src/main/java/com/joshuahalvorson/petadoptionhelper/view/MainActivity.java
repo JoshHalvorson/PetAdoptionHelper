@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new ShelterListFragment())
+                .replace(R.id.fragment_container, new AnimalListFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -91,8 +91,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
+        switch (item.getItemId()){
+            case R.id.nav_pets_list:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new AnimalListFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case R.id.nav_shelters_list:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ShelterListFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case R.id.nav_favorite_pets:
+                //favorites fragment
+                break;
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
