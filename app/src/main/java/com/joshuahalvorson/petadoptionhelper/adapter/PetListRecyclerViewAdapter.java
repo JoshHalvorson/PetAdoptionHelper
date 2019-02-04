@@ -44,10 +44,11 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        viewHolder.petName.setText(petList.get(i).getName().get$t());
+        final Pet pet = petList.get(i);
+        viewHolder.petName.setText(pet.getName().get$t());
 
-        List<Photo> photoList = new ArrayList<>();
-        Photos photos= petList.get(i).getMedia().getPhotos();
+        List<Photo> photoList;
+        Photos photos= pet.getMedia().getPhotos();
         if(photos != null){
             photoList = photos.getPhoto();
 
@@ -57,7 +58,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
         }
 
 
-        String desc = petList.get(i).getDescription().get$t();
+        String desc = pet.getDescription().get$t();
         if(desc != null){
             if(desc.length() > 150){
                 desc = desc.substring(0, 150);
@@ -66,7 +67,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             }
         }
 
-        String lastUpdated = petList.get(i).getLastUpdate().get$t().substring(0, 10);
+        String lastUpdated = pet.getLastUpdate().get$t().substring(0, 10);
         if(lastUpdated != null){
             viewHolder.lastUpdated.setText("Last updated: " + lastUpdated);
         }
@@ -75,7 +76,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onAnimalListFragmentInteraction(petList.get(i));
+                    listener.onAnimalListFragmentInteraction(pet);
                 }
             }
         });
