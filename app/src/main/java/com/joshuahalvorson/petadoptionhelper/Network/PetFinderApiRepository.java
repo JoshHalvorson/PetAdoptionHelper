@@ -6,6 +6,7 @@ import android.util.Log;
 import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
+import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class PetFinderApiRepository {
     private static PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);
 
     private static AnimalsOverview animalsOverview;
+    private static SheltersOverview sheltersOverview;
 
     public static MutableLiveData<AnimalsOverview> getPetsInArea(int zipcode, String format){
 
@@ -45,6 +47,29 @@ public class PetFinderApiRepository {
             @Override
             public void onFailure(Call<AnimalsOverview> call, Throwable t) {
                 Log.i("animalOverviewResult", t.getLocalizedMessage());
+            }
+        });
+        return data;
+    }
+
+    public static MutableLiveData<SheltersOverview> getSheltersInArea(int zipcode, String format){
+
+        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();*/
+
+        final MutableLiveData<SheltersOverview> data = new MutableLiveData<>();
+        Call<SheltersOverview> call = client.getSheltersInLocation(Key.API_KEY, zipcode, format);
+        call.enqueue(new Callback<SheltersOverview>() {
+            @Override
+            public void onResponse(Call<SheltersOverview> call, Response<SheltersOverview> response) {
+                sheltersOverview = response.body();
+                data.setValue(sheltersOverview);
+            }
+
+            @Override
+            public void onFailure(Call<SheltersOverview> call, Throwable t) {
+                Log.i("shelterOverviewResult", t.getLocalizedMessage());
             }
         });
         return data;

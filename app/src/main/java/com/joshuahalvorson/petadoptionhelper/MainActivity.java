@@ -20,6 +20,10 @@ import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
+import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
+import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
+import com.joshuahalvorson.petadoptionhelper.shelter.Shelters;
+import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
 import java.util.List;
 
@@ -59,6 +63,25 @@ public class MainActivity extends AppCompatActivity
                             //have list of pets here
                             List<Pet> petList = pets.getPet();
                             Log.i("petsList", petList.get(0).getName().get$t());
+                        }
+                    }
+
+                }
+            }
+        });
+
+        LiveData<SheltersOverview> sheltersData = viewModel.getSheltersInArea(98092, "json");
+        sheltersData.observe(this, new Observer<SheltersOverview>() {
+            @Override
+            public void onChanged(@Nullable SheltersOverview sheltersOverview) {
+                if(sheltersOverview != null){
+                    ShelterPetfinder sheltersOverviewPetfinder = sheltersOverview.getPetfinder();
+                    if(sheltersOverviewPetfinder != null){
+                        Shelters shelters = sheltersOverviewPetfinder.getShelters();
+                        if(shelters != null){
+                            //have list of pets here
+                            List<Shelter> shelterList = shelters.getShelter();
+                            Log.i("shelterList", shelterList.get(0).getName().get$t());
                         }
                     }
 
