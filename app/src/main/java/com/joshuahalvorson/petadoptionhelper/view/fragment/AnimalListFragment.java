@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
@@ -40,6 +43,8 @@ public class AnimalListFragment extends Fragment {
 
     private ProgressBar progressCircle;
 
+    private FloatingActionButton filterList;
+
     public AnimalListFragment() {
 
     }
@@ -54,7 +59,6 @@ public class AnimalListFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         petList = new ArrayList<>();
-
 
         progressCircle = view.findViewById(R.id.loading_circle);
 
@@ -87,6 +91,8 @@ public class AnimalListFragment extends Fragment {
                 }
             }
         });
+
+        filterList = view.findViewById(R.id.filter_button);
     }
 
     @Override
@@ -95,6 +101,14 @@ public class AnimalListFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
         getPetList(98092, Integer.toString(pageOffset));
+
+        filterList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Filter list options here", Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
 
     }
 
