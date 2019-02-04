@@ -9,47 +9,36 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.joshuahalvorson.petadoptionhelper.R;
+import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalListFragment extends Fragment {
-    private static final String PET_LIST_ARG = "pet_list";
-
-    private String petList;
-
     private OnFragmentInteractionListener mListener;
 
     private PetFinderApiViewModel viewModel;
 
+    private RecyclerView recyclerView;
+    private PetListRecyclerViewAdapter adapter;
+
+    private List<Pet> petList;
+
     public AnimalListFragment() {
 
-    }
-
-    public static AnimalListFragment newInstance(String petList) {
-        AnimalListFragment fragment = new AnimalListFragment();
-        Bundle args = new Bundle();
-        args.putString(PET_LIST_ARG, petList);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            petList = getArguments().getString(PET_LIST_ARG);
-        }
     }
 
     @Override
@@ -61,7 +50,15 @@ public class AnimalListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        petList = new ArrayList<>();
 
+        recyclerView = view.findViewById(R.id.pet_list_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new PetListRecyclerViewAdapter(petList);
+
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -79,7 +76,9 @@ public class AnimalListFragment extends Fragment {
                         Pets pets = petfinder.getPets();
                         if(pets != null){
                             //have list of pets here
-                            List<Pet> petList = pets.getPet();
+                            petList.clear();
+                            petList.addAll(pets.getPet());
+                            adapter.notifyDataSetChanged();
                             Log.i("petsList", petList.get(0).getName().get$t());
                         }
                     }
