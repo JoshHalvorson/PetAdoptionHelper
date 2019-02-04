@@ -85,29 +85,26 @@ public class DetailedAnimalFragment extends Fragment {
         petAge.setText("Age: " + pet.getAge().get$t());
         petSex.setText("Sex: " + pet.getSex().get$t());
         petSize.setText("Size: " + pet.getSize().get$t());
+        petDesc.setText(pet.getDescription().get$t());
+        petContact.setText("Contact info: " + pet.getContact().getPhone().get$t());
 
         if(pet.getBreeds().getBreed() != null){
             petBreeds.setText(
                     "Breeds: " +
                             removeCharsFromString(pet.getBreeds().getBreed().toString(), chars));
         }else{
-            petBreeds.setText("Breeds: Breeds not listed");
+            petBreeds.setText(getString(R.string.breeds_default_text));
         }
-
-        petDesc.setText(pet.getDescription().get$t());
 
         if(pet.getOptions().getOption() != null){
             petOptions.setText(
                     "Options: " +
                             removeCharsFromString(pet.getOptions().getOption().toString(), chars));
         }else{
-            petOptions.setText("Options: No options");
+            petOptions.setText(getString(R.string.options_default_text));
         }
 
-        petContact.setText("Contact info: " + pet.getContact().getPhone().get$t());
-
         List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
-
         Glide.with(getContext())
                 .load(photoList.get(2).get$t())
                 .into(petImage);
