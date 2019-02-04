@@ -9,12 +9,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
@@ -30,9 +33,6 @@ import java.util.List;
 public class AnimalListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private PetFinderApiViewModel viewModel;
-
-    private RecyclerView recyclerView;
     private PetListRecyclerViewAdapter adapter;
 
     private List<Pet> petList;
@@ -52,9 +52,15 @@ public class AnimalListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         petList = new ArrayList<>();
 
-        recyclerView = view.findViewById(R.id.pet_list_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerView = view.findViewById(R.id.pet_list_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(
+                        recyclerView.getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         adapter = new PetListRecyclerViewAdapter(petList);
 
@@ -64,7 +70,7 @@ public class AnimalListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
+        PetFinderApiViewModel viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
         LiveData<AnimalsOverview> data = viewModel.getPetsInArea(98092, "json");
         data.observe(this, new Observer<AnimalsOverview>() {

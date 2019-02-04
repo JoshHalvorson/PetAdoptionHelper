@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,9 +33,6 @@ import java.util.List;
 public class ShelterListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private PetFinderApiViewModel viewModel;
-
-    private RecyclerView recyclerView;
     private ShelterListRecyclerViewAdapter adapter;
 
     private List<Shelter> shelterList;
@@ -53,9 +52,15 @@ public class ShelterListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         shelterList = new ArrayList<>();
 
-        recyclerView = view.findViewById(R.id.shelter_list_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerView = view.findViewById(R.id.shelter_list_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(
+                        recyclerView.getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         adapter = new ShelterListRecyclerViewAdapter(shelterList);
 
@@ -66,9 +71,10 @@ public class ShelterListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
+        PetFinderApiViewModel viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
-        LiveData<SheltersOverview> sheltersData = viewModel.getSheltersInArea(98092, "json");
+        LiveData<SheltersOverview> sheltersData =
+                viewModel.getSheltersInArea(98092, "json");
         sheltersData.observe(this, new Observer<SheltersOverview>() {
             @Override
             public void onChanged(@Nullable SheltersOverview sheltersOverview) {
