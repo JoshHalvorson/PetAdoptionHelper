@@ -40,7 +40,15 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.petName.setText(petList.get(i).getName().get$t());
-        viewHolder.petDesc.setText(petList.get(i).getDescription().get$t());
+
+        String desc = petList.get(i).getDescription().get$t();
+        if(desc != null){
+            if(desc.length() > 200){
+                desc = desc.substring(0, 200);
+                desc += "...";
+                viewHolder.petDesc.setText(desc);
+            }
+        }
 
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
