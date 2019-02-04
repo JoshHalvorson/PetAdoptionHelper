@@ -36,7 +36,7 @@ public class AnimalListFragment extends Fragment {
 
     private List<Pet> petList;
 
-    int pageOffset = 0;
+    private int pageOffset = 0;
 
     private ProgressBar progressCircle;
 
@@ -80,7 +80,7 @@ public class AnimalListFragment extends Fragment {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() -1){
+                if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() - 1){
                     pageOffset += 25;
                     progressCircle.setVisibility(View.VISIBLE);
                     getPetList(98092, Integer.toString(pageOffset));
