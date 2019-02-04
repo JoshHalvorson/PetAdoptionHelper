@@ -28,6 +28,7 @@ import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelters;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedAnimalFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.ShelterListFragment;
 
 import java.util.List;
@@ -35,7 +36,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AnimalListFragment.OnFragmentInteractionListener,
-        ShelterListFragment.OnFragmentInteractionListener{
+        ShelterListFragment.OnFragmentInteractionListener,
+        DetailedAnimalFragment.OnFragmentInteractionListener{
 
     private PetFinderApiViewModel viewModel;
 
@@ -97,14 +99,12 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new AnimalListFragment())
-                        .addToBackStack(null)
                         .commit();
                 break;
             case R.id.nav_shelters_list:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new ShelterListFragment())
-                        .addToBackStack(null)
                         .commit();
                 break;
             case R.id.nav_favorite_pets:
@@ -124,6 +124,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onAnimalListFragmentInteraction(Pet item) {
-        Toast.makeText(getApplicationContext(), item.getName().get$t(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), item.getName().get$t(), Toast.LENGTH_LONG).show();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, DetailedAnimalFragment.newInstance(item))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onDetailedAnimalFragmentInteraction(Uri uri) {
+
     }
 }
