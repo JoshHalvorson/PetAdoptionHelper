@@ -1,5 +1,5 @@
 
-package com.joshuahalvorson.androidmenusdesign.animal;
+package com.joshuahalvorson.petadoptionhelper.animal;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
