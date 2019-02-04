@@ -79,7 +79,7 @@ public class ShelterListFragment extends Fragment {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if(layoutManager.findLastCompletelyVisibleItemPosition() == shelterList.size() -1){
+                if(layoutManager.findLastCompletelyVisibleItemPosition() == shelterList.size() - 1){
                     pageOffset += 25;
                     progressCircle.setVisibility(View.VISIBLE);
                     getShelterList(98092, Integer.toString(pageOffset));
