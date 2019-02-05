@@ -184,5 +184,4 @@ public class Pet implements Serializable {
     public void setAnimal(Animal animal) {
         this.animal = animal;
     }
-
 }

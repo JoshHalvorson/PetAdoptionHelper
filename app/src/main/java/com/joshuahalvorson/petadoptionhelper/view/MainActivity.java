@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import com.joshuahalvorson.petadoptionhelper.R;
@@ -30,6 +31,7 @@ import com.joshuahalvorson.petadoptionhelper.shelter.Shelters;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedAnimalFragment;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedStringAnimalFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.ShelterListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
 
@@ -39,7 +41,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AnimalListFragment.OnFragmentInteractionListener,
         ShelterListFragment.OnFragmentInteractionListener,
-        DetailedAnimalFragment.OnFragmentInteractionListener{
+        DetailedAnimalFragment.OnFragmentInteractionListener,
+        TaggedAnimalsFragment.OnFragmentInteractionListener{
 
     private PetFinderApiViewModel viewModel;
 
@@ -141,6 +144,23 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDetailedAnimalFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onTaggedAnimalListFragmentInteraction(StringPet item) {
+        Log.i("asda",  "ASDasd");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("stringPet", item);
+        DetailedStringAnimalFragment detailedStringAnimalFragment = new DetailedStringAnimalFragment();
+        detailedStringAnimalFragment.setArguments(bundle);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, detailedStringAnimalFragment)
+                .addToBackStack(null)
+                .commit();
+
 
     }
 }

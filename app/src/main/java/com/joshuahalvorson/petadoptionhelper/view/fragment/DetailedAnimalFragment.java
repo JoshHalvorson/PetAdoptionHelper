@@ -118,7 +118,7 @@ public class DetailedAnimalFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 TaggedAnimalsDbDao.createAnimalEntry(pet);
-                Toast.makeText(getContext(), pet.getName().get$t() + " add to your favorites!",
+                Toast.makeText(getContext(), pet.getName().get$t() + " added to your favorites!",
                         Toast.LENGTH_SHORT).show();
             }
         });

@@ -20,10 +20,12 @@ import android.view.ViewGroup;
 
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
+import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerviewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
+import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 
@@ -31,11 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaggedAnimalsFragment extends Fragment {
-    private AnimalListFragment.OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mListener;
 
-    private PetListRecyclerViewAdapter adapter;
+    private TaggedPetListRecyclerviewAdapter adapter;
 
-    private List<String> taggedPetsIdsList;
+    private List<StringPet> taggedPetsList;
 
     private PetFinderApiViewModel viewModel;
 
@@ -59,26 +61,7 @@ public class TaggedAnimalsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        taggedPetsIdsList = new ArrayList<>();
-        taggedPetsIdsList = TaggedAnimalsDbDao.readAllTaggedAnimals();
-
-        final List<Pet> petList = new ArrayList<>();
-
-        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
-
-        for(String id : taggedPetsIdsList){
-            LiveData<Pet> data = viewModel.getAnimalData(id, "json");
-            data.observe(this, new Observer<Pet>() {
-                @Override
-                public void onChanged(@Nullable Pet pet) {
-                    if(pet != null){
-                        petList.add(pet);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
-
+        taggedPetsList = new ArrayList<>();
 
         RecyclerView recyclerView = view.findViewById(R.id.tagged_animals_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -90,23 +73,39 @@ public class TaggedAnimalsFragment extends Fragment {
                         recyclerView.getContext(), linearLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        adapter = new PetListRecyclerViewAdapter(petList, mListener);
-        recyclerView.setAdapter(adapter);
+        adapter = new TaggedPetListRecyclerviewAdapter(taggedPetsList, mListener);
 
+        taggedPetsList.addAll(TaggedAnimalsDbDao.readAllTaggedAnimals());
+        adapter.notifyDataSetChanged();
+
+        recyclerView.setAdapter(adapter);
 
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onTaggedAnimalListFragmentInteraction(StringPet item);
     }
 
 }
