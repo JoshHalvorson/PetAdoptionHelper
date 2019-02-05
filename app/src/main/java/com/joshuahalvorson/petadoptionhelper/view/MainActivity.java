@@ -31,6 +31,7 @@ import com.joshuahalvorson.petadoptionhelper.shelter.Shelters;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedAnimalFragment;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedShelterFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedStringAnimalFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.ShelterListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
@@ -126,12 +127,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-    @Override
-    public void onShelterListFragmentInteraction(Uri uri) {
-        Log.i("shelterListInteraction", "clicked");
-    }
-
     @Override
     public void onAnimalListFragmentInteraction(Pet item) {
         //Toast.makeText(getApplicationContext(), item.getName().get$t(), Toast.LENGTH_LONG).show();
@@ -149,7 +144,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTaggedAnimalListFragmentInteraction(StringPet item) {
-        Log.i("asda",  "ASDasd");
         Bundle bundle = new Bundle();
         bundle.putSerializable("stringPet", item);
         DetailedStringAnimalFragment detailedStringAnimalFragment = new DetailedStringAnimalFragment();
@@ -162,5 +156,14 @@ public class MainActivity extends AppCompatActivity
                 .commit();
 
 
+    }
+
+    @Override
+    public void onShelterListFragmentInteraction(Shelter shelter) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, DetailedShelterFragment.newInstance(shelter))
+                .addToBackStack(null)
+                .commit();
     }
 }

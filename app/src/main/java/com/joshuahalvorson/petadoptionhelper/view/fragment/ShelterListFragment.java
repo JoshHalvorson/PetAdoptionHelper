@@ -67,7 +67,7 @@ public class ShelterListFragment extends Fragment {
                         recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        adapter = new ShelterListRecyclerViewAdapter(shelterList);
+        adapter = new ShelterListRecyclerViewAdapter(shelterList, mListener);
 
         recyclerView.setAdapter(adapter);
 
@@ -127,12 +127,6 @@ public class ShelterListFragment extends Fragment {
         });
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onShelterListFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -151,6 +145,6 @@ public class ShelterListFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onShelterListFragmentInteraction(Uri uri);
+        void onShelterListFragmentInteraction(Shelter shelter);
     }
 }

@@ -3,6 +3,7 @@ package com.joshuahalvorson.petadoptionhelper.shelter;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 
 public class ShelterPetfinder {
 
@@ -15,6 +16,9 @@ public class ShelterPetfinder {
     @SerializedName("shelters")
     @Expose
     private Shelters shelters;
+    @SerializedName("pets")
+    @Expose
+    private Pets pets;
 
     public String getXmlnsXsi() {
         return xmlnsXsi;
@@ -40,4 +44,11 @@ public class ShelterPetfinder {
         this.shelters = shelters;
     }
 
+    public Pets getPets() {
+        return pets;
+    }
+
+    public void setPets(Pets pets) {
+        this.pets = pets;
+    }
 }

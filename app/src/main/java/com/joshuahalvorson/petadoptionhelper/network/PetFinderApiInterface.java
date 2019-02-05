@@ -33,4 +33,11 @@ public interface PetFinderApiInterface {
             @Query("format") String format
     );
 
+    @GET("shelter.getPets")
+    Call<SheltersOverview> getPetsInShelter(
+            @Query("key") String key,
+            @Query("id") String id,
+            @Query("format") String format
+    );
+
 }

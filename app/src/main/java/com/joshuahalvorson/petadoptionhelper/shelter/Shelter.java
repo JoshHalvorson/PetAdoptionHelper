@@ -4,7 +4,9 @@ package com.joshuahalvorson.petadoptionhelper.shelter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Shelter {
+import java.io.Serializable;
+
+public class Shelter implements Serializable {
 
     @SerializedName("country")
     @Expose

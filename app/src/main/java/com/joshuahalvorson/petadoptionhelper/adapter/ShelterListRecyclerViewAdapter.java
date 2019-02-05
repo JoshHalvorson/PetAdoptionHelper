@@ -8,14 +8,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.ShelterListFragment;
+
 import java.util.List;
 
 public class ShelterListRecyclerViewAdapter extends RecyclerView.Adapter<ShelterListRecyclerViewAdapter.ViewHolder> {
 
     private final List<Shelter> shelterList;
 
-    public ShelterListRecyclerViewAdapter(List<Shelter> shelterList) {
+    private ShelterListFragment.OnFragmentInteractionListener listener;
+
+    public ShelterListRecyclerViewAdapter(List<Shelter> shelterList,
+                                          ShelterListFragment.OnFragmentInteractionListener listener) {
         this.shelterList = shelterList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -27,9 +34,19 @@ public class ShelterListRecyclerViewAdapter extends RecyclerView.Adapter<Shelter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.shelterName.setText(shelterList.get(i).getName().get$t());
         viewHolder.shelterCity.setText(shelterList.get(i).getCity().get$t());
+
+        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onShelterListFragmentInteraction(shelterList.get(i));
+                }
+            }
+        });
+
     }
 
     @Override
