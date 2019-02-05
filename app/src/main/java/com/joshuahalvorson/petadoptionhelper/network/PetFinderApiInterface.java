@@ -15,7 +15,13 @@ public interface PetFinderApiInterface {
             @Query("key") String key,
             @Query("location") int zip,
             @Query("format") String format,
-            @Query("offset") String offset
+            @Query("offset") String offset,
+
+            @Query("offset") String animal,
+            @Query("offset") String breed,
+            @Query("offset") String size,
+            @Query("offset") String sex,
+            @Query("offset") String age
     );
 
     @GET("shelter.find")

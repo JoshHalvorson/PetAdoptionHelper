@@ -33,7 +33,8 @@ public class PetFinderApiRepository {
     public static ShelterPetfinder shelterPetfinder;
 
     public static MutableLiveData<AnimalsOverview> getPetsInArea(
-            int zipcode, String format, String offset){
+            int zipcode, String format, String offset,
+            String animal, String breed, String size, String sex, String age){
 
         /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -47,7 +48,8 @@ public class PetFinderApiRepository {
         PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<AnimalsOverview> data = new MutableLiveData<>();
-        Call<AnimalsOverview> call = client.getPetsInLocation(Key.API_KEY, zipcode, format, offset);
+        Call<AnimalsOverview> call = client.getPetsInLocation(Key.API_KEY, zipcode, format, offset,
+                animal, breed, size, sex, age);
         call.enqueue(new Callback<AnimalsOverview>() {
             @Override
             public void onResponse(Call<AnimalsOverview> call, Response<AnimalsOverview> response) {

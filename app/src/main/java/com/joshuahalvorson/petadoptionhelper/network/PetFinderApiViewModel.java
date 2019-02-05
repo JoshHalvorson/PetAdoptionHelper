@@ -18,8 +18,11 @@ public class PetFinderApiViewModel extends ViewModel {
     private MutableLiveData<List<Pet>> petsInShelter;
     private MutableLiveData<SheltersOverview> sheltersOverviewMutableLiveData;
 
-    public LiveData<AnimalsOverview> getPetsInArea(int zipcode, String format, String offset){
-        data = PetFinderApiRepository.getPetsInArea(zipcode, format, offset);
+    public LiveData<AnimalsOverview> getPetsInArea(int zipcode, String format, String offset,
+                                                   String animal, String breed, String size,
+                                                   String sex, String age){
+        data = PetFinderApiRepository.getPetsInArea(zipcode, format, offset,
+                animal, breed, size, sex, age);
         return data;
     }
 

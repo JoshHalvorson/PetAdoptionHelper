@@ -64,6 +64,8 @@ public class AnimalListFragment extends Fragment {
 
     public static int zipcode;
 
+    private String filterAnimal, filterBreed, filterSize, filterSex, filterAge;
+
     FusedLocationProviderClient fusedLocationProviderClient;
 
     public AnimalListFragment() {
@@ -119,12 +121,19 @@ public class AnimalListFragment extends Fragment {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() - 1){
                     pageOffset += 25;
                     progressCircle.setVisibility(View.VISIBLE);
-                    getPetList(zipcode, Integer.toString(pageOffset));
+                    getPetList(zipcode, Integer.toString(pageOffset),
+                            filterAnimal, filterBreed, filterSize, filterSex, filterAge);
                 }
             }
         });
 
         filterList = view.findViewById(R.id.filter_button);
+
+        filterAnimal = "";
+        filterBreed = "";
+        filterSize = "";
+        filterSex = "";
+        filterAge = "";
     }
 
     @Override
@@ -144,8 +153,10 @@ public class AnimalListFragment extends Fragment {
 
     }
 
-    private void getPetList(int zipcode, String offset) {
-        LiveData<AnimalsOverview> data = viewModel.getPetsInArea(zipcode, "json", offset);
+    private void getPetList(int zipcode, String offset,
+                            String animal, String breed, String size, String sex, String age) {
+        LiveData<AnimalsOverview> data = viewModel.getPetsInArea(zipcode, "json", offset,
+                animal, breed, size, sex, age);
         data.observe(this, new Observer<AnimalsOverview>() {
             @Override
             public void onChanged(@Nullable AnimalsOverview animalsOverview) {
@@ -211,7 +222,8 @@ public class AnimalListFragment extends Fragment {
                         currentLat = location.getLatitude();
                         currentLon = location.getLongitude();
                         zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
-                        getPetList(zipcode, Integer.toString(pageOffset));
+                        getPetList(zipcode, Integer.toString(pageOffset),
+                                filterAnimal, filterBreed, filterSize, filterSex, filterAge);
                     }
                 });
     }
