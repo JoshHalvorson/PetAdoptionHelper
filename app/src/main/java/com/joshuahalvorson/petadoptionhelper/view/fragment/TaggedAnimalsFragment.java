@@ -35,9 +35,9 @@ import java.util.List;
 public class TaggedAnimalsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private TaggedPetListRecyclerviewAdapter adapter;
+    private static TaggedPetListRecyclerviewAdapter adapter;
 
-    private List<StringPet> taggedPetsList;
+    private static List<StringPet> taggedPetsList;
 
     private PetFinderApiViewModel viewModel;
 
@@ -80,6 +80,12 @@ public class TaggedAnimalsFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+    }
+
+    public static void refreshList(){
+        taggedPetsList.clear();
+        taggedPetsList.addAll(TaggedAnimalsDbDao.readAllTaggedAnimals());
+        adapter.notifyDataSetChanged();
     }
 
     @Override

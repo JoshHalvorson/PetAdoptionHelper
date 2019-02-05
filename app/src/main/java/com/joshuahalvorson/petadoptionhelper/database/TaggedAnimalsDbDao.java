@@ -71,6 +71,14 @@ public class TaggedAnimalsDbDao {
         }
     }
 
+    public static void deleteAnimalEntry(StringPet pet){
+        if(db != null){
+            String where = String.format("%s = %s",
+                    TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID, pet.getsId());
+            db.delete(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME, where, null);
+        }
+    }
+
     private static StringPet getAnimalData(Cursor cursor){
         int index;
         index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID);

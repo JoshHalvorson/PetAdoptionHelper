@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, detailedStringAnimalFragment)
-                .addToBackStack(null)
+                .addToBackStack("taggedAnimals")
                 .commit();
 
 

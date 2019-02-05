@@ -1,5 +1,7 @@
 package com.joshuahalvorson.petadoptionhelper.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Photo;
 import com.joshuahalvorson.petadoptionhelper.animal.Photos;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
+import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
 
@@ -25,8 +28,12 @@ public class TaggedPetListRecyclerviewAdapter extends RecyclerView.Adapter<Tagge
 
     private TaggedAnimalsFragment.OnFragmentInteractionListener listener;
 
-    public TaggedPetListRecyclerviewAdapter(List<StringPet> petList,
-                                            TaggedAnimalsFragment.OnFragmentInteractionListener listener) {
+    Context context;
+
+    Activity activity;
+
+    public TaggedPetListRecyclerviewAdapter(
+            List<StringPet> petList, TaggedAnimalsFragment.OnFragmentInteractionListener listener) {
         this.petList = petList;
         this.listener = listener;
     }
@@ -36,6 +43,7 @@ public class TaggedPetListRecyclerviewAdapter extends RecyclerView.Adapter<Tagge
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.pet_list_element_layout, viewGroup, false);
+        context = view.getContext();
         return new ViewHolder(view);
     }
 
@@ -73,6 +81,15 @@ public class TaggedPetListRecyclerviewAdapter extends RecyclerView.Adapter<Tagge
                 if (listener != null) {
                     listener.onTaggedAnimalListFragmentInteraction(pet);
                 }
+            }
+        });
+
+        viewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TaggedAnimalsDbDao.deleteAnimalEntry(pet);
+                TaggedAnimalsFragment.refreshList();
+                return true;
             }
         });
     }
