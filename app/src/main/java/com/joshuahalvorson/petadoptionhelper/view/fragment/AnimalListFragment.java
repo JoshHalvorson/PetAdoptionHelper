@@ -18,6 +18,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -38,6 +39,7 @@ import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
+import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 
 import java.io.IOException;
@@ -54,7 +56,7 @@ public class AnimalListFragment extends Fragment {
 
     private List<Pet> petList;
 
-    private int pageOffset = 0;
+    public static int pageOffset = 0;
 
     private ProgressBar progressCircle;
 
@@ -64,7 +66,7 @@ public class AnimalListFragment extends Fragment {
 
     public static int zipcode;
 
-    private String filterAnimal, filterBreed, filterSize, filterSex, filterAge;
+    public static String filterAnimal, filterBreed, filterSize, filterSex, filterAge;
 
     FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -146,14 +148,28 @@ public class AnimalListFragment extends Fragment {
         filterList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Filter list options here", Toast.LENGTH_LONG)
-                        .show();
+                //Toast.makeText(getContext(), "Filter list options here", Toast.LENGTH_LONG)
+                //        .show();
+                
+                //filterPetList(zipcode, "", "cat", "", "", "", "");
             }
         });
 
     }
 
-    private void getPetList(int zipcode, String offset,
+    public void filterPetList(int zipcode, String offset,
+                              String animal, String breed, String size, String sex, String age){
+        filterAnimal = animal;
+        filterBreed = breed;
+        filterSize = size;
+        filterSex = sex;
+        filterAge = age;
+        petList.clear();
+        getPetList(zipcode, offset, animal, breed, size, sex, age);
+
+    }
+
+    public void getPetList(int zipcode, String offset,
                             String animal, String breed, String size, String sex, String age) {
         LiveData<AnimalsOverview> data = viewModel.getPetsInArea(zipcode, "json", offset,
                 animal, breed, size, sex, age);
@@ -237,6 +253,10 @@ public class AnimalListFragment extends Fragment {
             e.printStackTrace();
         }
         return addresses.get(0).getPostalCode();
+    }
+
+    public static void refreshList(){
+
     }
 
     public interface OnFragmentInteractionListener {

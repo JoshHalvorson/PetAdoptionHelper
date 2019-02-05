@@ -17,11 +17,11 @@ public interface PetFinderApiInterface {
             @Query("format") String format,
             @Query("offset") String offset,
 
-            @Query("offset") String animal,
-            @Query("offset") String breed,
-            @Query("offset") String size,
-            @Query("offset") String sex,
-            @Query("offset") String age
+            @Query("animal") String animal,
+            @Query("breed") String breed,
+            @Query("size") String size,
+            @Query("sex") String sex,
+            @Query("age") String age
     );
 
     @GET("shelter.find")
