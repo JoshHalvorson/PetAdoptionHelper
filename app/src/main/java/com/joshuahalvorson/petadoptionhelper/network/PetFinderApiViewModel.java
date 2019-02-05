@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
+import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
 import java.util.List;
@@ -36,6 +37,10 @@ public class PetFinderApiViewModel extends ViewModel {
     public LiveData<List<Pet>> getPetsInShelter(String id, String format, String offset){
         petsInShelter = PetFinderApiRepository.getPetsInShelter(id, format, offset);
         return petsInShelter;
+    }
+
+    public static ShelterPetfinder getShelterPetFinder(){
+        return PetFinderApiRepository.shelterPetfinder;
     }
 
 }

@@ -30,6 +30,8 @@ public class PetFinderApiRepository {
     private static SheltersOverview sheltersOverview;
     private static SheltersOverview petsInShelter;
 
+    public static ShelterPetfinder shelterPetfinder;
+
     public static MutableLiveData<AnimalsOverview> getPetsInArea(
             int zipcode, String format, String offset){
 
@@ -149,6 +151,7 @@ public class PetFinderApiRepository {
             public void onResponse(Call<SheltersOverview> call, Response<SheltersOverview> response) {
                 petsInShelter = response.body();
                 ShelterPetfinder shelterPetfinder = petsInShelter.getPetfinder();
+                getShelterPetFinder(petsInShelter);
                 data.setValue(shelterPetfinder.getPets().getPet());
             }
 
@@ -158,6 +161,11 @@ public class PetFinderApiRepository {
             }
         });
         return data;
+    }
+
+    public static ShelterPetfinder getShelterPetFinder(SheltersOverview sheltersOverview){
+        shelterPetfinder = sheltersOverview.getPetfinder();
+        return shelterPetfinder;
     }
 
 }
