@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -26,6 +27,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -68,7 +72,12 @@ public class AnimalListFragment extends Fragment {
 
     public static String filterAnimal, filterBreed, filterSize, filterSex, filterAge;
 
-    FusedLocationProviderClient fusedLocationProviderClient;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private CardView filterView;
+    private CheckBox animalMale, animalFemale;
+    private Button applyFilter;
+
 
     public AnimalListFragment() {
 
@@ -136,6 +145,11 @@ public class AnimalListFragment extends Fragment {
         filterSize = "";
         filterSex = "";
         filterAge = "";
+
+        filterView = view.findViewById(R.id.filter_options_view);
+        animalFemale = view.findViewById(R.id.animal_female);
+        animalMale = view.findViewById(R.id.animal_male);
+        applyFilter = view.findViewById(R.id.apply_filter_button);
     }
 
     @Override
@@ -144,14 +158,31 @@ public class AnimalListFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
-
         filterList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getContext(), "Filter list options here", Toast.LENGTH_LONG)
                 //        .show();
-                
+
                 //filterPetList(zipcode, "", "cat", "", "", "", "");
+                if (filterView.getVisibility() == View.VISIBLE){
+                    filterView.setVisibility(View.GONE);
+                }else{
+                    filterView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        applyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(animalMale.isChecked()){
+                    filterPetList(zipcode, "", "", "", "", "M", "");
+                }else if(animalFemale.isChecked()){
+                    filterPetList(zipcode, "", "", "", "", "F", "");
+                }else{
+                    filterPetList(zipcode, "", "", "", "", "", "");
+                }
             }
         });
 
@@ -159,12 +190,12 @@ public class AnimalListFragment extends Fragment {
 
     public void filterPetList(int zipcode, String offset,
                               String animal, String breed, String size, String sex, String age){
+        petList.clear();
         filterAnimal = animal;
         filterBreed = breed;
         filterSize = size;
         filterSex = sex;
         filterAge = age;
-        petList.clear();
         getPetList(zipcode, offset, animal, breed, size, sex, age);
 
     }
@@ -238,6 +269,7 @@ public class AnimalListFragment extends Fragment {
                         currentLat = location.getLatitude();
                         currentLon = location.getLongitude();
                         zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
+                        petList.clear();
                         getPetList(zipcode, Integer.toString(pageOffset),
                                 filterAnimal, filterBreed, filterSize, filterSex, filterAge);
                     }
