@@ -3,7 +3,10 @@ package com.joshuahalvorson.petadoptionhelper.network;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 import com.joshuahalvorson.petadoptionhelper.Key;
+import com.joshuahalvorson.petadoptionhelper.animal.Animal;
+import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
+import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -22,6 +25,7 @@ public class PetFinderApiRepository {
     private static PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);
 
     private static AnimalsOverview animalsOverview;
+    private static AnimalsOverview petDataOverview;
     private static SheltersOverview sheltersOverview;
 
     public static MutableLiveData<AnimalsOverview> getPetsInArea(
@@ -83,6 +87,40 @@ public class PetFinderApiRepository {
             @Override
             public void onFailure(Call<SheltersOverview> call, Throwable t) {
                 Log.i("shelterOverviewResult", t.getLocalizedMessage());
+            }
+        });
+        return data;
+    }
+
+    public static MutableLiveData<Pet> getAnimalData(
+            String id, String format){
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PetFinderApiInterface.base_url)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);
+
+        final MutableLiveData<Pet> data = new MutableLiveData<>();
+        Call<AnimalsOverview> call =
+                client.getPetData(Key.API_KEY, id, format);
+        call.enqueue(new Callback<AnimalsOverview>() {
+            @Override
+            public void onResponse(Call<AnimalsOverview> call, Response<AnimalsOverview> response) {
+                petDataOverview = response.body();
+                AnimalPetfinder petfinder = petDataOverview.getPetfinder();
+                Pet pet = petfinder.getPet();
+                data.setValue(pet);
+            }
+
+            @Override
+            public void onFailure(Call<AnimalsOverview> call, Throwable t) {
+                Log.i("petDataResult", t.getLocalizedMessage());
             }
         });
         return data;

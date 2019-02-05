@@ -5,11 +5,13 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
+import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
 public class PetFinderApiViewModel extends ViewModel {
 
     private MutableLiveData<AnimalsOverview> data;
+    private MutableLiveData<Pet> petData;
     private MutableLiveData<SheltersOverview> sheltersOverviewMutableLiveData;
 
     public LiveData<AnimalsOverview> getPetsInArea(int zipcode, String format, String offset){
@@ -21,6 +23,11 @@ public class PetFinderApiViewModel extends ViewModel {
         sheltersOverviewMutableLiveData =
                 PetFinderApiRepository.getSheltersInArea(zipcode, format, offset);
         return sheltersOverviewMutableLiveData;
+    }
+
+    public LiveData<Pet> getAnimalData(String id, String format){
+        petData = PetFinderApiRepository.getAnimalData(id, format);
+        return petData;
     }
 
 }

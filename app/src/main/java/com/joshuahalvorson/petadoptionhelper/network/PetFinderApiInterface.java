@@ -26,4 +26,11 @@ public interface PetFinderApiInterface {
             @Query("offset") String offset
     );
 
+    @GET("pet.get")
+    Call<AnimalsOverview> getPetData(
+            @Query("key") String key,
+            @Query("id") String id,
+            @Query("format") String format
+    );
+
 }

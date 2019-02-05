@@ -15,6 +15,9 @@ public class AnimalPetfinder {
     @SerializedName("pets")
     @Expose
     private Pets pets;
+    @SerializedName("pet")
+    @Expose
+    private Pet pet;
 
     public String getXmlnsXsi() {
         return xmlnsXsi;
@@ -40,4 +43,11 @@ public class AnimalPetfinder {
         this.pets = pets;
     }
 
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
 }

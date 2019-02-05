@@ -31,6 +31,7 @@ import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedAnimalFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.ShelterListFragment;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
 
 import java.util.List;
 
@@ -111,7 +112,10 @@ public class MainActivity extends AppCompatActivity
                         .commit();
                 break;
             case R.id.nav_favorite_pets:
-                //favorites fragment
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new TaggedAnimalsFragment())
+                        .commit();
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
