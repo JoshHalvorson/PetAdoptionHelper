@@ -1,15 +1,23 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -20,6 +28,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
@@ -27,8 +39,11 @@ import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AnimalListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
@@ -45,6 +60,12 @@ public class AnimalListFragment extends Fragment {
 
     private FloatingActionButton filterList;
 
+    double currentLat, currentLon;
+
+    public static int zipcode;
+
+    FusedLocationProviderClient fusedLocationProviderClient;
+
     public AnimalListFragment() {
 
     }
@@ -58,6 +79,17 @@ public class AnimalListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+            getLocation();
+        }
+
         petList = new ArrayList<>();
 
         progressCircle = view.findViewById(R.id.loading_circle);
@@ -87,7 +119,7 @@ public class AnimalListFragment extends Fragment {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() - 1){
                     pageOffset += 25;
                     progressCircle.setVisibility(View.VISIBLE);
-                    getPetList(98092, Integer.toString(pageOffset));
+                    getPetList(zipcode, Integer.toString(pageOffset));
                 }
             }
         });
@@ -100,7 +132,7 @@ public class AnimalListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
-        getPetList(98092, Integer.toString(pageOffset));
+
 
         filterList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +189,42 @@ public class AnimalListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    private void getLocation() {
+        if (ActivityCompat
+                .checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED
+                && ActivityCompat
+                .checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+
+            return;
+
+        }
+        fusedLocationProviderClient
+                .getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        currentLat = location.getLatitude();
+                        currentLon = location.getLongitude();
+                        zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
+                        getPetList(zipcode, Integer.toString(pageOffset));
+                    }
+                });
+    }
+
+    private String getZipcode(double lat, double lon){
+        List<Address> addresses = new ArrayList<>();
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return addresses.get(0).getPostalCode();
     }
 
     public interface OnFragmentInteractionListener {

@@ -82,7 +82,7 @@ public class ShelterListFragment extends Fragment {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == shelterList.size() - 1){
                     pageOffset += 25;
                     progressCircle.setVisibility(View.VISIBLE);
-                    getShelterList(98092, Integer.toString(pageOffset));
+                    getShelterList(AnimalListFragment.zipcode, Integer.toString(pageOffset));
                 }
             }
         });
@@ -93,12 +93,12 @@ public class ShelterListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
-        getShelterList(98092, Integer.toString(pageOffset));
+        getShelterList(AnimalListFragment.zipcode, Integer.toString(pageOffset));
     }
 
     private void getShelterList(int zipcode, String offset) {
         LiveData<SheltersOverview> sheltersData =
-                viewModel.getSheltersInArea(98092, "json", offset);
+                viewModel.getSheltersInArea(zipcode, "json", offset);
         sheltersData.observe(this, new Observer<SheltersOverview>() {
             @Override
             public void onChanged(@Nullable SheltersOverview sheltersOverview) {
