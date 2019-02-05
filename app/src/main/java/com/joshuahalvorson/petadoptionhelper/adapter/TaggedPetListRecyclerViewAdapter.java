@@ -12,17 +12,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
-import com.joshuahalvorson.petadoptionhelper.animal.Pet;
-import com.joshuahalvorson.petadoptionhelper.animal.Photo;
-import com.joshuahalvorson.petadoptionhelper.animal.Photos;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
-import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
 
 import java.util.List;
 
-public class TaggedPetListRecyclerviewAdapter extends RecyclerView.Adapter<TaggedPetListRecyclerviewAdapter.ViewHolder> {
+public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<TaggedPetListRecyclerViewAdapter.ViewHolder> {
 
     private final List<StringPet> petList;
 
@@ -32,7 +28,7 @@ public class TaggedPetListRecyclerviewAdapter extends RecyclerView.Adapter<Tagge
 
     Activity activity;
 
-    public TaggedPetListRecyclerviewAdapter(
+    public TaggedPetListRecyclerViewAdapter(
             List<StringPet> petList, TaggedAnimalsFragment.OnFragmentInteractionListener listener) {
         this.petList = petList;
         this.listener = listener;

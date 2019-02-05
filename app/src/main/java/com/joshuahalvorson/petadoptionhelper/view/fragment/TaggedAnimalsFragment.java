@@ -1,30 +1,19 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.joshuahalvorson.petadoptionhelper.R;
-import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
-import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerviewAdapter;
-import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
-import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
-import com.joshuahalvorson.petadoptionhelper.animal.Pet;
-import com.joshuahalvorson.petadoptionhelper.animal.Pets;
+import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
@@ -35,7 +24,7 @@ import java.util.List;
 public class TaggedAnimalsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private static TaggedPetListRecyclerviewAdapter adapter;
+    private static TaggedPetListRecyclerViewAdapter adapter;
 
     private static List<StringPet> taggedPetsList;
 
@@ -73,7 +62,7 @@ public class TaggedAnimalsFragment extends Fragment {
                         recyclerView.getContext(), linearLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        adapter = new TaggedPetListRecyclerviewAdapter(taggedPetsList, mListener);
+        adapter = new TaggedPetListRecyclerViewAdapter(taggedPetsList, mListener);
 
         taggedPetsList.addAll(TaggedAnimalsDbDao.readAllTaggedAnimals());
         adapter.notifyDataSetChanged();
