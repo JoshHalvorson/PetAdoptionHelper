@@ -10,13 +10,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
+import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
+import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
+import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
 import java.util.ArrayList;
@@ -32,7 +36,6 @@ public class DetailedShelterFragment extends Fragment {
 
     private List<Pet> petsList;
 
-    private int pageOffset = 0;
     private PetListRecyclerViewAdapter adapter;
     private LinearLayoutManager layoutManager;
 
@@ -82,22 +85,6 @@ public class DetailedShelterFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if(layoutManager.findLastCompletelyVisibleItemPosition() == petsList.size() - 1){
-                    //pageOffset += 25;
-                    //progressCircle.setVisibility(View.VISIBLE);
-                    //getPetList(98092, Integer.toString(pageOffset));
-                }
-            }
-        });
-
     }
 
     @Override
@@ -105,16 +92,22 @@ public class DetailedShelterFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
-        LiveData<List<Pet>> data = viewModel.getPetsInShelter(shelter.getId().get$t(), "json");
+        getPetsInShelter(shelter.getId().get$t());
+
+    }
+
+    private void getPetsInShelter(String id) {
+        LiveData<List<Pet>> data = viewModel.getPetsInShelter(id, "json");
         data.observe(this, new Observer<List<Pet>>() {
             @Override
             public void onChanged(@Nullable List<Pet> data) {
-                petsList.clear();
-                petsList.addAll(data);
-                adapter.notifyDataSetChanged();
+                if (data != null) {
+                    petsList.clear();
+                    petsList.addAll(data);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
-
     }
 
     @Override
