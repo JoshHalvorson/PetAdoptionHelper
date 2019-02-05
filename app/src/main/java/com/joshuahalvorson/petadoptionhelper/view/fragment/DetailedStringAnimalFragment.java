@@ -56,7 +56,7 @@ public class DetailedStringAnimalFragment extends Fragment {
         petDesc = view.findViewById(R.id.pet_desc);
         petOptions = view.findViewById(R.id.pet_options);
         petContact = view.findViewById(R.id.pet_contact);
-
+        view.findViewById(R.id.favorite_button).setVisibility(View.GONE);
     }
 
     @Override
