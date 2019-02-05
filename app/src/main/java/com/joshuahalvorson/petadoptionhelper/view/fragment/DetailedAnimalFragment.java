@@ -5,17 +5,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Photo;
+import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ public class DetailedAnimalFragment extends Fragment {
 
     private TextView petName, petAge, petSex, petSize, petBreeds, petDesc, petOptions, petContact;
     private ImageView petImage;
+    private FloatingActionButton favoriteButton;
 
     public DetailedAnimalFragment() {
 
@@ -67,6 +71,7 @@ public class DetailedAnimalFragment extends Fragment {
         petDesc = view.findViewById(R.id.pet_desc);
         petOptions = view.findViewById(R.id.pet_options);
         petContact = view.findViewById(R.id.pet_contact);
+        favoriteButton = view.findViewById(R.id.favorite_button);
     }
 
     @Override
@@ -108,6 +113,15 @@ public class DetailedAnimalFragment extends Fragment {
         Glide.with(getContext())
                 .load(photoList.get(2).get$t())
                 .into(petImage);
+
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaggedAnimalsDbDao.createAnimalEntry(pet);
+                Toast.makeText(getContext(), pet.getName().get$t() + " add to your favorites!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String removeCharsFromString(String string, List<String> charactersToRemove){

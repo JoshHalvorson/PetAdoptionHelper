@@ -71,8 +71,10 @@ public class TaggedAnimalsFragment extends Fragment {
             data.observe(this, new Observer<Pet>() {
                 @Override
                 public void onChanged(@Nullable Pet pet) {
-                    petList.add(pet);
-                    adapter.notifyDataSetChanged();
+                    if(pet != null){
+                        petList.add(pet);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             });
         }
