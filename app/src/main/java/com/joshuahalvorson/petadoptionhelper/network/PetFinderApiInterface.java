@@ -37,7 +37,8 @@ public interface PetFinderApiInterface {
     Call<SheltersOverview> getPetsInShelter(
             @Query("key") String key,
             @Query("id") String id,
-            @Query("format") String format
+            @Query("format") String format,
+            @Query("offset") String offset
     );
 
 }

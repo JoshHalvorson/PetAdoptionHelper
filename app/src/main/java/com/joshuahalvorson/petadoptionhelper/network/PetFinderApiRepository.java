@@ -129,7 +129,7 @@ public class PetFinderApiRepository {
     }
 
     public static MutableLiveData<List<Pet>> getPetsInShelter(
-            String id, String format){
+            String id, String format, String offset){
 
         /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -143,7 +143,7 @@ public class PetFinderApiRepository {
         PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<List<Pet>> data = new MutableLiveData<>();
-        Call<SheltersOverview> call = client.getPetsInShelter(Key.API_KEY, id, format);
+        Call<SheltersOverview> call = client.getPetsInShelter(Key.API_KEY, id, format, offset);
         call.enqueue(new Callback<SheltersOverview>() {
             @Override
             public void onResponse(Call<SheltersOverview> call, Response<SheltersOverview> response) {

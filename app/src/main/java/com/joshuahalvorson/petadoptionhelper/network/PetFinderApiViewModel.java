@@ -33,8 +33,8 @@ public class PetFinderApiViewModel extends ViewModel {
         return petData;
     }
 
-    public LiveData<List<Pet>> getPetsInShelter(String id, String format){
-        petsInShelter = PetFinderApiRepository.getPetsInShelter(id, format);
+    public LiveData<List<Pet>> getPetsInShelter(String id, String format, String offset){
+        petsInShelter = PetFinderApiRepository.getPetsInShelter(id, format, offset);
         return petsInShelter;
     }
 

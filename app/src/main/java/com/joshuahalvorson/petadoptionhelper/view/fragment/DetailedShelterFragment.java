@@ -39,6 +39,8 @@ public class DetailedShelterFragment extends Fragment {
     private PetListRecyclerViewAdapter adapter;
     private LinearLayoutManager layoutManager;
 
+    private int pageOffset = 0;
+
     public DetailedShelterFragment() {
 
     }
@@ -85,6 +87,22 @@ public class DetailedShelterFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if(layoutManager.findLastCompletelyVisibleItemPosition() == petsList.size() - 1){
+                    pageOffset += 25;
+                    //progressCircle.setVisibility(View.VISIBLE);
+                    getPetsInShelter(shelter.getId().get$t(), Integer.toString(pageOffset));
+                }
+            }
+        });
+
     }
 
     @Override
@@ -92,19 +110,28 @@ public class DetailedShelterFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
-        getPetsInShelter(shelter.getId().get$t());
+        getPetsInShelter(shelter.getId().get$t(), Integer.toString(pageOffset));
 
     }
 
-    private void getPetsInShelter(String id) {
-        LiveData<List<Pet>> data = viewModel.getPetsInShelter(id, "json");
+    private void getPetsInShelter(String id, String offset) {
+        LiveData<List<Pet>> data = viewModel.getPetsInShelter(id, "json", offset);
         data.observe(this, new Observer<List<Pet>>() {
             @Override
             public void onChanged(@Nullable List<Pet> data) {
                 if (data != null) {
-                    petsList.clear();
+                    //petsList.clear();
                     petsList.addAll(data);
                     adapter.notifyDataSetChanged();
+
+                    RecyclerView.SmoothScroller smoothScroller =
+                            new LinearSmoothScroller(getContext()) {
+                                @Override protected int getVerticalSnapPreference() {
+                                    return LinearSmoothScroller.SNAP_TO_START;
+                                }
+                            };
+                    smoothScroller.setTargetPosition(pageOffset);
+                    layoutManager.startSmoothScroll(smoothScroller);
                 }
             }
         });
