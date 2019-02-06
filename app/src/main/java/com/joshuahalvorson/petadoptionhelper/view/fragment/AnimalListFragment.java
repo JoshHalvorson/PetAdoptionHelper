@@ -155,6 +155,21 @@ public class AnimalListFragment extends Fragment {
         animalMale = view.findViewById(R.id.animal_male);
         applyFilter = view.findViewById(R.id.apply_filter_button);
         animalTypeSpinner = view.findViewById(R.id.animal_type);
+
+        List<String> animalSpinnerArray =  new ArrayList<>();
+        animalSpinnerArray.add("all");
+        animalSpinnerArray.add("bird");
+        animalSpinnerArray.add("cat");
+        animalSpinnerArray.add("dog");
+        animalSpinnerArray.add("horse");
+        animalSpinnerArray.add("reptile");
+        animalSpinnerArray.add("smallfurry");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_spinner_item, animalSpinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        animalTypeSpinner.setAdapter(adapter);
     }
 
     @Override
@@ -166,25 +181,6 @@ public class AnimalListFragment extends Fragment {
         filterList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getContext(), "Filter list options here", Toast.LENGTH_LONG)
-                //        .show();
-
-                //filterPetList(zipcode, "", "cat", "", "", "", "");
-                List<String> animalSpinnerArray =  new ArrayList<>();
-                animalSpinnerArray.add("all");
-                animalSpinnerArray.add("bird");
-                animalSpinnerArray.add("cat");
-                animalSpinnerArray.add("dog");
-                animalSpinnerArray.add("horse");
-                animalSpinnerArray.add("reptile");
-                animalSpinnerArray.add("smallfurry");
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                        getContext(), android.R.layout.simple_spinner_item, animalSpinnerArray);
-
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                animalTypeSpinner.setAdapter(adapter);
                 if (filterView.getVisibility() == View.VISIBLE){
                     filterView.setVisibility(View.GONE);
                 }else{
