@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +17,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,14 +29,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
@@ -48,9 +42,7 @@ import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.breed.Breed;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
-import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +76,7 @@ public class AnimalListFragment extends Fragment {
     private Button applyFilter;
     private Spinner animalTypeSpinner, animalSizeSpinner, animalAgeSpinner, animalBreedsSpinner;
 
-    private List<String> animalTypeSpinnerArray;
+    private List<String> animalTypeSpinnerArray, animalSizeSpinnerArray, animalAgeSpinnerArray;
 
 
     public AnimalListFragment() {
@@ -164,7 +156,7 @@ public class AnimalListFragment extends Fragment {
         animalAgeSpinner = view.findViewById(R.id.animal_age);
         animalBreedsSpinner = view.findViewById(R.id.animal_breeds);
 
-        animalTypeSpinnerArray =  new ArrayList<>();
+        animalTypeSpinnerArray = new ArrayList<>();
         animalTypeSpinnerArray.add("All");
         animalTypeSpinnerArray.add("bird");
         animalTypeSpinnerArray.add("cat");
@@ -173,13 +165,13 @@ public class AnimalListFragment extends Fragment {
         animalTypeSpinnerArray.add("reptile");
         animalTypeSpinnerArray.add("smallfurry");
 
-        List<String> animalSizeSpinnerArray =  new ArrayList<>();
+        animalSizeSpinnerArray = new ArrayList<>();
         animalSizeSpinnerArray.add("All");
         animalSizeSpinnerArray.add("small");
         animalSizeSpinnerArray.add("medium");
         animalSizeSpinnerArray.add("large");
 
-        List<String> animalAgeSpinnerArray =  new ArrayList<>();
+        animalAgeSpinnerArray = new ArrayList<>();
         animalAgeSpinnerArray.add("All");
         animalAgeSpinnerArray.add("Baby");
         animalAgeSpinnerArray.add("Young");
