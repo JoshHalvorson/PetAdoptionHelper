@@ -74,7 +74,7 @@ public class DetailedStringAnimalFragment extends Fragment {
         petSex.setText("Sex: " + pet.getsSex());
         petSize.setText("Size: " + pet.getsSize());
         petDesc.setText(pet.getsDescription());
-        petContact.setText("Contact info: " + pet.getsContact());
+        petContact.setText(pet.getsContact());
 
         if(pet.getsBreeds() != null){
             petBreeds.setText(

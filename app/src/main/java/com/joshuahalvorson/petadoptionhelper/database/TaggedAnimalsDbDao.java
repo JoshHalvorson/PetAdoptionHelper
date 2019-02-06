@@ -31,8 +31,46 @@ public class TaggedAnimalsDbDao {
                 values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS,
                         animal.getOptions().getOption().toString());
             }
+
+            String phone = "Phone unknown";
+            if (animal.getContact().getPhone().getPhone() != null){
+                phone = animal.getContact().getPhone().getPhone();
+            }
+
+            String email = "Email unkown";
+            if (animal.getContact().getEmail().getEmail() != null){
+                email = animal.getContact().getEmail().getEmail();
+            }
+
+            String address = "Address unknown";
+            if(animal.getContact().getAddress1().getAddress() != null){
+                address = animal.getContact().getAddress1().getAddress();
+            }else if(animal.getContact().getAddress2().getAddress() != null){
+                address = animal.getContact().getAddress2().getAddress();
+            }
+
+            String city = "City unknown";
+            if(animal.getContact().getCity().getCity() != null){
+                city = animal.getContact().getCity().getCity();
+            }
+
+            String state = "State unknown";
+            if(animal.getContact().getState().getState() != null){
+                state = animal.getContact().getState().getState();
+            }
+
+            String zip = "Zip unknown";
+            if(animal.getContact().getZip().getZip() != null){
+                zip = animal.getContact().getZip().getZip();
+            }
+
+            String contact = "Phone: " + phone + "\n" +
+                    "Email: " + email + "\n" +
+                    "Location: " + address + ", " + city + ", " + state + " " + zip;
+
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
-                    animal.getContact().getCity().getCity());
+                    contact);
+
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
                     animal.getAge().getAge());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
