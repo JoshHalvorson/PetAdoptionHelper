@@ -4,7 +4,9 @@ package com.joshuahalvorson.petadoptionhelper.animal;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Sex {
+import java.io.Serializable;
+
+public class Sex implements Serializable {
 
     @SerializedName("$t")
     @Expose

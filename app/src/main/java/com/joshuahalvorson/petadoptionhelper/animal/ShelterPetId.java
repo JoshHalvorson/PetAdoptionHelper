@@ -2,7 +2,9 @@
 package com.joshuahalvorson.petadoptionhelper.animal;
 
 
-public class ShelterPetId {
+import java.io.Serializable;
+
+public class ShelterPetId implements Serializable {
 
 
 }

@@ -2,7 +2,9 @@
 package com.joshuahalvorson.petadoptionhelper.animal;
 
 
-public class Fax {
+import java.io.Serializable;
+
+public class Fax implements Serializable {
 
 
 }

@@ -2,7 +2,9 @@
 package com.joshuahalvorson.petadoptionhelper.animal;
 
 
-public class Address1 {
+import java.io.Serializable;
+
+public class Address1 implements Serializable {
 
 
 }
