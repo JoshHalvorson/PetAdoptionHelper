@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
@@ -48,6 +49,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
 
             Glide.with(viewHolder.petImage.getContext())
                     .load(imageUrl)
+                    .apply(RequestOptions.circleCropTransform())
                     .into(viewHolder.petImage);
         }
 

@@ -22,6 +22,18 @@ public class ShelterPetfinder implements Serializable {
     @Expose
     private Pets pets;
 
+    @SerializedName("shelter")
+    @Expose
+    private Shelter shelter;
+
+    public Shelter getShelter() {
+        return shelter;
+    }
+
+    public void setShelter(Shelter shelter) {
+        this.shelter = shelter;
+    }
+
     public String getXmlnsXsi() {
         return xmlnsXsi;
     }

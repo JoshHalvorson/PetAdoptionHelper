@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -82,7 +83,7 @@ public class DetailedShelterFragment extends Fragment {
                         recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        adapter = new PetListRecyclerViewAdapter(petsList, mListener);
+        adapter = new PetListRecyclerViewAdapter(petsList, mListener, getActivity(), (AppCompatActivity)getActivity());
 
         recyclerView.setAdapter(adapter);
 

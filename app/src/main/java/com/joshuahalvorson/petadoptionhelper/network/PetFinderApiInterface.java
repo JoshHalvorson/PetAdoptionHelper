@@ -50,6 +50,13 @@ public interface PetFinderApiInterface {
             @Query("offset") String offset
     );
 
+    @GET("shelter.get")
+    Call<SheltersOverview> getShelterData(
+            @Query("key") String key,
+            @Query("id") String id,
+            @Query("format") String format
+    );
+
     @GET("breed.list")
     Call<BreedsOverview> getBreedsForAnimal(
             @Query("key") String key,

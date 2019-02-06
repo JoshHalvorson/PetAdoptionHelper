@@ -17,6 +17,7 @@ public class PetFinderApiViewModel extends ViewModel {
     private MutableLiveData<List<Pet>> petsInShelter;
     private MutableLiveData<SheltersOverview> sheltersOverviewMutableLiveData;
     private MutableLiveData<BreedsOverview> breeds;
+    private MutableLiveData<SheltersOverview> shelterData;
 
     public LiveData<AnimalsOverview> getPetsInArea(int zipcode, String format, String offset,
                                                    String animal, String breed, String size,
@@ -45,6 +46,11 @@ public class PetFinderApiViewModel extends ViewModel {
     public LiveData<BreedsOverview> getBreedsForAnimal(String format, String animal){
         breeds = PetFinderApiRepository.getBreedsForAnimal(format, animal);
         return breeds;
+    }
+
+    public LiveData<SheltersOverview> getShelterData(String id, String format){
+        shelterData = PetFinderApiRepository.getShelterData(id, format);
+        return shelterData;
     }
 
     public static ShelterPetfinder getShelterPetFinder(){

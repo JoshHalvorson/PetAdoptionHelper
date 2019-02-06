@@ -17,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,7 +66,7 @@ public class AnimalListFragment extends Fragment {
 
     private FloatingActionButton filterList;
 
-    double currentLat, currentLon;
+    public static double currentLat, currentLon;
 
     public static int zipcode;
 
@@ -119,7 +120,7 @@ public class AnimalListFragment extends Fragment {
                         recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        adapter = new PetListRecyclerViewAdapter(petList, mListener);
+        adapter = new PetListRecyclerViewAdapter(petList, mListener, getActivity(), (AppCompatActivity)getActivity());
 
         recyclerView.setAdapter(adapter);
 
