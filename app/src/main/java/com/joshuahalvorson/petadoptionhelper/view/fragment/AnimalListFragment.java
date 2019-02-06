@@ -27,10 +27,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -77,6 +79,7 @@ public class AnimalListFragment extends Fragment {
     private CardView filterView;
     private CheckBox animalMale, animalFemale;
     private Button applyFilter;
+    private Spinner animalTypeSpinner;
 
 
     public AnimalListFragment() {
@@ -147,9 +150,11 @@ public class AnimalListFragment extends Fragment {
         filterAge = "";
 
         filterView = view.findViewById(R.id.filter_options_view);
+        filterView.setVisibility(View.GONE);
         animalFemale = view.findViewById(R.id.animal_female);
         animalMale = view.findViewById(R.id.animal_male);
         applyFilter = view.findViewById(R.id.apply_filter_button);
+        animalTypeSpinner = view.findViewById(R.id.animal_type);
     }
 
     @Override
@@ -165,6 +170,17 @@ public class AnimalListFragment extends Fragment {
                 //        .show();
 
                 //filterPetList(zipcode, "", "cat", "", "", "", "");
+                List<String> animalSpinnerArray =  new ArrayList<>();
+                animalSpinnerArray.add("all");
+                animalSpinnerArray.add("dog");
+                animalSpinnerArray.add("cat");
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        getContext(), android.R.layout.simple_spinner_item, animalSpinnerArray);
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                animalTypeSpinner.setAdapter(adapter);
                 if (filterView.getVisibility() == View.VISIBLE){
                     filterView.setVisibility(View.GONE);
                 }else{
@@ -176,13 +192,20 @@ public class AnimalListFragment extends Fragment {
         applyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String animal = "", breed = "", size = "", sex = "", age = "";
                 if(animalMale.isChecked()){
-                    filterPetList(zipcode, "", "", "", "", "M", "");
+                    sex = "M";
                 }else if(animalFemale.isChecked()){
-                    filterPetList(zipcode, "", "", "", "", "F", "");
-                }else{
-                    filterPetList(zipcode, "", "", "", "", "", "");
+                    sex = "F";
                 }
+
+                animal = animalTypeSpinner.getSelectedItem().toString();
+                if(animal.equals("all")){
+                    animal = "";
+                }
+
+                filterPetList(zipcode, "", animal, breed, size, sex, age);
+                filterView.setVisibility(View.GONE);
             }
         });
 
