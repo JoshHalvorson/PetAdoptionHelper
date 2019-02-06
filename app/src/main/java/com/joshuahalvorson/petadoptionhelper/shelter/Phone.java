@@ -2,7 +2,9 @@
 package com.joshuahalvorson.petadoptionhelper.shelter;
 
 
-public class Phone {
+import java.io.Serializable;
+
+public class Phone implements Serializable {
 
 
 }

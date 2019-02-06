@@ -4,7 +4,9 @@ package com.joshuahalvorson.petadoptionhelper.shelter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Id {
+import java.io.Serializable;
+
+public class Id implements Serializable {
 
     @SerializedName("$t")
     @Expose

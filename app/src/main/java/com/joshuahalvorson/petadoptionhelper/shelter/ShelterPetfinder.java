@@ -5,7 +5,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 
-public class ShelterPetfinder {
+import java.io.Serializable;
+
+public class ShelterPetfinder implements Serializable {
 
     @SerializedName("@xmlns:xsi")
     @Expose
