@@ -22,6 +22,20 @@ public class StringPet implements Serializable {
         sLastUpdate = lastUpdate;
     }
 
+    public StringPet(Pet pet){
+        sOptions = pet.getOptions().getOption().toString();
+        sContact = pet.getContact().getCity().getCity();
+        sAge = pet.getAge().getAge();
+        sSize = pet.getSize().getAnimalSize();
+        sMedia = pet.getMedia().getPhotos().getPhoto().get(2).getImageUrl();
+        sId = pet.getId().getAnimalId();
+        sBreeds = pet.getBreeds().getBreed().toString();
+        sName = pet.getName().getAnimalName();
+        sSex = pet.getSex().getAnimalSex();
+        sDescription = pet.getDescription().getAnimalDescription();
+        sLastUpdate = pet.getLastUpdate().getLastUpdate();
+    }
+
     public String getsOptions() {
         return sOptions;
     }

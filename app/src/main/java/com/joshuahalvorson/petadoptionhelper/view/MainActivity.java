@@ -39,6 +39,14 @@ public class MainActivity extends AppCompatActivity
         TaggedAnimalsFragment.OnFragmentInteractionListener{
 
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseApp.initializeApp(getApplicationContext());
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

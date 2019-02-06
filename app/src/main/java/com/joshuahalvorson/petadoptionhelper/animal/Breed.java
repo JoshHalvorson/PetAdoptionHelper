@@ -10,14 +10,14 @@ public class Breed implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String breed;
 
-    public String get$t() {
-        return $t;
+    public String getBreed() {
+        return breed;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
 }
