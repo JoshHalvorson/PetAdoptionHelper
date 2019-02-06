@@ -171,13 +171,13 @@ public class AnimalListFragment extends Fragment {
 
                 //filterPetList(zipcode, "", "cat", "", "", "", "");
                 List<String> animalSpinnerArray =  new ArrayList<>();
-                animalSpinnerArray.add("All");
-                animalSpinnerArray.add("Bird");
-                animalSpinnerArray.add("Cat");
-                animalSpinnerArray.add("Dog");
-                animalSpinnerArray.add("Horse");
-                animalSpinnerArray.add("Reptile");
-                animalSpinnerArray.add("Smallfurry");
+                animalSpinnerArray.add("all");
+                animalSpinnerArray.add("bird");
+                animalSpinnerArray.add("cat");
+                animalSpinnerArray.add("dog");
+                animalSpinnerArray.add("horse");
+                animalSpinnerArray.add("reptile");
+                animalSpinnerArray.add("smallfurry");
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(
                         getContext(), android.R.layout.simple_spinner_item, animalSpinnerArray);
