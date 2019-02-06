@@ -97,7 +97,7 @@ public class DetailedShelterFragment extends Fragment {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == petsList.size() - 1){
                     pageOffset += 25;
                     //progressCircle.setVisibility(View.VISIBLE);
-                    getPetsInShelter(shelter.getId().get$t(), Integer.toString(pageOffset));
+                    getPetsInShelter(shelter.getId().getId(), Integer.toString(pageOffset));
                 }
             }
         });
@@ -109,7 +109,7 @@ public class DetailedShelterFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
-        getPetsInShelter(shelter.getId().get$t(), Integer.toString(pageOffset));
+        getPetsInShelter(shelter.getId().getId(), Integer.toString(pageOffset));
 
     }
 
@@ -124,9 +124,9 @@ public class DetailedShelterFragment extends Fragment {
 
                     Collections.sort(petsList, new Comparator<Pet>() {
                         public int compare(Pet o1, Pet o2) {
-                            return o2.getLastUpdate().get$t().substring(0, 10)
+                            return o2.getLastUpdate().getLastUpdate().substring(0, 10)
                                     .compareTo
-                                            (o1.getLastUpdate().get$t().substring(0, 10));
+                                            (o1.getLastUpdate().getLastUpdate().substring(0, 10));
                         }
                     });
 

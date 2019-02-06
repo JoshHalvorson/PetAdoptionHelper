@@ -10,14 +10,14 @@ public class Mix implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String animalMix;
 
-    public String get$t() {
-        return $t;
+    public String getAnimalMix() {
+        return animalMix;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setAnimalMix(String animalMix) {
+        this.animalMix = animalMix;
     }
 
 }

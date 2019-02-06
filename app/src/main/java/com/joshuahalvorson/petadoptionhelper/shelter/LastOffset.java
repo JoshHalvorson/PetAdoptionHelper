@@ -10,14 +10,14 @@ public class LastOffset implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String lastOffset;
 
-    public String get$t() {
-        return $t;
+    public String getLastOffset() {
+        return lastOffset;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setLastOffset(String lastOffset) {
+        this.lastOffset = lastOffset;
     }
 
 }

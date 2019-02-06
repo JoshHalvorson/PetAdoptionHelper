@@ -10,14 +10,14 @@ public class City implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String city;
 
-    public String get$t() {
-        return $t;
+    public String getCity() {
+        return city;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setCity(String city) {
+        this.city = city;
     }
 
 }

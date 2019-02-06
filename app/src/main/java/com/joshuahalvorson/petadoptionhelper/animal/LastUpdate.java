@@ -10,14 +10,14 @@ public class LastUpdate implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String lastUpdate;
 
-    public String get$t() {
-        return $t;
+    public String getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
 }

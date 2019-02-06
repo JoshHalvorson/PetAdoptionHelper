@@ -10,14 +10,14 @@ public class Longitude implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String longitude;
 
-    public String get$t() {
-        return $t;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
 }

@@ -10,14 +10,14 @@ public class Name implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String animalName;
 
-    public String get$t() {
-        return $t;
+    public String getAnimalName() {
+        return animalName;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setAnimalName(String animalName) {
+        this.animalName = animalName;
     }
 
 }

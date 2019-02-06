@@ -13,7 +13,7 @@ public class Photo implements Serializable {
     private String size;
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String imageUrl;
     @SerializedName("@id")
     @Expose
     private String id;
@@ -26,12 +26,12 @@ public class Photo implements Serializable {
         this.size = size;
     }
 
-    public String get$t() {
-        return $t;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {

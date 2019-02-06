@@ -10,14 +10,14 @@ public class Size implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String animalSize;
 
-    public String get$t() {
-        return $t;
+    public String getAnimalSize() {
+        return animalSize;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setAnimalSize(String animalSize) {
+        this.animalSize = animalSize;
     }
 
 }

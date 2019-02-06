@@ -8,14 +8,14 @@ public class Timestamp {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String timestamp;
 
-    public String get$t() {
-        return $t;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
 }

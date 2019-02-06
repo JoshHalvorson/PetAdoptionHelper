@@ -24,29 +24,29 @@ public class TaggedAnimalsDbDao {
         if(db != null){
             ContentValues values = new ContentValues();
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
-                    animal.getId().get$t());
+                    animal.getId().getAnimalId());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME,
-                    animal.getName().get$t());
+                    animal.getName().getAnimalName());
             if(animal.getOptions().getOption() != null){
                 values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS,
                         animal.getOptions().getOption().toString());
             }
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
-                    animal.getContact().getCity().get$t());
+                    animal.getContact().getCity().getCity());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
                     animal.getAge().get$t());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
-                    animal.getSize().get$t());
+                    animal.getSize().getAnimalSize());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL,
-                    animal.getMedia().getPhotos().getPhoto().get(2).get$t());
+                    animal.getMedia().getPhotos().getPhoto().get(2).getImageUrl());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS,
                     animal.getBreeds().getBreed().toString());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX,
-                    animal.getSex().get$t());
+                    animal.getSex().getAnimalSex());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION,
-                    animal.getDescription().get$t());
+                    animal.getDescription().getAnimalDescription());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
-                    animal.getLastUpdate().get$t());
+                    animal.getLastUpdate().getLastUpdate());
             db.insert(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
                     null, values);
         }

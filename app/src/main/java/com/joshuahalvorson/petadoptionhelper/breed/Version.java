@@ -8,14 +8,14 @@ public class Version {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String version;
 
-    public String get$t() {
-        return $t;
+    public String getVersion() {
+        return version;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
 }

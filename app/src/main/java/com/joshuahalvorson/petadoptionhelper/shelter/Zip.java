@@ -10,14 +10,14 @@ public class Zip implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String zip;
 
-    public String get$t() {
-        return $t;
+    public String getZip() {
+        return zip;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
 }

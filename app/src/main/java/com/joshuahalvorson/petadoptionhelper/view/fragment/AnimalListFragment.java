@@ -225,7 +225,7 @@ public class AnimalListFragment extends Fragment {
                                     breedsOverview.getPetfinder().getBreeds().getBreed();
                             List<String> stringBreeds = new ArrayList<>();
                             for(Breed breed : breeds){
-                                stringBreeds.add(breed.get$t());
+                                stringBreeds.add(breed.getBreed());
                             }
                             setSpinnerAdapter(animalBreedsSpinner, stringBreeds);
                         }
@@ -318,9 +318,9 @@ public class AnimalListFragment extends Fragment {
 
                             Collections.sort(petList, new Comparator<Pet>() {
                                 public int compare(Pet o1, Pet o2) {
-                                    return o2.getLastUpdate().get$t().substring(0, 10)
+                                    return o2.getLastUpdate().getLastUpdate().substring(0, 10)
                                             .compareTo
-                                                    (o1.getLastUpdate().get$t().substring(0, 10));
+                                                    (o1.getLastUpdate().getLastUpdate().substring(0, 10));
                                 }
                             });
 

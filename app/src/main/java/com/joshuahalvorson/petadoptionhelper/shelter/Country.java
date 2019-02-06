@@ -10,14 +10,14 @@ public class Country implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String country;
 
-    public String get$t() {
-        return $t;
+    public String getCountry() {
+        return country;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
 }

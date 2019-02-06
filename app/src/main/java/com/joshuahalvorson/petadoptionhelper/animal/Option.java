@@ -10,14 +10,14 @@ public class Option implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String animalOptions;
 
-    public String get$t() {
-        return $t;
+    public String getAnimalOptions() {
+        return animalOptions;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setAnimalOptions(String animalOptions) {
+        this.animalOptions = animalOptions;
     }
 
 }

@@ -40,7 +40,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         final Pet pet = petList.get(i);
-        viewHolder.petName.setText(pet.getName().get$t());
+        viewHolder.petName.setText(pet.getName().getAnimalName());
 
         List<Photo> photoList;
         Photos photos= pet.getMedia().getPhotos();
@@ -48,12 +48,12 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             photoList = photos.getPhoto();
 
             Glide.with(viewHolder.petImage.getContext())
-                    .load(photoList.get(1).get$t())
+                    .load(photoList.get(1).getImageUrl())
                     .into(viewHolder.petImage);
         }
 
 
-        String desc = pet.getDescription().get$t();
+        String desc = pet.getDescription().getAnimalDescription();
         if(desc != null){
             if(desc.length() > 150){
                 desc = desc.substring(0, 150);
@@ -62,7 +62,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             }
         }
 
-        String lastUpdated = pet.getLastUpdate().get$t().substring(0, 10);
+        String lastUpdated = pet.getLastUpdate().getLastUpdate().substring(0, 10);
         if(lastUpdated != null){
             viewHolder.lastUpdated.setText("Last updated: " + lastUpdated);
         }

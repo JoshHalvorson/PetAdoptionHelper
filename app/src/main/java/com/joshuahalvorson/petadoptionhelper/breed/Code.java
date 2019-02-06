@@ -8,14 +8,14 @@ public class Code {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String code;
 
-    public String get$t() {
-        return $t;
+    public String getCode() {
+        return code;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }

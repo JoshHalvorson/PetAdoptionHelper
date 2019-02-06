@@ -33,8 +33,8 @@ public class ShelterListRecyclerViewAdapter extends RecyclerView.Adapter<Shelter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        viewHolder.shelterName.setText(shelterList.get(i).getName().get$t());
-        viewHolder.shelterCity.setText(shelterList.get(i).getCity().get$t());
+        viewHolder.shelterName.setText(shelterList.get(i).getName().getName());
+        viewHolder.shelterCity.setText(shelterList.get(i).getCity().getCity());
 
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override

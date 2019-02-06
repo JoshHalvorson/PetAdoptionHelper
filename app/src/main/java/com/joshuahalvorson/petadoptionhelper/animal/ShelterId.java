@@ -10,14 +10,14 @@ public class ShelterId implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String shelterId;
 
-    public String get$t() {
-        return $t;
+    public String getShelterId() {
+        return shelterId;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setShelterId(String shelterId) {
+        this.shelterId = shelterId;
     }
 
 }

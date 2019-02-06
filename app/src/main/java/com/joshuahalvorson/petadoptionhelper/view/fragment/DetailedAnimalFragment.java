@@ -84,12 +84,12 @@ public class DetailedAnimalFragment extends Fragment {
         chars.add("\\$t");
         chars.add("\\=");
 
-        petName.setText(pet.getName().get$t());
+        petName.setText(pet.getName().getAnimalName());
         petAge.setText("Age: " + pet.getAge().get$t());
-        petSex.setText("Sex: " + pet.getSex().get$t());
-        petSize.setText("Size: " + pet.getSize().get$t());
-        petDesc.setText(pet.getDescription().get$t());
-        petContact.setText("Contact info: " + pet.getContact().getPhone().get$t());
+        petSex.setText("Sex: " + pet.getSex().getAnimalSex());
+        petSize.setText("Size: " + pet.getSize().getAnimalSize());
+        petDesc.setText(pet.getDescription().getAnimalDescription());
+        petContact.setText("Contact info: " + pet.getContact().getPhone().getPhone());
 
         if(pet.getBreeds().getBreed() != null){
             petBreeds.setText(
@@ -109,14 +109,14 @@ public class DetailedAnimalFragment extends Fragment {
 
         List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
         Glide.with(getContext())
-                .load(photoList.get(2).get$t())
+                .load(photoList.get(2).getImageUrl())
                 .into(petImage);
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TaggedAnimalsDbDao.createAnimalEntry(pet);
-                Toast.makeText(getContext(), pet.getName().get$t() + " added to your favorites!",
+                Toast.makeText(getContext(), pet.getName().getAnimalName() + " added to your favorites!",
                         Toast.LENGTH_SHORT).show();
             }
         });

@@ -10,14 +10,14 @@ public class Email implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String email;
 
-    public String get$t() {
-        return $t;
+    public String getEmail() {
+        return email;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

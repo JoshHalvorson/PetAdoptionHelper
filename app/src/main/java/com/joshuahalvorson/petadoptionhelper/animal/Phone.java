@@ -10,14 +10,14 @@ public class Phone implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String phone;
 
-    public String get$t() {
-        return $t;
+    public String getPhone() {
+        return phone;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 }

@@ -10,14 +10,14 @@ public class Status implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String status;
 
-    public String get$t() {
-        return $t;
+    public String getStatus() {
+        return status;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
