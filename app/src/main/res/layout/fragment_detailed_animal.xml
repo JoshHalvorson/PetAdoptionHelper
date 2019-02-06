@@ -21,59 +21,106 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/pet_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/animals_picture_content_desc"
-                    tools:src="@tools:sample/backgrounds/scenic" />
+                <LinearLayout
+                    android:layout_width="400dp"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center|top"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/pet_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/animals_picture_content_desc"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/pet_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
+                    android:textColor="@android:color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/pet_age"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/pet_sex"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/pet_size"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/pet_breeds"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/pet_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/pet_options"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/pet_contact"
+                    android:id="@+id/pet_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="35dp" />
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:lineSpacingExtra="5sp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/pet_contact_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/pet_contact_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/pet_contact_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="35dp"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>

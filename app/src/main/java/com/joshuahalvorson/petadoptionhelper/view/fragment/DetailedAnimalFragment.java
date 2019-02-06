@@ -28,7 +28,8 @@ public class DetailedAnimalFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private TextView petName, petAge, petSex, petSize, petBreeds, petDesc, petOptions, petContact;
+    private TextView petName, petAge, petSex, petSize, petBreeds, petDesc, petOptions,
+            petContactPhone, petContactEmail, petContactAddress;
     private ImageView petImage;
     private FloatingActionButton favoriteButton;
 
@@ -69,7 +70,9 @@ public class DetailedAnimalFragment extends Fragment {
         petBreeds = view.findViewById(R.id.pet_breeds);
         petDesc = view.findViewById(R.id.pet_desc);
         petOptions = view.findViewById(R.id.pet_options);
-        petContact = view.findViewById(R.id.pet_contact);
+        petContactPhone = view.findViewById(R.id.pet_contact_phone);
+        petContactEmail = view.findViewById(R.id.pet_contact_email);
+        petContactAddress = view.findViewById(R.id.pet_contact_address);
         favoriteButton = view.findViewById(R.id.favorite_button);
     }
 
@@ -123,13 +126,11 @@ public class DetailedAnimalFragment extends Fragment {
             zip = pet.getContact().getZip().getZip();
         }
 
-        petContact.setText("Contact info: " +
-                phone + "\n" +
-                email + "\n" +
-                address + ", " +
-                city + ", " +
-                state + " " +
-                zip);
+        petContactPhone.setText("Phone: " + phone);
+
+        petContactEmail.setText("Email: " + email);
+
+        petContactAddress.setText("Location: " + address + ", " + city + ", " + state + " " + zip);
 
         if(pet.getBreeds().getBreed() != null){
             petBreeds.setText(
@@ -147,6 +148,7 @@ public class DetailedAnimalFragment extends Fragment {
             petOptions.setText(getString(R.string.options_default_text));
         }
 
+        //can throw error
         List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
         Glide.with(getContext())
                 .load(photoList.get(2).getImageUrl())

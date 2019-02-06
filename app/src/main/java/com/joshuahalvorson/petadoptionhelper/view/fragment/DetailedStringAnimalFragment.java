@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class DetailedStringAnimalFragment extends Fragment {
         petBreeds = view.findViewById(R.id.pet_breeds);
         petDesc = view.findViewById(R.id.pet_desc);
         petOptions = view.findViewById(R.id.pet_options);
-        petContact = view.findViewById(R.id.pet_contact);
+        petContact = view.findViewById(R.id.pet_contact_phone);
         view.findViewById(R.id.favorite_button).setVisibility(View.GONE);
     }
 
@@ -94,6 +95,7 @@ public class DetailedStringAnimalFragment extends Fragment {
         String imageUrl = pet.getsMedia();
         Glide.with(getContext())
                 .load(imageUrl)
+                .apply(new RequestOptions().centerInside())
                 .into(petImage);
 
     }
