@@ -9,14 +9,14 @@ public class Age implements Serializable {
 
     @SerializedName("$t")
     @Expose
-    private String $t;
+    private String age;
 
-    public String get$t() {
-        return $t;
+    public String getAge() {
+        return age;
     }
 
-    public void set$t(String $t) {
-        this.$t = $t;
+    public void setAge(String age) {
+        this.age = age;
     }
 
 }

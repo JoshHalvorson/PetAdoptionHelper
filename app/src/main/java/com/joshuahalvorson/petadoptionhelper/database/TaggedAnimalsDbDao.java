@@ -34,7 +34,7 @@ public class TaggedAnimalsDbDao {
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
                     animal.getContact().getCity().getCity());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
-                    animal.getAge().get$t());
+                    animal.getAge().getAge());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
                     animal.getSize().getAnimalSize());
             values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL,

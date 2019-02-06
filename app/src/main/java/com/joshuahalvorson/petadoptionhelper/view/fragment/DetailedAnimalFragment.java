@@ -86,11 +86,50 @@ public class DetailedAnimalFragment extends Fragment {
         chars.add("\\=");
 
         petName.setText(pet.getName().getAnimalName());
-        petAge.setText("Age: " + pet.getAge().get$t());
+        petAge.setText("Age: " + pet.getAge().getAge());
         petSex.setText("Sex: " + pet.getSex().getAnimalSex());
         petSize.setText("Size: " + pet.getSize().getAnimalSize());
         petDesc.setText(pet.getDescription().getAnimalDescription());
-        petContact.setText("Contact info: " + pet.getContact().getPhone().getPhone());
+
+        String phone = "Phone unknown";
+        if (pet.getContact().getPhone().getPhone() != null){
+            phone = pet.getContact().getPhone().getPhone();
+        }
+
+        String email = "Email unkown";
+        if (pet.getContact().getEmail().getEmail() != null){
+            email = pet.getContact().getEmail().getEmail();
+        }
+
+        String address = "Address unknown";
+        if(pet.getContact().getAddress1().getAddress() != null){
+            address = pet.getContact().getAddress1().getAddress();
+        }else if(pet.getContact().getAddress2().getAddress() != null){
+            address = pet.getContact().getAddress2().getAddress();
+        }
+
+        String city = "City unknown";
+        if(pet.getContact().getCity().getCity() != null){
+            city = pet.getContact().getCity().getCity();
+        }
+
+        String state = "State unknown";
+        if(pet.getContact().getState().getState() != null){
+            state = pet.getContact().getState().getState();
+        }
+
+        String zip = "Zip unknown";
+        if(pet.getContact().getZip().getZip() != null){
+            zip = pet.getContact().getZip().getZip();
+        }
+
+        petContact.setText("Contact info: " +
+                phone + "\n" +
+                email + "\n" +
+                address + ", " +
+                city + ", " +
+                state + " " +
+                zip);
 
         if(pet.getBreeds().getBreed() != null){
             petBreeds.setText(
