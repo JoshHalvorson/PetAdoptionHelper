@@ -55,6 +55,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Size of Animal" />
+
+            <Spinner
+                android:id="@+id/animal_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/apply_filter_button"
                 android:layout_width="match_parent"

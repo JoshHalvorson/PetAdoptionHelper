@@ -79,7 +79,7 @@ public class AnimalListFragment extends Fragment {
     private CardView filterView;
     private CheckBox animalMale, animalFemale;
     private Button applyFilter;
-    private Spinner animalTypeSpinner;
+    private Spinner animalTypeSpinner, animalSizeSpinner;
 
 
     public AnimalListFragment() {
@@ -155,6 +155,7 @@ public class AnimalListFragment extends Fragment {
         animalMale = view.findViewById(R.id.animal_male);
         applyFilter = view.findViewById(R.id.apply_filter_button);
         animalTypeSpinner = view.findViewById(R.id.animal_type);
+        animalSizeSpinner = view.findViewById(R.id.animal_size);
 
         List<String> animalSpinnerArray =  new ArrayList<>();
         animalSpinnerArray.add("all");
@@ -164,12 +165,25 @@ public class AnimalListFragment extends Fragment {
         animalSpinnerArray.add("horse");
         animalSpinnerArray.add("reptile");
         animalSpinnerArray.add("smallfurry");
+
+        List<String> animalSizeSpinnerArray =  new ArrayList<>();
+        animalSizeSpinnerArray.add("all");
+        animalSizeSpinnerArray.add("small");
+        animalSizeSpinnerArray.add("medium");
+        animalSizeSpinnerArray.add("large");
+
+        setSpinnerAdapter(animalTypeSpinner, animalSpinnerArray);
+        setSpinnerAdapter(animalSizeSpinner, animalSizeSpinnerArray);
+
+
+    }
+
+    private void setSpinnerAdapter(Spinner spinner, List<String> spinnerList){
+        List<String> spinnerArray = new ArrayList<>(spinnerList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                getContext(), android.R.layout.simple_spinner_item, animalSpinnerArray);
-
+                getContext(), android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        animalTypeSpinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);
     }
 
     @Override
@@ -205,6 +219,16 @@ public class AnimalListFragment extends Fragment {
                 animal = animalTypeSpinner.getSelectedItem().toString();
                 if(animal.equals("All")){
                     animal = "";
+                }
+
+                if(animalSizeSpinner.getSelectedItem().toString().equals("all")){
+                    size = "";
+                }else if(animalSizeSpinner.getSelectedItem().toString().equals("small")){
+                    size = "S";
+                }else if(animalSizeSpinner.getSelectedItem().toString().equals("medium")){
+                    size = "M";
+                }else if(animalSizeSpinner.getSelectedItem().toString().equals("large")){
+                    size = "L";
                 }
 
                 filterPetList(zipcode, "", animal, breed, size, sex, age);
