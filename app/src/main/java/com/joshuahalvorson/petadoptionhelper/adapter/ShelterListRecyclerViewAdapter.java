@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
-import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.ShelterListFragment;
-
 import java.util.List;
 
 public class ShelterListRecyclerViewAdapter extends RecyclerView.Adapter<ShelterListRecyclerViewAdapter.ViewHolder> {

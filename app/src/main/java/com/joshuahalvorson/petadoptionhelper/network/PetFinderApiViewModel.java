@@ -3,13 +3,11 @@ package com.joshuahalvorson.petadoptionhelper.network;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
-
 import java.util.List;
 
 public class PetFinderApiViewModel extends ViewModel {

@@ -11,13 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +25,6 @@ public class TaggedAnimalsFragment extends Fragment {
     private static TaggedPetListRecyclerViewAdapter adapter;
 
     private static List<StringPet> taggedPetsList;
-
-    private PetFinderApiViewModel viewModel;
 
     public TaggedAnimalsFragment() {
 

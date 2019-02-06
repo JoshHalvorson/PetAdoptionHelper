@@ -12,10 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
-import com.joshuahalvorson.petadoptionhelper.animal.Pet;
-import com.joshuahalvorson.petadoptionhelper.animal.Photo;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-
 import java.util.ArrayList;
 import java.util.List;
 

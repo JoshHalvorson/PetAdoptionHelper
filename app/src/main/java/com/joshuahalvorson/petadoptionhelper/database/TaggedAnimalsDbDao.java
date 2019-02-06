@@ -4,10 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,39 +79,51 @@ public class TaggedAnimalsDbDao {
 
     private static StringPet getAnimalData(Cursor cursor){
         int index;
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID);
         String id = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS);
         String options = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT);
         String contact = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE);
         String age = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE);
         String size  = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL);
         String imageUrl = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS);
         String breeds = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME);
         String name = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX);
         String sex = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION);
         String desc = cursor.getString(index);
 
-        index = cursor.getColumnIndexOrThrow(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE);
+        index = cursor.getColumnIndexOrThrow(
+                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE);
         String lastUpdate = cursor.getString(index);
 
-        return new StringPet(options, contact, age, size, imageUrl, id, breeds, name, sex, desc, lastUpdate);
+        return new StringPet(
+                options, contact, age, size, imageUrl, id, breeds, name, sex, desc, lastUpdate);
     }
 }

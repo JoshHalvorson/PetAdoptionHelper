@@ -1,6 +1,5 @@
 package com.joshuahalvorson.petadoptionhelper.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
-
 import java.util.List;
 
 public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<TaggedPetListRecyclerViewAdapter.ViewHolder> {
@@ -25,8 +22,6 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
     private TaggedAnimalsFragment.OnFragmentInteractionListener listener;
 
     Context context;
-
-    Activity activity;
 
     public TaggedPetListRecyclerViewAdapter(
             List<StringPet> petList, TaggedAnimalsFragment.OnFragmentInteractionListener listener) {

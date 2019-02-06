@@ -13,13 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Photo;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
-
 import java.util.ArrayList;
 import java.util.List;
 

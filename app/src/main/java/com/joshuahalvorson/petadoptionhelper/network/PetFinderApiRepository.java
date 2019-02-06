@@ -9,9 +9,7 @@ import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
