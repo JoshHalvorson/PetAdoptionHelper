@@ -3,6 +3,8 @@ package com.joshuahalvorson.petadoptionhelper.network;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
+
+import retrofit.http.PUT;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

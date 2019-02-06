@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailedAnimalFragment extends Fragment {
+    private static final String TAG = "DetailedAnimalFragment";
     private static final String ARG_PARAM1 = "param1";
     private Pet pet;
 
@@ -116,6 +117,9 @@ public class DetailedAnimalFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 TaggedAnimalsDbDao.createAnimalEntry(pet);
+
+
+
                 Toast.makeText(getContext(), pet.getName().getAnimalName() + " added to your favorites!",
                         Toast.LENGTH_SHORT).show();
             }
