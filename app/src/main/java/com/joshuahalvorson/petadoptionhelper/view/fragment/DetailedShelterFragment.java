@@ -21,6 +21,8 @@ import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DetailedShelterFragment extends Fragment {
@@ -119,6 +121,15 @@ public class DetailedShelterFragment extends Fragment {
                 if (data != null) {
                     //petsList.clear();
                     petsList.addAll(data);
+
+                    Collections.sort(petsList, new Comparator<Pet>() {
+                        public int compare(Pet o1, Pet o2) {
+                            return o2.getLastUpdate().get$t().substring(0, 10)
+                                    .compareTo
+                                            (o1.getLastUpdate().get$t().substring(0, 10));
+                        }
+                    });
+
                     adapter.notifyDataSetChanged();
 
                     RecyclerView.SmoothScroller smoothScroller =

@@ -45,6 +45,8 @@ import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -313,6 +315,15 @@ public class AnimalListFragment extends Fragment {
                         Pets pets = petfinder.getPets();
                         if(pets != null){
                             petList.addAll(pets.getPet());
+
+                            Collections.sort(petList, new Comparator<Pet>() {
+                                public int compare(Pet o1, Pet o2) {
+                                    return o2.getLastUpdate().get$t().substring(0, 10)
+                                            .compareTo
+                                                    (o1.getLastUpdate().get$t().substring(0, 10));
+                                }
+                            });
+
                             adapter.notifyDataSetChanged();
                             progressCircle.setVisibility(View.GONE);
 
