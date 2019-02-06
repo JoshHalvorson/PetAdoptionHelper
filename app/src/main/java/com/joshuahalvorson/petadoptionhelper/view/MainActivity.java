@@ -1,8 +1,10 @@
 package com.joshuahalvorson.petadoptionhelper.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
@@ -68,8 +71,17 @@ public class MainActivity extends AppCompatActivity
         TextView navEmail = headerLayout.findViewById(R.id.user_email);
         TextView navUserName = headerLayout.findViewById(R.id.user_name);
 
-        navEmail.setText(userEmail);
-        navUserName.setText(userName);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            navEmail.setText(userEmail);
+            navUserName.setText(userName);
+        }else{
+            Snackbar.make(findViewById(R.id.fragment_container), "You are now logged out, " +
+                    "favorited animals will no longer be saved online!", Snackbar.LENGTH_LONG)
+                    .show();
+            navEmail.setText("Not signed in");
+            navUserName.setText("");
+        }
+
     }
 
     @Override
@@ -93,6 +105,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
