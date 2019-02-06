@@ -171,9 +171,13 @@ public class AnimalListFragment extends Fragment {
 
                 //filterPetList(zipcode, "", "cat", "", "", "", "");
                 List<String> animalSpinnerArray =  new ArrayList<>();
-                animalSpinnerArray.add("all");
-                animalSpinnerArray.add("dog");
-                animalSpinnerArray.add("cat");
+                animalSpinnerArray.add("All");
+                animalSpinnerArray.add("Bird");
+                animalSpinnerArray.add("Cat");
+                animalSpinnerArray.add("Dog");
+                animalSpinnerArray.add("Horse");
+                animalSpinnerArray.add("Reptile");
+                animalSpinnerArray.add("Smallfurry");
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(
                         getContext(), android.R.layout.simple_spinner_item, animalSpinnerArray);
@@ -192,15 +196,18 @@ public class AnimalListFragment extends Fragment {
         applyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String animal = "", breed = "", size = "", sex = "", age = "";
+                String animal, breed = "", size = "", sex = "", age = "";
+
                 if(animalMale.isChecked()){
                     sex = "M";
                 }else if(animalFemale.isChecked()){
                     sex = "F";
+                }else if(animalMale.isChecked() && animalFemale.isChecked()){
+                    sex = "";
                 }
 
                 animal = animalTypeSpinner.getSelectedItem().toString();
-                if(animal.equals("all")){
+                if(animal.equals("All")){
                     animal = "";
                 }
 
