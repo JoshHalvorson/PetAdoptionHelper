@@ -395,10 +395,6 @@ public class AnimalListFragment extends Fragment {
         return addresses.get(0).getPostalCode();
     }
 
-    public static void refreshList(){
-
-    }
-
     public interface OnFragmentInteractionListener {
         void onAnimalListFragmentInteraction(Pet item);
     }
