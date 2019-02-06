@@ -27,6 +27,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -45,6 +46,8 @@ import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Pets;
+import com.joshuahalvorson.petadoptionhelper.breed.Breed;
+import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 
@@ -79,7 +82,9 @@ public class AnimalListFragment extends Fragment {
     private CardView filterView;
     private CheckBox animalMale, animalFemale;
     private Button applyFilter;
-    private Spinner animalTypeSpinner, animalSizeSpinner, animalAgeSpinner;
+    private Spinner animalTypeSpinner, animalSizeSpinner, animalAgeSpinner, animalBreedsSpinner;
+
+    private List<String> animalTypeSpinnerArray;
 
 
     public AnimalListFragment() {
@@ -157,15 +162,16 @@ public class AnimalListFragment extends Fragment {
         animalTypeSpinner = view.findViewById(R.id.animal_type);
         animalSizeSpinner = view.findViewById(R.id.animal_size);
         animalAgeSpinner = view.findViewById(R.id.animal_age);
+        animalBreedsSpinner = view.findViewById(R.id.animal_breeds);
 
-        List<String> animalSpinnerArray =  new ArrayList<>();
-        animalSpinnerArray.add("All");
-        animalSpinnerArray.add("bird");
-        animalSpinnerArray.add("cat");
-        animalSpinnerArray.add("dog");
-        animalSpinnerArray.add("horse");
-        animalSpinnerArray.add("reptile");
-        animalSpinnerArray.add("smallfurry");
+        animalTypeSpinnerArray =  new ArrayList<>();
+        animalTypeSpinnerArray.add("All");
+        animalTypeSpinnerArray.add("bird");
+        animalTypeSpinnerArray.add("cat");
+        animalTypeSpinnerArray.add("dog");
+        animalTypeSpinnerArray.add("horse");
+        animalTypeSpinnerArray.add("reptile");
+        animalTypeSpinnerArray.add("smallfurry");
 
         List<String> animalSizeSpinnerArray =  new ArrayList<>();
         animalSizeSpinnerArray.add("All");
@@ -180,7 +186,7 @@ public class AnimalListFragment extends Fragment {
         animalAgeSpinnerArray.add("Adult");
         animalAgeSpinnerArray.add("Senior");
 
-        setSpinnerAdapter(animalTypeSpinner, animalSpinnerArray);
+        setSpinnerAdapter(animalTypeSpinner, animalTypeSpinnerArray);
         setSpinnerAdapter(animalSizeSpinner, animalSizeSpinnerArray);
         setSpinnerAdapter(animalAgeSpinner, animalAgeSpinnerArray);
 
@@ -209,6 +215,36 @@ public class AnimalListFragment extends Fragment {
                 }else{
                     filterView.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        animalTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!animalTypeSpinnerArray.get(position).equals("All")){
+                    LiveData<BreedsOverview> data = viewModel.getBreedsForAnimal(
+                            "json", animalTypeSpinnerArray.get(position));
+                    data.observe(getActivity(), new Observer<BreedsOverview>() {
+                        @Override
+                        public void onChanged(@Nullable BreedsOverview breedsOverview) {
+                            List<Breed> breeds =
+                                    breedsOverview.getPetfinder().getBreeds().getBreed();
+                            List<String> stringBreeds = new ArrayList<>();
+                            for(Breed breed : breeds){
+                                stringBreeds.add(breed.get$t());
+                            }
+                            setSpinnerAdapter(animalBreedsSpinner, stringBreeds);
+                        }
+                    });
+                    animalBreedsSpinner.setVisibility(View.VISIBLE);
+                }else{
+                    animalBreedsSpinner.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -243,6 +279,14 @@ public class AnimalListFragment extends Fragment {
                 age = animalAgeSpinner.getSelectedItem().toString();
                 if(age.equals("All")){
                     age = "";
+                }
+
+                if(animalBreedsSpinner.getSelectedItem() != null){
+                    breed = animalBreedsSpinner.getSelectedItem().toString();
+                }
+
+                if (animalBreedsSpinner.getVisibility() == View.GONE){
+                    breed = "";
                 }
 
                 filterPetList(zipcode, "", animal, breed, size, sex, age);

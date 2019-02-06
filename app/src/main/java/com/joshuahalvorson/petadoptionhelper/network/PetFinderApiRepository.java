@@ -6,6 +6,7 @@ import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
+import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
@@ -160,6 +161,35 @@ public class PetFinderApiRepository {
             @Override
             public void onFailure(Call<SheltersOverview> call, Throwable t) {
                 Log.i("petsInShelterDataResult", t.getLocalizedMessage());
+            }
+        });
+        return data;
+    }
+
+    public static MutableLiveData<BreedsOverview> getBreedsForAnimal(String format, String animal){
+
+        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PetFinderApiInterface.base_url)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
+
+        final MutableLiveData<BreedsOverview> data = new MutableLiveData<>();
+        Call<BreedsOverview> call = client.getBreedsForAnimal(Key.API_KEY, format, animal);
+        call.enqueue(new Callback<BreedsOverview>() {
+            @Override
+            public void onResponse(Call<BreedsOverview> call, Response<BreedsOverview> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BreedsOverview> call, Throwable t) {
+                Log.i("breedsForPetResults", t.getLocalizedMessage());
             }
         });
         return data;

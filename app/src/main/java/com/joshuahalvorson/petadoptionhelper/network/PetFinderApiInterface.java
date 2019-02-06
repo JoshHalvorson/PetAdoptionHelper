@@ -1,6 +1,7 @@
 package com.joshuahalvorson.petadoptionhelper.network;
 
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
+import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -45,6 +46,13 @@ public interface PetFinderApiInterface {
             @Query("id") String id,
             @Query("format") String format,
             @Query("offset") String offset
+    );
+
+    @GET("breed.list")
+    Call<BreedsOverview> getBreedsForAnimal(
+            @Query("key") String key,
+            @Query("format") String format,
+            @Query("animal") String animal
     );
 
 }
