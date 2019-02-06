@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
@@ -55,6 +58,16 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, new AnimalListFragment())
                 .addToBackStack(null)
                 .commit();
+
+        String userEmail = getIntent().getStringExtra("user_email");
+        String userName = getIntent().getStringExtra("user_name");
+
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView navEmail = headerLayout.findViewById(R.id.user_email);
+        TextView navUserName = headerLayout.findViewById(R.id.user_name);
+
+        navEmail.setText(userEmail);
+        navUserName.setText(userName);
     }
 
     @Override

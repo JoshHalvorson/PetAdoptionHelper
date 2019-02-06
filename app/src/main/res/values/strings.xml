@@ -12,4 +12,7 @@
     <string name="breeds_default_text">Breeds: Breeds not listed</string>
     <string name="options_default_text">Options: No options</string>
     <string name="animals_picture_content_desc">animals picture</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <string name="server_client_id"> 325590591829-ojt9tjm3b7bli7d4q9l4bbkqe177trpa.apps.googleusercontent.com</string>
 </resources>
