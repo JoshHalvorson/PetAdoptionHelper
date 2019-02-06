@@ -175,11 +175,11 @@ public class DetailedAnimalFragment extends Fragment {
                 TaggedAnimalsDbDao.createAnimalEntry(pet);
                 if(FirebaseAuth.getInstance().getCurrentUser() != null){
                     StringPet stringPet = new StringPet(pet);
-                    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    reference.child("users").child(userID).child("animals")
-                            .child(stringPet.getsName())
-                            .child("Id").setValue(stringPet.getsId());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("name").setValue(stringPet.getsName());
 
                     Toast.makeText(getContext(), pet.getName().getAnimalName() +
                                     " added to your favorites!",
