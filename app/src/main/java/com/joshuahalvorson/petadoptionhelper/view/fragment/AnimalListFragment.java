@@ -79,7 +79,7 @@ public class AnimalListFragment extends Fragment {
     private CardView filterView;
     private CheckBox animalMale, animalFemale;
     private Button applyFilter;
-    private Spinner animalTypeSpinner, animalSizeSpinner;
+    private Spinner animalTypeSpinner, animalSizeSpinner, animalAgeSpinner;
 
 
     public AnimalListFragment() {
@@ -156,9 +156,10 @@ public class AnimalListFragment extends Fragment {
         applyFilter = view.findViewById(R.id.apply_filter_button);
         animalTypeSpinner = view.findViewById(R.id.animal_type);
         animalSizeSpinner = view.findViewById(R.id.animal_size);
+        animalAgeSpinner = view.findViewById(R.id.animal_age);
 
         List<String> animalSpinnerArray =  new ArrayList<>();
-        animalSpinnerArray.add("all");
+        animalSpinnerArray.add("All");
         animalSpinnerArray.add("bird");
         animalSpinnerArray.add("cat");
         animalSpinnerArray.add("dog");
@@ -167,13 +168,21 @@ public class AnimalListFragment extends Fragment {
         animalSpinnerArray.add("smallfurry");
 
         List<String> animalSizeSpinnerArray =  new ArrayList<>();
-        animalSizeSpinnerArray.add("all");
+        animalSizeSpinnerArray.add("All");
         animalSizeSpinnerArray.add("small");
         animalSizeSpinnerArray.add("medium");
         animalSizeSpinnerArray.add("large");
 
+        List<String> animalAgeSpinnerArray =  new ArrayList<>();
+        animalAgeSpinnerArray.add("All");
+        animalAgeSpinnerArray.add("Baby");
+        animalAgeSpinnerArray.add("Young");
+        animalAgeSpinnerArray.add("Adult");
+        animalAgeSpinnerArray.add("Senior");
+
         setSpinnerAdapter(animalTypeSpinner, animalSpinnerArray);
         setSpinnerAdapter(animalSizeSpinner, animalSizeSpinnerArray);
+        setSpinnerAdapter(animalAgeSpinner, animalAgeSpinnerArray);
 
 
     }
@@ -221,7 +230,7 @@ public class AnimalListFragment extends Fragment {
                     animal = "";
                 }
 
-                if(animalSizeSpinner.getSelectedItem().toString().equals("all")){
+                if(animalSizeSpinner.getSelectedItem().toString().equals("All")){
                     size = "";
                 }else if(animalSizeSpinner.getSelectedItem().toString().equals("small")){
                     size = "S";
@@ -229,6 +238,11 @@ public class AnimalListFragment extends Fragment {
                     size = "M";
                 }else if(animalSizeSpinner.getSelectedItem().toString().equals("large")){
                     size = "L";
+                }
+
+                age = animalAgeSpinner.getSelectedItem().toString();
+                if(age.equals("All")){
+                    age = "";
                 }
 
                 filterPetList(zipcode, "", animal, breed, size, sex, age);
