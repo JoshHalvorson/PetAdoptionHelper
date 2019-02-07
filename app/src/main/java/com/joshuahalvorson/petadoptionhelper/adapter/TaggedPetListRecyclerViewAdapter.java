@@ -1,15 +1,22 @@
 package com.joshuahalvorson.petadoptionhelper.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
@@ -49,6 +56,21 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
 
             Glide.with(viewHolder.petImage.getContext())
                     .load(imageUrl)
+                    .addListener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model,
+                                                       Target<Drawable> target, DataSource dataSource,
+                                                       boolean isFirstResource) {
+                            viewHolder.loadingCircle.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .apply(RequestOptions.circleCropTransform())
                     .into(viewHolder.petImage);
         }
@@ -109,6 +131,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
         public final View view;
         TextView petName, petDesc, lastUpdated, distance, shelterName;
         ImageView petImage;
+        ProgressBar loadingCircle;
 
         public ViewHolder(View view) {
             super(view);
@@ -119,6 +142,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
             lastUpdated = view.findViewById(R.id.pet_last_updated);
             distance = view.findViewById(R.id.pet_distance);
             shelterName = view.findViewById(R.id.pet_shelter_name);
+            loadingCircle = view.findViewById(R.id.list_element_loading_circle);
         }
 
         @Override

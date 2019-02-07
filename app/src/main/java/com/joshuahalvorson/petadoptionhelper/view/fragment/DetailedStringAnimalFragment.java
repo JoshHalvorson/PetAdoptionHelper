@@ -1,6 +1,7 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,9 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import java.util.ArrayList;
@@ -24,6 +30,7 @@ public class DetailedStringAnimalFragment extends Fragment {
             petContactPhone, petContactEmail, petContactAddress;
     private ImageView petImage;
 
+    private ProgressBar loadingCircle;
 
     public DetailedStringAnimalFragment() {
 
@@ -57,7 +64,10 @@ public class DetailedStringAnimalFragment extends Fragment {
         petContactPhone = view.findViewById(R.id.pet_contact_phone);
         petContactEmail = view.findViewById(R.id.pet_contact_email);
         petContactAddress = view.findViewById(R.id.pet_contact_address);
+
         view.findViewById(R.id.favorite_button).setVisibility(View.GONE);
+
+        loadingCircle = view.findViewById(R.id.pet_image_loading_circle);
     }
 
     @Override
@@ -79,9 +89,12 @@ public class DetailedStringAnimalFragment extends Fragment {
         petDesc.setText(pet.getsDescription());
         String[] contactString = pet.getsContact().split("/n");
 
-        petContactPhone.setText(contactString[0]);
-        petContactEmail.setText(contactString[1]);
-        petContactAddress.setText(contactString[2]);
+        if (contactString.length >= 3){
+            petContactPhone.setText(contactString[0]);
+            petContactEmail.setText(contactString[1]);
+            petContactAddress.setText(contactString[2]);
+        }
+
 
         if(pet.getsBreeds() != null){
             petBreeds.setText(
@@ -102,7 +115,24 @@ public class DetailedStringAnimalFragment extends Fragment {
         String imageUrl = pet.getsMedia();
         Glide.with(getContext())
                 .load(imageUrl)
-                .apply(new RequestOptions().centerInside())
+                .addListener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model,
+                                                   Target<Drawable> target, DataSource dataSource,
+                                                   boolean isFirstResource) {
+                        loadingCircle.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.ic_detailed_pet_image_placeholder)
+                        .centerInside())
                 .into(petImage);
 
     }

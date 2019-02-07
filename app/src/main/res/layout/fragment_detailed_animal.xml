@@ -27,20 +27,25 @@
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="400dp"
                     android:layout_height="350dp"
-                    android:layout_gravity="center|top"
-                    android:orientation="vertical">
+                    android:layout_gravity="center|top">
+
+                    <ProgressBar
+                        android:id="@+id/pet_image_loading_circle"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
 
                     <ImageView
                         android:id="@+id/pet_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:contentDescription="@string/animals_picture_content_desc"
-                        tools:src="@tools:sample/backgrounds/scenic" />
-                </LinearLayout>
+                        android:contentDescription="@string/animals_picture_content_desc" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/pet_name"

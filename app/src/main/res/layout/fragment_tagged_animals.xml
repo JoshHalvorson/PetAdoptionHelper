@@ -5,8 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".view.fragment.TaggedAnimalsFragment">
 
+    <ProgressBar
+        android:id="@+id/favorite_animals_loading_circle"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tagged_animals_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+    </android.support.v7.widget.RecyclerView>
+
 </FrameLayout>
