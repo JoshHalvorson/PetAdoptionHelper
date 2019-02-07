@@ -20,7 +20,8 @@ import java.util.List;
 public class DetailedStringAnimalFragment extends Fragment {
     private StringPet pet;
 
-    private TextView petName, petAge, petSex, petSize, petBreeds, petDesc, petOptions, petContact;
+    private TextView petName, petAge, petSex, petSize, petBreeds, petDesc, petOptions,
+            petContactPhone, petContactEmail, petContactAddress;
     private ImageView petImage;
 
 
@@ -53,7 +54,9 @@ public class DetailedStringAnimalFragment extends Fragment {
         petBreeds = view.findViewById(R.id.pet_breeds);
         petDesc = view.findViewById(R.id.pet_desc);
         petOptions = view.findViewById(R.id.pet_options);
-        petContact = view.findViewById(R.id.pet_contact_phone);
+        petContactPhone = view.findViewById(R.id.pet_contact_phone);
+        petContactEmail = view.findViewById(R.id.pet_contact_email);
+        petContactAddress = view.findViewById(R.id.pet_contact_address);
         view.findViewById(R.id.favorite_button).setVisibility(View.GONE);
     }
 
@@ -74,7 +77,11 @@ public class DetailedStringAnimalFragment extends Fragment {
         petSex.setText("Sex: " + pet.getsSex());
         petSize.setText("Size: " + pet.getsSize());
         petDesc.setText(pet.getsDescription());
-        petContact.setText(pet.getsContact());
+        String[] contactString = pet.getsContact().split("/n");
+
+        petContactPhone.setText(contactString[0]);
+        petContactEmail.setText(contactString[1]);
+        petContactAddress.setText(contactString[2]);
 
         if(pet.getsBreeds() != null){
             petBreeds.setText(
