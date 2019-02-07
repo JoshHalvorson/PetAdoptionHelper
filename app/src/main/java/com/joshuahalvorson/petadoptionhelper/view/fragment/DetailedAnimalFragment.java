@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,8 +108,6 @@ public class DetailedAnimalFragment extends Fragment {
 
         reference = FirebaseDatabase.getInstance().getReference();
 
-        AnimalsDbDao.createAnimalHistoryEntry(pet);
-
         chars = new ArrayList<>();
         chars.add("\\[");
         chars.add("\\]");
@@ -191,6 +190,7 @@ public class DetailedAnimalFragment extends Fragment {
         final String finalCity = city;
         final String finalState = state;
         final String finalZip = zip;
+
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,6 +262,7 @@ public class DetailedAnimalFragment extends Fragment {
                 }
             }
         });
+
     }
 
     private void getShelterData(){
@@ -285,6 +286,7 @@ public class DetailedAnimalFragment extends Fragment {
                             double doubleDist = getDistance(AnimalListFragment.currentLat, AnimalListFragment.currentLon, lat, lon, "");
                             dist = Double.toString(doubleDist);
                             shelterName = sheltersOverview.getPetfinder().getShelter().getName().getName();
+                            AnimalsDbDao.createAnimalHistoryEntry(pet, dist, shelterName);
                         }else{
                             dist = "Contact shelter for information";
                             shelterName = "";
@@ -293,6 +295,8 @@ public class DetailedAnimalFragment extends Fragment {
                 }
             }
         });
+
+
     }
 
     private double getDistance(double lat1, double lon1, double lat2, double lon2, String unit){

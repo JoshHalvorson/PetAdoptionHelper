@@ -61,11 +61,15 @@ public class AnimalsDbContract {
         public static final String ANIMALS_HISTORY_COLUMN_ANIMAL_SEX = "animal_sex";
         public static final String ANIMALS_HISTORY_COLUMN_ANIMAL_DESCRIPTION = "animal_description";
         public static final String ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE = "animal_last_update";
+        public static final String ANIMALS_HISTORY_COLUMN_ANIMAL_DISTANCE = "animal_distance";
+        public static final String ANIMALS_HISTORY_COLUMN_ANIMAL_SHELTER = "animal_shelter";
 
         public static final String SQL_CREATE_ANIMALS_HISTORY_TABLE = String.format(
                 "CREATE TABLE IF NOT EXISTS %s (" +
                         "%s INTEGER PRIMARY KEY, " +
                         "%s INTEGER, " +
+                        "%s TEXT, " +
+                        "%s TEXT, " +
                         "%s TEXT, " +
                         "%s TEXT, " +
                         "%s TEXT, " +
@@ -88,8 +92,10 @@ public class AnimalsDbContract {
                 ANIMALS_HISTORY_COLUMN_ANIMAL_BREEDS,
                 ANIMALS_HISTORY_COLUMN_ANIMAL_SEX,
                 ANIMALS_HISTORY_COLUMN_ANIMAL_DESCRIPTION,
-                ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE
-        );
+                ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE,
+                ANIMALS_HISTORY_COLUMN_ANIMAL_DISTANCE,
+                ANIMALS_HISTORY_COLUMN_ANIMAL_SHELTER
+                );
 
         public static final String SQL_DELETE_ANIMALS__HISTORY_TABLE =
                 "DROP TABLE IF EXISTS " + ANIMALS_HISTORY_TABLE_NAME + ";";

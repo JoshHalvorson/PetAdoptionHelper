@@ -8,7 +8,8 @@ public class StringPet implements Serializable {
             sDescription, sLastUpdate, sDistance, sShelterName;
 
     public StringPet(String options, String contact, String age, String size, String media, String id,
-               String breeds, String name, String sex, String description, String lastUpdate) {
+               String breeds, String name, String sex, String description, String lastUpdate,
+                     String distance, String shelterName) {
         sOptions = options;
         sContact = contact;
         sAge = age;
@@ -20,6 +21,8 @@ public class StringPet implements Serializable {
         sSex = sex;
         sDescription = description;
         sLastUpdate = lastUpdate;
+        sDistance = distance;
+        sShelterName = shelterName;
     }
 
     public StringPet(Pet pet){

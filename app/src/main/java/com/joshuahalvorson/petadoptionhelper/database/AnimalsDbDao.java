@@ -131,7 +131,7 @@ public class AnimalsDbDao {
         }
     }
 
-    public static void createAnimalHistoryEntry(Pet animal){
+    public static void createAnimalHistoryEntry(Pet animal, String dist, String shelterName){
         if(db != null){
             if (!checkAnimalExists("animals_history", "animal_id", animal.getId().getAnimalId())){
                 ContentValues values = new ContentValues();
@@ -197,6 +197,10 @@ public class AnimalsDbDao {
                         animal.getDescription().getAnimalDescription());
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE,
                         animal.getLastUpdate().getLastUpdate());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_DISTANCE,
+                        dist);
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SHELTER,
+                        shelterName);
                 db.insert(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_TABLE_NAME,
                         null, values);
             }
@@ -307,7 +311,8 @@ public class AnimalsDbDao {
         String lastUpdate = cursor.getString(index);
 
         return new StringPet(
-                options, contact, age, size, imageUrl, id, breeds, name, sex, desc, lastUpdate);
+                options, contact, age, size, imageUrl, id, breeds, name, sex, desc, lastUpdate,
+                "", "");
     }
 
     private static StringPet getAnimalHistoryData(Cursor cursor){
@@ -356,7 +361,16 @@ public class AnimalsDbDao {
                 AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE);
         String lastUpdate = cursor.getString(index);
 
+        index = cursor.getColumnIndexOrThrow(
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_DISTANCE);
+        String dist = cursor.getString(index);
+
+        index = cursor.getColumnIndexOrThrow(
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SHELTER);
+        String shelterName = cursor.getString(index);
+
         return new StringPet(
-                options, contact, age, size, imageUrl, id, breeds, name, sex, desc, lastUpdate);
+                options, contact, age, size, imageUrl, id, breeds, name, sex, desc, lastUpdate,
+                dist, shelterName);
     }
 }
