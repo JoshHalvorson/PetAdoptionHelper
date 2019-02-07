@@ -95,7 +95,7 @@ public class AnimalsDbDao {
 
     public static void createAnimalEntryFromStringPet(StringPet animal){
         if(db != null){
-            if (checkAnimalExists("animals", "animal_id", animal.getsId())){
+            if (!checkAnimalExists("animals", "animal_id", animal.getsId())){
                 ContentValues values = new ContentValues();
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
                         animal.getsId());

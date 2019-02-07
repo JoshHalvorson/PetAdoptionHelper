@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     public void onStart() {
         super.onStart();
         FirebaseApp.initializeApp(getApplicationContext());
+        Stetho.initializeWithDefaults(this);
     }
 
 
