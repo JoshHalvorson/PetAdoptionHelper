@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
+import com.joshuahalvorson.petadoptionhelper.animal.AnimalId;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
+import com.joshuahalvorson.petadoptionhelper.animal.StringPetFromJson;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import java.util.ArrayList;
@@ -102,25 +105,17 @@ public class TaggedAnimalsFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> ids = new ArrayList<>();
-
                 for(DataSnapshot snapshot : dataSnapshot.child("users")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .child("animals").getChildren()){
 
-                    ids.add(snapshot.getKey());
-                }
+                    AnimalId petFromFb = snapshot.getValue(AnimalId.class);
+                    StringPet stringPet = new StringPet(petFromFb);
+                    Log.i("firebaseDbReturnData", stringPet.getsName());
 
-                for(String id : ids){
-                    LiveData<Pet> petLiveData = viewModel.getAnimalData(id, "json");
-                    petLiveData.observe(getViewLifecycleOwner(), new Observer<Pet>() {
-                        @Override
-                        public void onChanged(@Nullable Pet pet) {
-                            AnimalsDbDao.createAnimalEntry(pet);
-                            taggedPetsList.add(new StringPet(pet));
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
+                    AnimalsDbDao.createAnimalEntryFromStringPet(stringPet);
+                    taggedPetsList.add(stringPet);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

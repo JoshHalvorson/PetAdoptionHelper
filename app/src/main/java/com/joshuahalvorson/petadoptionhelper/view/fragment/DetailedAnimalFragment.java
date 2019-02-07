@@ -37,6 +37,8 @@ public class DetailedAnimalFragment extends Fragment {
     private ImageView petImage;
     private FloatingActionButton favoriteButton;
 
+    List<String> chars;
+
     DatabaseReference reference;
 
     public DetailedAnimalFragment() {
@@ -91,7 +93,7 @@ public class DetailedAnimalFragment extends Fragment {
 
         AnimalsDbDao.createAnimalHistoryEntry(pet);
 
-        List<String> chars = new ArrayList<>();
+        chars = new ArrayList<>();
         chars.add("\\[");
         chars.add("\\]");
         chars.add("\\{");
@@ -165,17 +167,65 @@ public class DetailedAnimalFragment extends Fragment {
                 .load(photoList.get(2).getImageUrl())
                 .into(petImage);
 
+        final String finalPhone = phone;
+        final String finalEmail = email;
+        final String finalAddress = address;
+        final String finalCity = city;
+        final String finalState = state;
+        final String finalZip = zip;
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimalsDbDao.createAnimalEntry(pet);
                 if(FirebaseAuth.getInstance().getCurrentUser() != null){
                     StringPet stringPet = new StringPet(pet);
+
+                    stringPet.setsContact("Phone: " + finalPhone + "/n" +
+
+                                    "Email: " + finalEmail + "/n" +
+
+                                    "Location: " + finalAddress + ", " + finalCity + ", " +
+                                    finalState + " " + finalZip
+                            );
+
+                    stringPet.setsBreeds(removeCharsFromString(stringPet.getsBreeds(), chars));
+                    stringPet.setsOptions(removeCharsFromString(stringPet.getsOptions(), chars));
+
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     reference.child("users").child(userId).child("animals")
                             .child(stringPet.getsId())
+                            .child("options").setValue(stringPet.getsOptions());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("contact").setValue(stringPet.getsContact());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("age").setValue(stringPet.getsAge());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("size").setValue(stringPet.getsSize());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("media").setValue(stringPet.getsMedia());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("id").setValue(stringPet.getsId());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("breeds").setValue(stringPet.getsBreeds());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
                             .child("name").setValue(stringPet.getsName());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("sex").setValue(stringPet.getsSex());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("description").setValue(stringPet.getsDescription());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("last_update").setValue(stringPet.getsLastUpdate());
 
                     Toast.makeText(getContext(), pet.getName().getAnimalName() +
                                     " added to your favorites!",

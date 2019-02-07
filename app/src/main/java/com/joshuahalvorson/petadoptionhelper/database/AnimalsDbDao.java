@@ -93,6 +93,44 @@ public class AnimalsDbDao {
         }
     }
 
+    public static void createAnimalEntryFromStringPet(StringPet animal){
+        if(db != null){
+            if (checkAnimalExists("animals", "animal_id", animal.getsId())){
+                ContentValues values = new ContentValues();
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
+                        animal.getsId());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME,
+                        animal.getsName());
+                if(animal.getsOptions() != null){
+                    values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS,
+                            animal.getsOptions());
+                }
+
+                String contact = animal.getsContact();
+
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
+                        contact);
+
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
+                        animal.getsAge());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
+                        animal.getsSize());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL,
+                        animal.getsMedia());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS,
+                        animal.getsBreeds());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX,
+                        animal.getsSex());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION,
+                        animal.getsDescription());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
+                        animal.getsLastUpdate());
+                db.insert(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
+                        null, values);
+            }
+        }
+    }
+
     public static void createAnimalHistoryEntry(Pet animal){
         if(db != null){
             if (!checkAnimalExists("animals_history", "animal_id", animal.getId().getAnimalId())){

@@ -63,8 +63,9 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
             }
         }
 
-        String lastUpdated = pet.getsLastUpdate().substring(0, 10);
+        String lastUpdated = pet.getsLastUpdate();
         if(lastUpdated != null){
+            lastUpdated = lastUpdated.substring(0, 10);
             viewHolder.lastUpdated.setText("Last updated: " + lastUpdated);
         }
 

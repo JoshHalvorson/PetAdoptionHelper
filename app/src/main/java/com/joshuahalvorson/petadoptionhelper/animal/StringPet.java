@@ -23,17 +23,75 @@ public class StringPet implements Serializable {
     }
 
     public StringPet(Pet pet){
-        sOptions = pet.getOptions().getOption().toString();
-        sContact = pet.getContact().getCity().getCity();
-        sAge = pet.getAge().getAge();
-        sSize = pet.getSize().getAnimalSize();
-        sMedia = pet.getMedia().getPhotos().getPhoto().get(2).getImageUrl();
-        sId = pet.getId().getAnimalId();
-        sBreeds = pet.getBreeds().getBreed().toString();
-        sName = pet.getName().getAnimalName();
-        sSex = pet.getSex().getAnimalSex();
-        sDescription = pet.getDescription().getAnimalDescription();
-        sLastUpdate = pet.getLastUpdate().getLastUpdate();
+        if(pet.getOptions() != null){
+            sOptions = pet.getOptions().getOption().toString();
+        }
+        if(pet.getContact().getCity() != null){
+            sContact = pet.getContact().getCity().getCity();
+        }
+        if(pet.getAge() != null){
+            sAge = pet.getAge().getAge();
+        }
+        if(pet.getSize() != null){
+            sSize = pet.getSize().getAnimalSize();
+        }
+        if(pet.getMedia().getPhotos().getPhoto() != null){
+            sMedia = pet.getMedia().getPhotos().getPhoto().get(2).getImageUrl();
+        }
+        if(pet.getId() != null){
+            sId = pet.getId().getAnimalId();
+        }
+        if(pet.getBreeds().getBreed() != null){
+            sBreeds = pet.getBreeds().getBreed().toString();
+        }
+        if(pet.getName() != null){
+            sName = pet.getName().getAnimalName();
+        }
+        if(pet.getSex() != null){
+            sSex = pet.getSex().getAnimalSex();
+        }
+        if(pet.getDescription() != null){
+            sDescription = pet.getDescription().getAnimalDescription();
+        }
+        if(pet.getLastUpdate() != null){
+            sLastUpdate = pet.getLastUpdate().getLastUpdate();
+        }
+    }
+
+    public StringPet(AnimalId animal){
+        if(animal.getOptions() != null){
+            sOptions = animal.getOptions();
+        }
+        if(animal.getContact() != null){
+            sContact = animal.getContact();
+        }
+        if(animal.getAge() != null){
+            sAge = animal.getAge();
+        }
+        if(animal.getSize() != null){
+            sSize = animal.getSize();
+        }
+        if(animal.getMedia() != null){
+            sMedia = animal.getMedia();
+        }
+        if(animal.getId() != null){
+            sId = animal.getId();
+        }
+        if(animal.getBreeds() != null){
+            sBreeds = animal.getBreeds();
+        }
+        if(animal.getName() != null){
+            sName = animal.getName();
+        }
+        if(animal.getSex() != null){
+            sSex = animal.getSex();
+        }
+        if(animal.getDescription() != null){
+            sDescription = animal.getDescription();
+        }
+        if(animal.getLastUpdate() != null){
+            sLastUpdate = animal.getLastUpdate();
+        }
     }
 
     public String getsOptions() {
