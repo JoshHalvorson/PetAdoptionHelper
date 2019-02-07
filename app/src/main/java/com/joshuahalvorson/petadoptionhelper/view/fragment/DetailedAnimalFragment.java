@@ -1,5 +1,8 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +25,13 @@ import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Photo;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
+import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
+import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
+import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +50,10 @@ public class DetailedAnimalFragment extends Fragment {
     List<String> chars;
 
     DatabaseReference reference;
+
+    private PetFinderApiViewModel viewModel;
+
+    private String dist, shelterName;
 
     public DetailedAnimalFragment() {
 
@@ -83,6 +97,8 @@ public class DetailedAnimalFragment extends Fragment {
         petContactEmail = view.findViewById(R.id.pet_contact_email);
         petContactAddress = view.findViewById(R.id.pet_contact_address);
         favoriteButton = view.findViewById(R.id.favorite_button);
+
+        viewModel = ViewModelProviders.of(getActivity()).get(PetFinderApiViewModel.class);
     }
 
     @Override
@@ -106,6 +122,8 @@ public class DetailedAnimalFragment extends Fragment {
         petSex.setText("Sex: " + pet.getSex().getAnimalSex());
         petSize.setText("Size: " + pet.getSize().getAnimalSize());
         petDesc.setText(pet.getDescription().getAnimalDescription());
+
+        getShelterData();
 
         String phone = "Phone unknown";
         if (pet.getContact().getPhone().getPhone() != null){
@@ -226,6 +244,12 @@ public class DetailedAnimalFragment extends Fragment {
                     reference.child("users").child(userId).child("animals")
                             .child(stringPet.getsId())
                             .child("last_update").setValue(stringPet.getsLastUpdate());
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("shelter_name").setValue(shelterName);
+                    reference.child("users").child(userId).child("animals")
+                            .child(stringPet.getsId())
+                            .child("distance").setValue(dist);
 
                     Toast.makeText(getContext(), pet.getName().getAnimalName() +
                                     " added to your favorites!",
@@ -238,6 +262,58 @@ public class DetailedAnimalFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void getShelterData(){
+        LiveData<SheltersOverview> shelterData =
+                viewModel.getShelterData(pet.getShelterId().getShelterId(), "json");
+
+        shelterData.observe(getViewLifecycleOwner(), new Observer<SheltersOverview>() {
+            @Override
+            public void onChanged(@Nullable SheltersOverview sheltersOverview) {
+                double lat = 0;
+                double lon = 0;
+                if (sheltersOverview != null) {
+                    ShelterPetfinder petfinder = sheltersOverview.getPetfinder();
+                    if(petfinder !=  null){
+                        Shelter shelter = petfinder.getShelter();
+                        if(shelter != null){
+                            lat = Double.parseDouble(
+                                    sheltersOverview.getPetfinder().getShelter().getLatitude().getLatitude());
+                            lon = Double.parseDouble(
+                                    sheltersOverview.getPetfinder().getShelter().getLongitude().getLongitude());
+                            double doubleDist = getDistance(AnimalListFragment.currentLat, AnimalListFragment.currentLon, lat, lon, "");
+                            dist = Double.toString(doubleDist);
+                            shelterName = sheltersOverview.getPetfinder().getShelter().getName().getName();
+                        }else{
+                            dist = "Contact shelter for information";
+                            shelterName = "";
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private double getDistance(double lat1, double lon1, double lat2, double lon2, String unit){
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            double theta = lon1 - lon2;
+            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) +
+                    Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                            Math.cos(Math.toRadians(theta));
+            dist = Math.acos(dist);
+            dist = Math.toDegrees(dist);
+            dist = dist * 60 * 1.1515;
+            if (unit == "K") {
+                dist = dist * 1.609344;
+            } else if (unit == "N") {
+                dist = dist * 0.8684;
+            }
+            return new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        }
     }
 
     private String removeCharsFromString(String string, List<String> charactersToRemove){

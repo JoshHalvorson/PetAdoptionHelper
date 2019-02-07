@@ -69,6 +69,16 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
             viewHolder.lastUpdated.setText("Last updated: " + lastUpdated);
         }
 
+        String distance = pet.getsDistance();
+        if(distance != null){
+            viewHolder.distance.setText(distance + " Miles");
+        }
+
+        String shelterName = pet.getsShelterName();
+        if(shelterName != null){
+            viewHolder.shelterName.setText("Shelter: " + shelterName);
+        }
+
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +107,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
-        TextView petName, petDesc, lastUpdated;
+        TextView petName, petDesc, lastUpdated, distance, shelterName;
         ImageView petImage;
 
         public ViewHolder(View view) {
@@ -107,6 +117,8 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
             petDesc = view.findViewById(R.id.pet_desc);
             petImage = view.findViewById(R.id.pet_image);
             lastUpdated = view.findViewById(R.id.pet_last_updated);
+            distance = view.findViewById(R.id.pet_distance);
+            shelterName = view.findViewById(R.id.pet_shelter_name);
         }
 
         @Override

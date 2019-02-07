@@ -1,22 +1,37 @@
 
 package com.joshuahalvorson.petadoptionhelper.animal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class AnimalId {
 
     private String age;
     private String breeds;
     private String contact;
     private String description;
+    private String distance;
     private String id;
-    private String lastUpdate;
+    private String last_update;
     private String media;
     private String name;
     private String options;
     private String sex;
+    private String shelter_name;
     private String size;
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getShelter_name() {
+        return shelter_name;
+    }
+
+    public void setShelter_name(String shelter_name) {
+        this.shelter_name = shelter_name;
+    }
 
     public String getAge() {
         return age;
@@ -58,12 +73,12 @@ public class AnimalId {
         this.id = id;
     }
 
-    public String getLastUpdate() {
-        return lastUpdate;
+    public String getLast_update() {
+        return last_update;
     }
 
-    public void setLastUpdate(String lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setLast_update(String last_update) {
+        this.last_update = last_update;
     }
 
     public String getMedia() {

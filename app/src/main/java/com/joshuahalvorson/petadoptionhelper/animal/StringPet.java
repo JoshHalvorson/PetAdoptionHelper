@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class StringPet implements Serializable {
 
     private String sOptions, sContact, sName, sId, sSex, sSize, sBreeds, sMedia, sAge,
-            sDescription, sLastUpdate;
+            sDescription, sLastUpdate, sDistance, sShelterName;
 
     public StringPet(String options, String contact, String age, String size, String media, String id,
                String breeds, String name, String sex, String description, String lastUpdate) {
@@ -89,9 +89,31 @@ public class StringPet implements Serializable {
         if(animal.getDescription() != null){
             sDescription = animal.getDescription();
         }
-        if(animal.getLastUpdate() != null){
-            sLastUpdate = animal.getLastUpdate();
+        if(animal.getLast_update() != null){
+            sLastUpdate = animal.getLast_update();
         }
+        if(animal.getDistance() != null){
+            sDistance = animal.getDistance();
+        }
+        if(animal.getShelter_name() != null){
+            sShelterName = animal.getShelter_name();
+        }
+    }
+
+    public String getsDistance() {
+        return sDistance;
+    }
+
+    public void setsDistance(String sDistance) {
+        this.sDistance = sDistance;
+    }
+
+    public String getsShelterName() {
+        return sShelterName;
+    }
+
+    public void setsShelterName(String sShelterName) {
+        this.sShelterName = sShelterName;
     }
 
     public String getsOptions() {

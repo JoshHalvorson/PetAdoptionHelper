@@ -1,7 +1,5 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalId;
-import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-import com.joshuahalvorson.petadoptionhelper.animal.StringPetFromJson;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import java.util.ArrayList;
@@ -110,8 +105,10 @@ public class TaggedAnimalsFragment extends Fragment {
                         .child("animals").getChildren()){
 
                     AnimalId petFromFb = snapshot.getValue(AnimalId.class);
+                    String last = petFromFb.getLast_update();
                     StringPet stringPet = new StringPet(petFromFb);
-                    Log.i("firebaseDbReturnData", stringPet.getsName());
+
+                    //Log.i("firebaseDbReturnData", );
 
                     AnimalsDbDao.createAnimalEntryFromStringPet(stringPet);
                     taggedPetsList.add(stringPet);
