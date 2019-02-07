@@ -123,13 +123,15 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
             public boolean onLongClick(View v) {
                 AnimalsDbDao.deleteAnimalEntry(pet);
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users")
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child("animals")
-                        .child(pet.getsId());
+                if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("animals")
+                            .child(pet.getsId());
 
-                ref.removeValue();
-
+                    ref.removeValue();
+                }
+                
                 TaggedAnimalsFragment.refreshList();
                 return true;
             }
