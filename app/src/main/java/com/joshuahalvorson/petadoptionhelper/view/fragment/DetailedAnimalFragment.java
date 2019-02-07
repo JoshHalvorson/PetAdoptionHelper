@@ -298,9 +298,6 @@ public class DetailedAnimalFragment extends Fragment {
                 }
             }
         });
-
-        AnimalsDbDao.createAnimalHistoryEntry(pet, dist, shelterName);
-
     }
 
     private void getShelterData(){
@@ -324,7 +321,6 @@ public class DetailedAnimalFragment extends Fragment {
                             double doubleDist = getDistance(AnimalListFragment.currentLat, AnimalListFragment.currentLon, lat, lon, "");
                             dist = Double.toString(doubleDist);
                             shelterName = sheltersOverview.getPetfinder().getShelter().getName().getName();
-                            AnimalsDbDao.createAnimalHistoryEntry(pet, dist, shelterName);
                         }else{
                             dist = "Contact shelter for information";
                             shelterName = "";
@@ -334,7 +330,7 @@ public class DetailedAnimalFragment extends Fragment {
             }
         });
 
-
+        AnimalsDbDao.createAnimalHistoryEntry(pet, dist, shelterName);
     }
 
     private double getDistance(double lat1, double lon1, double lat2, double lon2, String unit){

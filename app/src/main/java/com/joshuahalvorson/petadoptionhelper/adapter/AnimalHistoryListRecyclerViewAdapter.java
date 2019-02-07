@@ -94,13 +94,15 @@ public class AnimalHistoryListRecyclerViewAdapter extends RecyclerView.Adapter<A
         }
 
         String distance = pet.getsDistance();
-        if(distance != null){
-            viewHolder.distance.setText(distance + " Miles");
+        viewHolder.distance.setText(distance + " Miles");
+        if(distance == null){
+            viewHolder.distance.setText("");
         }
 
         String shelterName = pet.getsShelterName();
-        if(shelterName != null){
-            viewHolder.shelterName.setText("Shelter: " + shelterName);
+        viewHolder.shelterName.setText("Shelter: " + shelterName);
+        if(shelterName == null){
+            viewHolder.shelterName.setText("");
         }
 
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
