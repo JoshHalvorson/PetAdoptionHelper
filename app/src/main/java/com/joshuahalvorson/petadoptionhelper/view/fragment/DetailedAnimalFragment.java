@@ -230,9 +230,9 @@ public class DetailedAnimalFragment extends Fragment {
                 if(drawable instanceof Animatable){
                     ((Animatable) drawable).start();
                 }
-                AnimalsDbDao.createAnimalEntry(pet);
+                AnimalsDbDao.createAnimalEntry(pet, dist, shelterName);
                 if(FirebaseAuth.getInstance().getCurrentUser() != null){
-                    StringPet stringPet = new StringPet(pet);
+                    StringPet stringPet = new StringPet(pet, dist, shelterName);
 
                     stringPet.setsContact("Phone: " + finalPhone + "/n" +
 

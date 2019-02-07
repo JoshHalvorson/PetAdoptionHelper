@@ -169,12 +169,6 @@ public class TaggedAnimalsFragment extends Fragment {
                 reference.child("users").child(userId).child("animals")
                         .child(stringPet.getsId())
                         .child("last_update").setValue(stringPet.getsLastUpdate());
-                reference.child("users").child(userId).child("animals")
-                        .child(stringPet.getsId())
-                        .child("shelter_name").setValue(stringPet.getsShelterName());
-                reference.child("users").child(userId).child("animals")
-                        .child(stringPet.getsId())
-                        .child("distance").setValue(stringPet.getsDistance());
             }
         }
         updateLocalDb();

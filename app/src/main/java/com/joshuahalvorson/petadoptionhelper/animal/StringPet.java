@@ -25,7 +25,7 @@ public class StringPet implements Serializable {
         sShelterName = shelterName;
     }
 
-    public StringPet(Pet pet){
+    public StringPet(Pet pet, String distance, String shelterName){
         if(pet.getOptions() != null){
             sOptions = pet.getOptions().getOption().toString();
         }
@@ -59,6 +59,8 @@ public class StringPet implements Serializable {
         if(pet.getLastUpdate() != null){
             sLastUpdate = pet.getLastUpdate().getLastUpdate();
         }
+        sDistance = distance;
+        sShelterName = shelterName;
     }
 
     public StringPet(AnimalId animal){

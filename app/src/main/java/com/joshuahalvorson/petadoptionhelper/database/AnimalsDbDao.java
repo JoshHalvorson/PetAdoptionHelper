@@ -21,7 +21,7 @@ public class AnimalsDbDao {
         }
     }
 
-    public static void createAnimalEntry(Pet animal){
+    public static void createAnimalEntry(Pet animal, String dist, String shelterName){
         if(db != null){
             if (checkAnimalExists("animals", "animal_id", animal.getId().getAnimalId())){
                 ContentValues values = new ContentValues();
@@ -87,6 +87,10 @@ public class AnimalsDbDao {
                         animal.getDescription().getAnimalDescription());
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
                         animal.getLastUpdate().getLastUpdate());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DISTANCE,
+                        dist);
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SHELTER,
+                        shelterName);
                 db.insert(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
                         null, values);
             }
