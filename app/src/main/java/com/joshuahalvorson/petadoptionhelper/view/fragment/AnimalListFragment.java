@@ -323,15 +323,18 @@ public class AnimalListFragment extends Fragment {
                         if(pets != null){
                             List<Pet> list = pets.getPet();
                             if(list != null){
-                                petList.addAll(pets.getPet());
+                                List<Pet> tempList = new ArrayList<>();
+                                tempList.addAll(pets.getPet());
 
-                                Collections.sort(petList, new Comparator<Pet>() {
+                                Collections.sort(tempList, new Comparator<Pet>() {
                                     public int compare(Pet o1, Pet o2) {
                                         return o2.getLastUpdate().getLastUpdate().substring(0, 10)
                                                 .compareTo
                                                         (o1.getLastUpdate().getLastUpdate().substring(0, 10));
                                     }
                                 });
+
+                                petList.addAll(tempList);
 
                                 adapter.notifyDataSetChanged();
                                 progressCircle.setVisibility(View.GONE);
