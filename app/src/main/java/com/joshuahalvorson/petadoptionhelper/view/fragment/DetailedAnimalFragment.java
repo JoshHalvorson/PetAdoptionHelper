@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -119,6 +120,8 @@ public class DetailedAnimalFragment extends Fragment {
 
         reference = FirebaseDatabase.getInstance().getReference();
 
+        favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
+
         chars = new ArrayList<>();
         chars.add("\\[");
         chars.add("\\]");
@@ -222,6 +225,11 @@ public class DetailedAnimalFragment extends Fragment {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
+                final Drawable drawable = favoriteButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
                 AnimalsDbDao.createAnimalEntry(pet);
                 if(FirebaseAuth.getInstance().getCurrentUser() != null){
                     StringPet stringPet = new StringPet(pet);
