@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalId;
-import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
@@ -93,8 +92,8 @@ public class TaggedAnimalsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        updateFirebaseDb();
-        updateLocalDb();
+        updateDatabases();
+
     }
 
     private void updateLocalDb(){
@@ -130,16 +129,55 @@ public class TaggedAnimalsFragment extends Fragment {
 
     }
 
-    private void updateFirebaseDb() {
+    private void updateDatabases() {
+        List<StringPet> localDb = AnimalsDbDao.readAllTaggedAnimals();
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            for(StringPet stringPet : taggedPetsList){
-                DatabaseReference reference = FirebaseDatabase.getInstance()
-                        .getReference("users/" +
-                                FirebaseAuth.getInstance().getCurrentUser().getUid() +
-                                "/animals");
-                reference.child(stringPet.getsId()).child("name").setValue(stringPet.getsName());
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+            for(StringPet stringPet : localDb){
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("options").setValue(stringPet.getsOptions());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("contact").setValue(stringPet.getsContact());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("age").setValue(stringPet.getsAge());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("size").setValue(stringPet.getsSize());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("media").setValue(stringPet.getsMedia());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("id").setValue(stringPet.getsId());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("breeds").setValue(stringPet.getsBreeds());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("name").setValue(stringPet.getsName());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("sex").setValue(stringPet.getsSex());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("description").setValue(stringPet.getsDescription());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("last_update").setValue(stringPet.getsLastUpdate());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("shelter_name").setValue(stringPet.getsShelterName());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("distance").setValue(stringPet.getsDistance());
             }
         }
+        updateLocalDb();
     }
 
     @Override
