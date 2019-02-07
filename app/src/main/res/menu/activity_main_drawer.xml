@@ -20,7 +20,7 @@
         <item
             android:id="@+id/nav_pets_history"
             android:icon="@drawable/vd_history_icon"
-            android:title="Viewed Animals" />
+            android:title="Viewed Pets" />
     </group>
 
 </menu>

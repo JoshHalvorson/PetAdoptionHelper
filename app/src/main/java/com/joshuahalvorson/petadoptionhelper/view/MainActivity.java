@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity
             navUserName.setText("");
         }
 
+        getSupportActionBar().setTitle("Pets");
+        navigationView.getMenu().getItem(0).setChecked(true);
+
     }
 
     @Override
@@ -129,24 +132,28 @@ public class MainActivity extends AppCompatActivity
                         .beginTransaction()
                         .replace(R.id.fragment_container, new AnimalListFragment())
                         .commit();
+                getSupportActionBar().setTitle("Pets");
                 break;
             case R.id.nav_shelters_list:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new ShelterListFragment())
                         .commit();
+                getSupportActionBar().setTitle("Shelters");
                 break;
             case R.id.nav_favorite_pets:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new TaggedAnimalsFragment())
                         .commit();
+                getSupportActionBar().setTitle("Favorite Pets");
                 break;
             case R.id.nav_pets_history:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new AnimalViewedHistoryFragment())
                         .commit();
+                getSupportActionBar().setTitle("Viewed Pets");
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
