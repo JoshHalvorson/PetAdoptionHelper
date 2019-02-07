@@ -8,9 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
@@ -18,6 +27,7 @@ import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TaggedAnimalsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
@@ -76,6 +86,21 @@ public class TaggedAnimalsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        updateFirebaseDb();
+
+    }
+
+    private void updateFirebaseDb() {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            for(StringPet stringPet : taggedPetsList){
+                DatabaseReference reference = FirebaseDatabase.getInstance()
+                        .getReference("users/" +
+                                FirebaseAuth.getInstance().getCurrentUser().getUid() +
+                                "/animals");
+                reference.child(stringPet.getsId()).child("name").setValue(stringPet.getsName());
+            }
+        }
     }
 
     @Override
