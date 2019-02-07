@@ -100,14 +100,14 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
         }
 
         String distance = pet.getsDistance();
-        if(distance != null){
+        //if(distance != null){
             viewHolder.distance.setText(distance + " Miles");
-        }
+        //}
 
         String shelterName = pet.getsShelterName();
-        if(shelterName != null){
+        //if(shelterName != null){
             viewHolder.shelterName.setText("Shelter: " + shelterName);
-        }
+        //}
 
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +131,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
 
                     ref.removeValue();
                 }
-                
+
                 TaggedAnimalsFragment.refreshList();
                 return true;
             }

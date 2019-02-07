@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalId;
+import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
@@ -100,8 +101,8 @@ public class TaggedAnimalsFragment extends Fragment {
     }
 
     private void updateLocalDb(){
-
         // Read from the database
+        final List<StringPet> tempList = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -110,16 +111,14 @@ public class TaggedAnimalsFragment extends Fragment {
                         .child("animals").getChildren()){
 
                     AnimalId petFromFb = snapshot.getValue(AnimalId.class);
-                    String last = petFromFb.getLast_update();
+
                     StringPet stringPet = new StringPet(petFromFb);
 
-                    //Log.i("firebaseDbReturnData", );
+                    tempList.add(stringPet);
 
-                    AnimalsDbDao.createAnimalEntryFromStringPet(stringPet);
-                    taggedPetsList.add(stringPet);
-                    adapter.notifyDataSetChanged();
-                    loadingCircle.setVisibility(View.GONE);
+                    //adapter.notifyDataSetChanged();
                 }
+                addToPetsList(tempList);
             }
 
             @Override
@@ -129,6 +128,19 @@ public class TaggedAnimalsFragment extends Fragment {
 
             });
 
+    }
+
+    public void addToPetsList(List<StringPet> tempList){
+        for(int i = 0; i < taggedPetsList.size() - 1; i++){
+            for(int j = 0; j < tempList.size() - 1; i++){
+                if(!tempList.get(j).getsId().equals(taggedPetsList.get(i).getsId())){
+                    taggedPetsList.add(tempList.get(j));
+                    AnimalsDbDao.createAnimalEntryFromStringPet(tempList.get(j));
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+        loadingCircle.setVisibility(View.GONE);
     }
 
     private void updateFirebaseDb() {

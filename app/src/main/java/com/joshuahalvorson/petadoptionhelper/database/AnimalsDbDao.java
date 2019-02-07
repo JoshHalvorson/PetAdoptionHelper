@@ -95,7 +95,7 @@ public class AnimalsDbDao {
 
     public static void createAnimalEntryFromStringPet(StringPet animal){
         if(db != null){
-            if (!checkAnimalExists("animals", "animal_id", animal.getsId())){
+            if (!checkAnimalExists(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME, "animal_id", animal.getsId())){
                 ContentValues values = new ContentValues();
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
                         animal.getsId());
@@ -249,19 +249,16 @@ public class AnimalsDbDao {
         }
     }
 
-    public static boolean checkAnimalExists(String tableName, String dbfield, String fieldValue) {
-        if(db != null) {
-            Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE %s = %s;",
-                    tableName, dbfield, fieldValue), null);
+    public static boolean checkAnimalExists(String tableName, String dbField, String fieldValue) {
+        Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE %s = %s;",
+                tableName, dbField, fieldValue), null);
 
-            if (cursor.getCount() <= 0) {
-                cursor.close();
-                return false;
-            }
+        if (cursor.getCount() > 0) {
             cursor.close();
-            return true;
+            return false;
         }
-        return false;
+        cursor.close();
+        return true;
     }
 
     private static StringPet getAnimalData(Cursor cursor){
