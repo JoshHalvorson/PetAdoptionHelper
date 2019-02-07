@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.fragment_container, DetailedAnimalFragment.newInstance(item))
                 .addToBackStack(null)
                 .commit();
+        findViewById(R.id.filter_options_view).setVisibility(View.GONE);
     }
 
     @Override
