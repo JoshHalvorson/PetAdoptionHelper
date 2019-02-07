@@ -225,6 +225,7 @@ public class AnimalListFragment extends Fragment {
                             List<Breed> breeds =
                                     breedsOverview.getPetfinder().getBreeds().getBreed();
                             List<String> stringBreeds = new ArrayList<>();
+                            stringBreeds.add("All");
                             for(Breed breed : breeds){
                                 stringBreeds.add(breed.getBreed());
                             }
@@ -280,6 +281,10 @@ public class AnimalListFragment extends Fragment {
                     breed = animalBreedsSpinner.getSelectedItem().toString();
                 }
 
+                if(animalBreedsSpinner.getSelectedItem().toString().equals("All")){
+                    breed = "";
+                }
+
                 if (animalBreedsSpinner.getVisibility() == View.GONE){
                     breed = "";
                 }
@@ -315,30 +320,32 @@ public class AnimalListFragment extends Fragment {
                     if(petfinder != null){
                         Pets pets = petfinder.getPets();
                         if(pets != null){
-                            petList.addAll(pets.getPet());
+                            List<Pet> list = pets.getPet();
+                            if(list != null){
+                                petList.addAll(pets.getPet());
 
-                            Collections.sort(petList, new Comparator<Pet>() {
-                                public int compare(Pet o1, Pet o2) {
-                                    return o2.getLastUpdate().getLastUpdate().substring(0, 10)
-                                            .compareTo
-                                                    (o1.getLastUpdate().getLastUpdate().substring(0, 10));
-                                }
-                            });
+                                Collections.sort(petList, new Comparator<Pet>() {
+                                    public int compare(Pet o1, Pet o2) {
+                                        return o2.getLastUpdate().getLastUpdate().substring(0, 10)
+                                                .compareTo
+                                                        (o1.getLastUpdate().getLastUpdate().substring(0, 10));
+                                    }
+                                });
 
-                            adapter.notifyDataSetChanged();
-                            progressCircle.setVisibility(View.GONE);
+                                adapter.notifyDataSetChanged();
+                                progressCircle.setVisibility(View.GONE);
 
-                            RecyclerView.SmoothScroller smoothScroller =
-                                    new LinearSmoothScroller(getContext()) {
-                                @Override protected int getVerticalSnapPreference() {
-                                    return LinearSmoothScroller.SNAP_TO_START;
-                                }
-                            };
-                            smoothScroller.setTargetPosition(pageOffset);
-                            layoutManager.startSmoothScroll(smoothScroller);
+                                RecyclerView.SmoothScroller smoothScroller =
+                                        new LinearSmoothScroller(getContext()) {
+                                            @Override protected int getVerticalSnapPreference() {
+                                                return LinearSmoothScroller.SNAP_TO_START;
+                                            }
+                                        };
+                                smoothScroller.setTargetPosition(pageOffset);
+                                layoutManager.startSmoothScroll(smoothScroller);
+                            }
                         }
                     }
-
                 }
             }
         });
