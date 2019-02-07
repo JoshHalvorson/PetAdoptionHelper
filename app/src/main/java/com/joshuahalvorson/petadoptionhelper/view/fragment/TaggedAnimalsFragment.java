@@ -1,5 +1,8 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,12 +23,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
+import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +41,8 @@ public class TaggedAnimalsFragment extends Fragment {
     private static TaggedPetListRecyclerViewAdapter adapter;
 
     private static List<StringPet> taggedPetsList;
+
+    private PetFinderApiViewModel viewModel;
 
     public TaggedAnimalsFragment() {
 
@@ -55,6 +63,8 @@ public class TaggedAnimalsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
         taggedPetsList = new ArrayList<>();
 
@@ -88,6 +98,47 @@ public class TaggedAnimalsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         updateFirebaseDb();
+        updateLocalDb();
+    }
+
+    private void updateLocalDb(){
+
+        // Read from the database
+        FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> ids = new ArrayList<>();
+                /*long petId = dataSnapshot.child("users")
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child("animals").getChildren();*/
+
+                for(DataSnapshot snapshot : dataSnapshot.child("users")
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child("animals").getChildren()){
+
+                    ids.add(snapshot.getKey());
+                    //Log.i("snapshotIds", snapshot.getKey());
+                }
+
+                for(String id : ids){
+                    LiveData<Pet> petLiveData = viewModel.getAnimalData(id, "json");
+                    petLiveData.observe(getViewLifecycleOwner(), new Observer<Pet>() {
+                        @Override
+                        public void onChanged(@Nullable Pet pet) {
+                            TaggedAnimalsDbDao.createAnimalEntry(pet);
+                            taggedPetsList.add(new StringPet(pet));
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+            });
 
     }
 
