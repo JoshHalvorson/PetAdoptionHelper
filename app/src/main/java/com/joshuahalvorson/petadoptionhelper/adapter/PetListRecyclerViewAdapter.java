@@ -24,6 +24,8 @@ import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.Photo;
 import com.joshuahalvorson.petadoptionhelper.animal.Photos;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
+import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import com.joshuahalvorson.petadoptionhelper.view.MainActivity;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
@@ -87,6 +89,9 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
                 desc += "...";
                 viewHolder.petDesc.setText(desc);
             }
+        }else{
+            desc = "No description provided.";
+            viewHolder.petDesc.setText(desc);
         }
 
         String lastUpdated = pet.getLastUpdate().getLastUpdate().substring(0, 10);
@@ -103,16 +108,25 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
                 double lat = 0;
                 double lon = 0;
                 if (sheltersOverview != null) {
-                    lat = Double.parseDouble(
-                            sheltersOverview.getPetfinder().getShelter().getLatitude().getLatitude());
-                    lon = Double.parseDouble(
-                            sheltersOverview.getPetfinder().getShelter().getLongitude().getLongitude());
-                    double dist = getDistance(AnimalListFragment.currentLat, AnimalListFragment.currentLon, lat, lon, "");
+                    ShelterPetfinder petfinder = sheltersOverview.getPetfinder();
+                    if(petfinder !=  null){
+                        Shelter shelter = petfinder.getShelter();
+                        if(shelter != null){
+                            lat = Double.parseDouble(
+                                    sheltersOverview.getPetfinder().getShelter().getLatitude().getLatitude());
+                            lon = Double.parseDouble(
+                                    sheltersOverview.getPetfinder().getShelter().getLongitude().getLongitude());
+                            double dist = getDistance(AnimalListFragment.currentLat, AnimalListFragment.currentLon, lat, lon, "");
 
-                    viewHolder.distance.setText(Double.toString(dist) + " Miles");
-                    viewHolder.shelterName.setText(
-                            "Shelter: " +
-                                    sheltersOverview.getPetfinder().getShelter().getName().getName());
+                            viewHolder.distance.setText(Double.toString(dist) + " Miles");
+                            viewHolder.shelterName.setText(
+                                    "Shelter: " +
+                                            sheltersOverview.getPetfinder().getShelter().getName().getName());
+                        }else{
+                            viewHolder.distance.setText("Contact shelter for information");
+                            viewHolder.shelterName.setText("");
+                        }
+                    }
                 }
             }
         });
