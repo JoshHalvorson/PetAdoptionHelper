@@ -22,71 +22,73 @@ public class TaggedAnimalsDbDao {
 
     public static void createAnimalEntry(Pet animal){
         if(db != null){
-            ContentValues values = new ContentValues();
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
-                    animal.getId().getAnimalId());
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME,
-                    animal.getName().getAnimalName());
-            if(animal.getOptions().getOption() != null){
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS,
-                        animal.getOptions().getOption().toString());
+            if (checkAnimalExists("animals", "animal_id", animal.getId().getAnimalId())){
+                ContentValues values = new ContentValues();
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
+                        animal.getId().getAnimalId());
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME,
+                        animal.getName().getAnimalName());
+                if(animal.getOptions().getOption() != null){
+                    values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS,
+                            animal.getOptions().getOption().toString());
+                }
+
+                String phone = "Phone unknown";
+                if (animal.getContact().getPhone().getPhone() != null){
+                    phone = animal.getContact().getPhone().getPhone();
+                }
+
+                String email = "Email unkown";
+                if (animal.getContact().getEmail().getEmail() != null){
+                    email = animal.getContact().getEmail().getEmail();
+                }
+
+                String address = "Address unknown";
+                if(animal.getContact().getAddress1().getAddress() != null){
+                    address = animal.getContact().getAddress1().getAddress();
+                }else if(animal.getContact().getAddress2().getAddress() != null){
+                    address = animal.getContact().getAddress2().getAddress();
+                }
+
+                String city = "City unknown";
+                if(animal.getContact().getCity().getCity() != null){
+                    city = animal.getContact().getCity().getCity();
+                }
+
+                String state = "State unknown";
+                if(animal.getContact().getState().getState() != null){
+                    state = animal.getContact().getState().getState();
+                }
+
+                String zip = "Zip unknown";
+                if(animal.getContact().getZip().getZip() != null){
+                    zip = animal.getContact().getZip().getZip();
+                }
+
+                String contact = "Phone: " + phone + "\n" +
+                        "Email: " + email + "\n" +
+                        "Location: " + address + ", " + city + ", " + state + " " + zip;
+
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
+                        contact);
+
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
+                        animal.getAge().getAge());
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
+                        animal.getSize().getAnimalSize());
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL,
+                        animal.getMedia().getPhotos().getPhoto().get(2).getImageUrl());
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS,
+                        animal.getBreeds().getBreed().toString());
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX,
+                        animal.getSex().getAnimalSex());
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION,
+                        animal.getDescription().getAnimalDescription());
+                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
+                        animal.getLastUpdate().getLastUpdate());
+                db.insert(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
+                        null, values);
             }
-
-            String phone = "Phone unknown";
-            if (animal.getContact().getPhone().getPhone() != null){
-                phone = animal.getContact().getPhone().getPhone();
-            }
-
-            String email = "Email unkown";
-            if (animal.getContact().getEmail().getEmail() != null){
-                email = animal.getContact().getEmail().getEmail();
-            }
-
-            String address = "Address unknown";
-            if(animal.getContact().getAddress1().getAddress() != null){
-                address = animal.getContact().getAddress1().getAddress();
-            }else if(animal.getContact().getAddress2().getAddress() != null){
-                address = animal.getContact().getAddress2().getAddress();
-            }
-
-            String city = "City unknown";
-            if(animal.getContact().getCity().getCity() != null){
-                city = animal.getContact().getCity().getCity();
-            }
-
-            String state = "State unknown";
-            if(animal.getContact().getState().getState() != null){
-                state = animal.getContact().getState().getState();
-            }
-
-            String zip = "Zip unknown";
-            if(animal.getContact().getZip().getZip() != null){
-                zip = animal.getContact().getZip().getZip();
-            }
-
-            String contact = "Phone: " + phone + "\n" +
-                    "Email: " + email + "\n" +
-                    "Location: " + address + ", " + city + ", " + state + " " + zip;
-
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
-                    contact);
-
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
-                    animal.getAge().getAge());
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
-                    animal.getSize().getAnimalSize());
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL,
-                    animal.getMedia().getPhotos().getPhoto().get(2).getImageUrl());
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS,
-                    animal.getBreeds().getBreed().toString());
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX,
-                    animal.getSex().getAnimalSex());
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION,
-                    animal.getDescription().getAnimalDescription());
-            values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
-                    animal.getLastUpdate().getLastUpdate());
-            db.insert(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
-                    null, values);
         }
     }
 
@@ -113,6 +115,21 @@ public class TaggedAnimalsDbDao {
                     TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID, pet.getsId());
             db.delete(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME, where, null);
         }
+    }
+
+    public static boolean checkAnimalExists(String tableName, String dbfield, String fieldValue) {
+        if(db != null) {
+            Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE %s = %s;",
+                    tableName, dbfield, fieldValue), null);
+
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                return false;
+            }
+            cursor.close();
+            return true;
+        }
+        return false;
     }
 
     private static StringPet getAnimalData(Cursor cursor){

@@ -108,16 +108,12 @@ public class TaggedAnimalsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<String> ids = new ArrayList<>();
-                /*long petId = dataSnapshot.child("users")
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child("animals").getChildren();*/
 
                 for(DataSnapshot snapshot : dataSnapshot.child("users")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .child("animals").getChildren()){
 
                     ids.add(snapshot.getKey());
-                    //Log.i("snapshotIds", snapshot.getKey());
                 }
 
                 for(String id : ids){
