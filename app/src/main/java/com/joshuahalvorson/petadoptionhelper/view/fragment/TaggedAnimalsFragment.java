@@ -11,14 +11,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,12 +25,10 @@ import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
+import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TaggedAnimalsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
@@ -80,7 +75,7 @@ public class TaggedAnimalsFragment extends Fragment {
 
         adapter = new TaggedPetListRecyclerViewAdapter(taggedPetsList, mListener);
 
-        taggedPetsList.addAll(TaggedAnimalsDbDao.readAllTaggedAnimals());
+        taggedPetsList.addAll(AnimalsDbDao.readAllTaggedAnimals());
         adapter.notifyDataSetChanged();
 
         recyclerView.setAdapter(adapter);
@@ -89,7 +84,7 @@ public class TaggedAnimalsFragment extends Fragment {
 
     public static void refreshList(){
         taggedPetsList.clear();
-        taggedPetsList.addAll(TaggedAnimalsDbDao.readAllTaggedAnimals());
+        taggedPetsList.addAll(AnimalsDbDao.readAllTaggedAnimals());
         adapter.notifyDataSetChanged();
     }
 
@@ -121,7 +116,7 @@ public class TaggedAnimalsFragment extends Fragment {
                     petLiveData.observe(getViewLifecycleOwner(), new Observer<Pet>() {
                         @Override
                         public void onChanged(@Nullable Pet pet) {
-                            TaggedAnimalsDbDao.createAnimalEntry(pet);
+                            AnimalsDbDao.createAnimalEntry(pet);
                             taggedPetsList.add(new StringPet(pet));
                             adapter.notifyDataSetChanged();
                         }

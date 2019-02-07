@@ -16,11 +16,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
-import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TaggedAnimalsDbDao.initializeInstance(getApplicationContext());
+        AnimalsDbDao.initializeInstance(getApplicationContext());
 
         getSupportFragmentManager()
                 .beginTransaction()

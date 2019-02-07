@@ -14,9 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.AnimalHistoryListRecyclerViewAdapter;
-import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
+import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class AnimalViewedHistoryFragment extends Fragment {
 
         adapter = new AnimalHistoryListRecyclerViewAdapter(animalHistoryList, mListener);
 
-        animalHistoryList.addAll(TaggedAnimalsDbDao.readAllAnimalsHistory());
+        animalHistoryList.addAll(AnimalsDbDao.readAllAnimalsHistory());
         adapter.notifyDataSetChanged();
 
         recyclerView.setAdapter(adapter);
@@ -75,7 +74,7 @@ public class AnimalViewedHistoryFragment extends Fragment {
 
     public static void refreshList(){
         animalHistoryList.clear();
-        animalHistoryList.addAll(TaggedAnimalsDbDao.readAllTaggedAnimals());
+        animalHistoryList.addAll(AnimalsDbDao.readAllTaggedAnimals());
         adapter.notifyDataSetChanged();
     }
 

@@ -2,7 +2,7 @@ package com.joshuahalvorson.petadoptionhelper.database;
 
 import android.provider.BaseColumns;
 
-public class TaggedAnimalsDbContract {
+public class AnimalsDbContract {
     public static class AnimalEntry implements BaseColumns {
         public static final String ANIMALS_TABLE_NAME = "animals";
         public static final String ANIMALS_COLUMN_ANIMAL_ID = "animal_id";

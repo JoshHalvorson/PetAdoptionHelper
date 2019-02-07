@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-import com.joshuahalvorson.petadoptionhelper.database.TaggedAnimalsDbDao;
+import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalViewedHistoryFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
 
@@ -83,7 +83,7 @@ public class AnimalHistoryListRecyclerViewAdapter extends RecyclerView.Adapter<A
         viewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TaggedAnimalsDbDao.deleteAnimalEntry(pet);
+                AnimalsDbDao.deleteAnimalEntry(pet);
                 TaggedAnimalsFragment.refreshList();
                 return true;
             }

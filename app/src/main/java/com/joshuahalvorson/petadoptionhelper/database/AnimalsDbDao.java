@@ -5,19 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.joshuahalvorson.petadoptionhelper.animal.Animal;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaggedAnimalsDbDao {
+public class AnimalsDbDao {
 
     private static SQLiteDatabase db;
 
     public static void initializeInstance(Context context){
         if(db == null){
-            TaggedAnimalsDbHelper helper = new TaggedAnimalsDbHelper(context);
+            AnimalsDbHelper helper = new AnimalsDbHelper(context);
             db = helper.getWritableDatabase();
         }
     }
@@ -26,12 +25,12 @@ public class TaggedAnimalsDbDao {
         if(db != null){
             if (checkAnimalExists("animals", "animal_id", animal.getId().getAnimalId())){
                 ContentValues values = new ContentValues();
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
                         animal.getId().getAnimalId());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME,
                         animal.getName().getAnimalName());
                 if(animal.getOptions().getOption() != null){
-                    values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS,
+                    values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS,
                             animal.getOptions().getOption().toString());
                 }
 
@@ -71,24 +70,24 @@ public class TaggedAnimalsDbDao {
                         "Email: " + email + "\n" +
                         "Location: " + address + ", " + city + ", " + state + " " + zip;
 
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT,
                         contact);
 
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE,
                         animal.getAge().getAge());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE,
                         animal.getSize().getAnimalSize());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL,
                         animal.getMedia().getPhotos().getPhoto().get(2).getImageUrl());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS,
                         animal.getBreeds().getBreed().toString());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX,
                         animal.getSex().getAnimalSex());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION,
                         animal.getDescription().getAnimalDescription());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
                         animal.getLastUpdate().getLastUpdate());
-                db.insert(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
+                db.insert(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
                         null, values);
             }
         }
@@ -98,12 +97,12 @@ public class TaggedAnimalsDbDao {
         if(db != null){
             if (!checkAnimalExists("animals_history", "animal_id", animal.getId().getAnimalId())){
                 ContentValues values = new ContentValues();
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_ID,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_ID,
                         animal.getId().getAnimalId());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_NAME,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_NAME,
                         animal.getName().getAnimalName());
                 if(animal.getOptions().getOption() != null){
-                    values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_OPTIONS,
+                    values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_OPTIONS,
                             animal.getOptions().getOption().toString());
                 }
 
@@ -143,24 +142,24 @@ public class TaggedAnimalsDbDao {
                         "Email: " + email + "\n" +
                         "Location: " + address + ", " + city + ", " + state + " " + zip;
 
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_CONTACT,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_CONTACT,
                         contact);
 
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_AGE,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_AGE,
                         animal.getAge().getAge());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SIZE,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SIZE,
                         animal.getSize().getAnimalSize());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_IMAGE_URL,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_IMAGE_URL,
                         animal.getMedia().getPhotos().getPhoto().get(2).getImageUrl());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_BREEDS,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_BREEDS,
                         animal.getBreeds().getBreed().toString());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SEX,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SEX,
                         animal.getSex().getAnimalSex());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_DESCRIPTION,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_DESCRIPTION,
                         animal.getDescription().getAnimalDescription());
-                values.put(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE,
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE,
                         animal.getLastUpdate().getLastUpdate());
-                db.insert(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_TABLE_NAME,
+                db.insert(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_TABLE_NAME,
                         null, values);
             }
         }
@@ -169,7 +168,7 @@ public class TaggedAnimalsDbDao {
     public static List<StringPet> readAllTaggedAnimals(){
         if(db != null){
             Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s;",
-                    TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME),
+                    AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME),
                     null);
             List<StringPet> pets = new ArrayList<>();
             while(cursor.moveToNext()){
@@ -186,7 +185,7 @@ public class TaggedAnimalsDbDao {
     public static List<StringPet> readAllAnimalsHistory(){
         if(db != null){
             Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s;",
-                    TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_TABLE_NAME),
+                    AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_TABLE_NAME),
                     null);
             List<StringPet> pets = new ArrayList<>();
             while(cursor.moveToNext()){
@@ -203,8 +202,8 @@ public class TaggedAnimalsDbDao {
     public static void deleteAnimalEntry(StringPet pet){
         if(db != null){
             String where = String.format("%s = %s",
-                    TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID, pet.getsId());
-            db.delete(TaggedAnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME, where, null);
+                    AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID, pet.getsId());
+            db.delete(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME, where, null);
         }
     }
 
@@ -226,47 +225,47 @@ public class TaggedAnimalsDbDao {
     private static StringPet getAnimalData(Cursor cursor){
         int index;
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID);
         String id = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_OPTIONS);
         String options = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_CONTACT);
         String contact = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_AGE);
         String age = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SIZE);
         String size  = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_IMAGE_URL);
         String imageUrl = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_BREEDS);
         String breeds = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_NAME);
         String name = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SEX);
         String sex = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DESCRIPTION);
         String desc = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE);
+                AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE);
         String lastUpdate = cursor.getString(index);
 
         return new StringPet(
@@ -276,47 +275,47 @@ public class TaggedAnimalsDbDao {
     private static StringPet getAnimalHistoryData(Cursor cursor){
         int index;
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_ID);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_ID);
         String id = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_OPTIONS);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_OPTIONS);
         String options = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_CONTACT);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_CONTACT);
         String contact = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_AGE);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_AGE);
         String age = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SIZE);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SIZE);
         String size  = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_IMAGE_URL);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_IMAGE_URL);
         String imageUrl = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_BREEDS);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_BREEDS);
         String breeds = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_NAME);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_NAME);
         String name = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SEX);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SEX);
         String sex = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_DESCRIPTION);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_DESCRIPTION);
         String desc = cursor.getString(index);
 
         index = cursor.getColumnIndexOrThrow(
-                TaggedAnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE);
+                AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_LAST_UPDATE);
         String lastUpdate = cursor.getString(index);
 
         return new StringPet(
