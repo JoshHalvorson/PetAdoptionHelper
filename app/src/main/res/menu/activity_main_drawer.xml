@@ -16,6 +16,11 @@
             android:id="@+id/nav_favorite_pets"
             android:icon="@drawable/vd_favorite_icon"
             android:title="Favorite Pets" />
+
+        <item
+            android:id="@+id/nav_pets_history"
+            android:icon="@drawable/vd_favorite_icon"
+            android:title="Viewed Animals" />
     </group>
 
 </menu>

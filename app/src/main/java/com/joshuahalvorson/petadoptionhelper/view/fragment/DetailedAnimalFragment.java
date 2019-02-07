@@ -95,6 +95,8 @@ public class DetailedAnimalFragment extends Fragment {
 
         reference = FirebaseDatabase.getInstance().getReference();
 
+        TaggedAnimalsDbDao.createAnimalHistoryEntry(pet);
+
         List<String> chars = new ArrayList<>();
         chars.add("\\[");
         chars.add("\\]");

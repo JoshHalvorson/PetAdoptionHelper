@@ -25,6 +25,7 @@ import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
+import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalViewedHistoryFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedAnimalFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedShelterFragment;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.DetailedStringAnimalFragment;
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity
         AnimalListFragment.OnFragmentInteractionListener,
         ShelterListFragment.OnFragmentInteractionListener,
         DetailedAnimalFragment.OnFragmentInteractionListener,
-        TaggedAnimalsFragment.OnFragmentInteractionListener{
+        TaggedAnimalsFragment.OnFragmentInteractionListener,
+        AnimalViewedHistoryFragment.OnFragmentInteractionListener{
 
 
 
@@ -142,6 +144,12 @@ public class MainActivity extends AppCompatActivity
                         .replace(R.id.fragment_container, new TaggedAnimalsFragment())
                         .commit();
                 break;
+            case R.id.nav_pets_history:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new AnimalViewedHistoryFragment())
+                        .commit();
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -185,6 +193,21 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .add(R.id.fragment_container, DetailedShelterFragment.newInstance(shelter))
                 .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onHistoryAnimalListFragmentInteraction(StringPet item) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("stringPet", item);
+        DetailedStringAnimalFragment detailedStringAnimalFragment =
+                new DetailedStringAnimalFragment();
+        detailedStringAnimalFragment.setArguments(bundle);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, detailedStringAnimalFragment)
+                .addToBackStack("animalHistory")
                 .commit();
     }
 }
