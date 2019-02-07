@@ -133,7 +133,7 @@ public class AnimalListFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() - 1){
-                    pageOffset += 25;
+                    pageOffset += 100;
                     progressCircle.setVisibility(View.VISIBLE);
                     getPetList(zipcode, Integer.toString(pageOffset),
                             filterAnimal, filterBreed, filterSize, filterSex, filterAge);
@@ -312,7 +312,7 @@ public class AnimalListFragment extends Fragment {
     public void getPetList(int zipcode, String offset,
                             String animal, String breed, String size, String sex, String age) {
         LiveData<AnimalsOverview> data = viewModel.getPetsInArea(zipcode, "json", offset,
-                animal, breed, size, sex, age);
+                "100", animal, breed, size, sex, age);
         data.observe(this, new Observer<AnimalsOverview>() {
             @Override
             public void onChanged(@Nullable AnimalsOverview animalsOverview) {

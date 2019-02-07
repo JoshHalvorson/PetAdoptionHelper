@@ -19,6 +19,7 @@ public interface PetFinderApiInterface {
             @Query("location") int zip,
             @Query("format") String format,
             @Query("offset") String offset,
+            @Query("count") String count,
 
             @Query("animal") String animal,
             @Query("breed") String breed,

@@ -34,7 +34,7 @@ public class PetFinderApiRepository {
     public static ShelterPetfinder shelterPetfinder;
 
     public static MutableLiveData<AnimalsOverview> getPetsInArea(
-            int zipcode, String format, String offset,
+            int zipcode, String format, String offset, String count,
             String animal, String breed, String size, String sex, String age){
 
         /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -50,7 +50,7 @@ public class PetFinderApiRepository {
 
         final MutableLiveData<AnimalsOverview> data = new MutableLiveData<>();
         Call<AnimalsOverview> call = client.getPetsInLocation(Key.API_KEY, zipcode, format, offset,
-                animal, breed, size, sex, age);
+                count, animal, breed, size, sex, age);
         call.enqueue(new Callback<AnimalsOverview>() {
             @Override
             public void onResponse(Call<AnimalsOverview> call, Response<AnimalsOverview> response) {
