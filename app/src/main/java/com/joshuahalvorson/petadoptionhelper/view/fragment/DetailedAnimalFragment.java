@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,9 +57,11 @@ public class DetailedAnimalFragment extends Fragment {
     private ImageView petImage;
     private FloatingActionButton favoriteButton;
 
-    List<String> chars;
+    private ImageButton mailButton, phoneButton, mapsButton;
 
-    DatabaseReference reference;
+    private List<String> chars;
+
+    private DatabaseReference reference;
 
     private PetFinderApiViewModel viewModel;
 
@@ -108,6 +111,10 @@ public class DetailedAnimalFragment extends Fragment {
         petContactEmail = view.findViewById(R.id.pet_contact_email);
         petContactAddress = view.findViewById(R.id.pet_contact_address);
         favoriteButton = view.findViewById(R.id.favorite_button);
+
+        mailButton = view.findViewById(R.id.mail_button);
+        phoneButton = view.findViewById(R.id.phone_button);
+        mapsButton = view.findViewById(R.id.maps_button);
 
         viewModel = ViewModelProviders.of(getActivity()).get(PetFinderApiViewModel.class);
 
@@ -191,6 +198,39 @@ public class DetailedAnimalFragment extends Fragment {
         }else{
             petOptions.setText(getString(R.string.options_default_text));
         }
+
+        mailButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_mail_animation));
+        mailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Drawable drawable = mailButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+            }
+        });
+
+        phoneButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_maps_animation));
+        phoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Drawable drawable = phoneButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+            }
+        });
+
+        mapsButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_phone_animation));
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Drawable drawable = mapsButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+            }
+        });
 
         //can throw error
         List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();

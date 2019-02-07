@@ -47,6 +47,30 @@
                         android:contentDescription="@string/animals_picture_content_desc" />
                 </FrameLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/mail_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="#00FFFFFF" />
+
+                    <ImageButton
+                        android:id="@+id/phone_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="#00FFFFFF" />
+
+                    <ImageButton
+                        android:id="@+id/maps_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="#00FFFFFF" />
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/pet_name"
                     android:layout_width="match_parent"
