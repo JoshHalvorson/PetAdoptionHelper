@@ -79,9 +79,6 @@ public class TaggedAnimalsFragment extends Fragment {
 
         adapter = new TaggedPetListRecyclerViewAdapter(taggedPetsList, mListener);
 
-        taggedPetsList.addAll(AnimalsDbDao.readAllTaggedAnimals());
-        adapter.notifyDataSetChanged();
-
         recyclerView.setAdapter(adapter);
 
     }
@@ -101,46 +98,36 @@ public class TaggedAnimalsFragment extends Fragment {
     }
 
     private void updateLocalDb(){
-        // Read from the database
-        final List<StringPet> tempList = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.child("users")
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child("animals").getChildren()){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot snapshot : dataSnapshot.child("users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("animals").getChildren()){
 
-                    AnimalId petFromFb = snapshot.getValue(AnimalId.class);
+                        AnimalId petFromFb = snapshot.getValue(AnimalId.class);
 
-                    StringPet stringPet = new StringPet(petFromFb);
+                        StringPet stringPet = new StringPet(petFromFb);
 
-                    tempList.add(stringPet);
-
-                    //adapter.notifyDataSetChanged();
-                }
-                addToPetsList(tempList);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-            });
-
-    }
-
-    public void addToPetsList(List<StringPet> tempList){
-        for(int i = 0; i < taggedPetsList.size() - 1; i++){
-            for(int j = 0; j < tempList.size() - 1; i++){
-                if(!tempList.get(j).getsId().equals(taggedPetsList.get(i).getsId())){
-                    taggedPetsList.add(tempList.get(j));
-                    AnimalsDbDao.createAnimalEntryFromStringPet(tempList.get(j));
+                        taggedPetsList.add(stringPet);
+                    }
                     adapter.notifyDataSetChanged();
                 }
-            }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+
+            });
+        }else{
+            taggedPetsList.clear();
+            taggedPetsList.addAll(AnimalsDbDao.readAllTaggedAnimals());
+            adapter.notifyDataSetChanged();
         }
         loadingCircle.setVisibility(View.GONE);
+
     }
 
     private void updateFirebaseDb() {
