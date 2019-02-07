@@ -299,6 +299,8 @@ public class DetailedAnimalFragment extends Fragment {
             }
         });
 
+        AnimalsDbDao.createAnimalHistoryEntry(pet, dist, shelterName);
+
     }
 
     private void getShelterData(){
