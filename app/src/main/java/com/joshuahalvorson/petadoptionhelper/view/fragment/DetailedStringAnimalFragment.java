@@ -87,12 +87,20 @@ public class DetailedStringAnimalFragment extends Fragment {
         petSex.setText("Sex: " + pet.getsSex());
         petSize.setText("Size: " + pet.getsSize());
         petDesc.setText(pet.getsDescription());
-        String[] contactString = pet.getsContact().split("/n");
+
+        String[] contactString = pet.getsContact().split("\n");
 
         if (contactString.length >= 3){
             petContactPhone.setText(contactString[0]);
             petContactEmail.setText(contactString[1]);
             petContactAddress.setText(contactString[2]);
+        }else{
+            contactString = pet.getsContact().split("/n");
+            if (contactString.length >= 3){
+                petContactPhone.setText(contactString[0]);
+                petContactEmail.setText(contactString[1]);
+                petContactAddress.setText(contactString[2]);
+            }
         }
 
 
