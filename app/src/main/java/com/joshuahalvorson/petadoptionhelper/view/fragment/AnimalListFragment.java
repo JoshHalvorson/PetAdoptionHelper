@@ -60,7 +60,7 @@ public class AnimalListFragment extends Fragment {
 
     private List<Pet> petList;
 
-    public static int pageOffset = 0;
+    public int pageOffset = 0;
 
     private ProgressBar progressCircle;
 
@@ -137,6 +137,7 @@ public class AnimalListFragment extends Fragment {
                     progressCircle.setVisibility(View.VISIBLE);
                     getPetList(zipcode, Integer.toString(pageOffset),
                             filterAnimal, filterBreed, filterSize, filterSex, filterAge);
+
                 }
             }
         });
@@ -341,8 +342,10 @@ public class AnimalListFragment extends Fragment {
                                                 return LinearSmoothScroller.SNAP_TO_START;
                                             }
                                         };
-                                smoothScroller.setTargetPosition(pageOffset);
-                                layoutManager.startSmoothScroll(smoothScroller);
+                                if(pageOffset != 0){
+                                    smoothScroller.setTargetPosition(pageOffset);
+                                    layoutManager.startSmoothScroll(smoothScroller);
+                                }
                             }
                         }
                     }
@@ -366,8 +369,14 @@ public class AnimalListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        pageOffset = 0;
+    }
 
     private void getLocation() {
         if (ActivityCompat
