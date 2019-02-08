@@ -209,6 +209,7 @@ public class DetailedStringAnimalFragment extends Fragment {
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
         emailIntent.putExtra(Intent.EXTRA_CC, cc);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "About " + pet.getsName());
         startActivity(emailIntent);
     }
 
