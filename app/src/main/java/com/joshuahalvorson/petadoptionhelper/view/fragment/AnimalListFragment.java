@@ -282,13 +282,16 @@ public class AnimalListFragment extends Fragment {
                     breed = animalBreedsSpinner.getSelectedItem().toString();
                 }
 
-                if(animalBreedsSpinner.getSelectedItem().toString().equals("All")){
+                if(animalBreedsSpinner.getVisibility() == View.VISIBLE){
+                    if(animalBreedsSpinner.getSelectedItem().toString().equals("All")){
+                        breed = "";
+                    }
+                }else if (animalBreedsSpinner.getVisibility() == View.GONE){
                     breed = "";
                 }
 
-                if (animalBreedsSpinner.getVisibility() == View.GONE){
-                    breed = "";
-                }
+
+
 
                 filterPetList(zipcode, "", animal, breed, size, sex, age);
                 filterView.setVisibility(View.GONE);
