@@ -142,7 +142,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
                     ref.removeValue();
                 }
 
-                TaggedAnimalsFragment.refreshList();
+                TaggedAnimalsFragment.refreshList(i);
             }
         });
     }

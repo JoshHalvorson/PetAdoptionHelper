@@ -82,9 +82,9 @@ public class TaggedAnimalsFragment extends Fragment {
 
     }
 
-    public static void refreshList(){
-        taggedPetsList.clear();
-        taggedPetsList.addAll(AnimalsDbDao.readAllTaggedAnimals());
+    public static void refreshList(int i){
+        taggedPetsList.remove(i);
+        //taggedPetsList.addAll(AnimalsDbDao.readAllTaggedAnimals());
         adapter.notifyDataSetChanged();
     }
 
