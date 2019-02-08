@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -53,6 +54,8 @@ public class AnimalHistoryListRecyclerViewAdapter extends RecyclerView.Adapter<A
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         final StringPet pet = petList.get(i);
         viewHolder.petName.setText(pet.getsName());
+
+        viewHolder.imageButton.setVisibility(View.GONE);
 
         String imageUrl = pet.getsMedia();
         if(imageUrl != null){
@@ -113,15 +116,6 @@ public class AnimalHistoryListRecyclerViewAdapter extends RecyclerView.Adapter<A
                 }
             }
         });
-
-        viewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                AnimalsDbDao.deleteAnimalEntry(pet);
-                TaggedAnimalsFragment.refreshList();
-                return true;
-            }
-        });
     }
 
     @Override
@@ -136,6 +130,7 @@ public class AnimalHistoryListRecyclerViewAdapter extends RecyclerView.Adapter<A
         TextView petName, petDesc, lastUpdated, distance, shelterName;
         ImageView petImage;
         ProgressBar loadingCircle;
+        ImageButton imageButton;
 
         public ViewHolder(View view) {
             super(view);
@@ -147,6 +142,7 @@ public class AnimalHistoryListRecyclerViewAdapter extends RecyclerView.Adapter<A
             distance = view.findViewById(R.id.pet_distance);
             shelterName = view.findViewById(R.id.pet_shelter_name);
             loadingCircle = view.findViewById(R.id.list_element_loading_circle);
+            imageButton = view.findViewById(R.id.remove_button);
         }
 
         @Override

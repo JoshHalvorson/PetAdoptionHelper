@@ -1,6 +1,7 @@
 package com.joshuahalvorson.petadoptionhelper.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -118,9 +120,17 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
             }
         });
 
-        viewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
+        viewHolder.imageButton.setImageDrawable(
+                context.getResources().getDrawable(R.drawable.avd_anim_clear_animation));
+
+        viewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
+                Drawable drawable = viewHolder.imageButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+
                 AnimalsDbDao.deleteAnimalEntry(pet);
 
                 if(FirebaseAuth.getInstance().getCurrentUser() != null){
@@ -133,7 +143,6 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
                 }
 
                 TaggedAnimalsFragment.refreshList();
-                return true;
             }
         });
     }
@@ -150,6 +159,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
         TextView petName, petDesc, lastUpdated, distance, shelterName;
         ImageView petImage;
         ProgressBar loadingCircle;
+        ImageButton imageButton;
 
         public ViewHolder(View view) {
             super(view);
@@ -161,6 +171,7 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
             distance = view.findViewById(R.id.pet_distance);
             shelterName = view.findViewById(R.id.pet_shelter_name);
             loadingCircle = view.findViewById(R.id.list_element_loading_circle);
+            imageButton = view.findViewById(R.id.remove_button);
         }
 
         @Override

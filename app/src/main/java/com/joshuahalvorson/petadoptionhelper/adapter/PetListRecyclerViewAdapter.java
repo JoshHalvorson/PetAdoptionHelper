@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -75,6 +76,8 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         final Pet pet = petList.get(i);
         viewHolder.petName.setText(pet.getName().getAnimalName());
+
+        viewHolder.imageButton.setVisibility(View.GONE);
 
         List<Photo> photoList;
         Photos photos= pet.getMedia().getPhotos();
@@ -214,6 +217,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
         TextView petName, petDesc, lastUpdated, distance, shelterName;
         ImageView petImage;
         ProgressBar loadingCircle;
+        ImageButton imageButton;
 
         public ViewHolder(View view) {
             super(view);
@@ -225,6 +229,7 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             distance = view.findViewById(R.id.pet_distance);
             shelterName = view.findViewById(R.id.pet_shelter_name);
             loadingCircle = view.findViewById(R.id.list_element_loading_circle);
+            imageButton = view.findViewById(R.id.remove_button);
         }
 
         @Override

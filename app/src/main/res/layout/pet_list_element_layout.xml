@@ -90,7 +90,15 @@
                 android:text="TextView"
                 android:textSize="14sp" />
 
+            <ImageButton
+                android:id="@+id/remove_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="#00FFFFFF" />
+
         </LinearLayout>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
