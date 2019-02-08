@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -21,10 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
-import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalViewedHistoryFragment;
-import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
-
 import java.util.List;
 
 public class AnimalHistoryListRecyclerViewAdapter extends RecyclerView.Adapter<AnimalHistoryListRecyclerViewAdapter.ViewHolder> {

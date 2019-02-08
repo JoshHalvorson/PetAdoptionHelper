@@ -97,7 +97,6 @@ public class DetailedShelterFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == petsList.size() - 1){
                     pageOffset += 25;
-                    //progressCircle.setVisibility(View.VISIBLE);
                     getPetsInShelter(shelter.getId().getId(), Integer.toString(pageOffset));
                 }
             }
@@ -108,6 +107,7 @@ public class DetailedShelterFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
 
         getPetsInShelter(shelter.getId().getId(), Integer.toString(pageOffset));

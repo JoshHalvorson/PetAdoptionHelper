@@ -1,12 +1,10 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
-import android.Manifest;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -14,9 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,15 +39,12 @@ import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
 import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
-import com.joshuahalvorson.petadoptionhelper.view.MainActivity;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailedAnimalFragment extends Fragment {
-    private static final String TAG = "DetailedAnimalFragment";
     private static final String ARG_PARAM1 = "param1";
     private Pet pet;
 
@@ -240,7 +233,6 @@ public class DetailedAnimalFragment extends Fragment {
             }
         });
 
-        //can throw error
         if(pet.getMedia().getPhotos() != null){
             List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
             Glide.with(getContext())
@@ -307,7 +299,6 @@ public class DetailedAnimalFragment extends Fragment {
 
     public void addAnimalToDb(String finalPhone, String finalEmail, String finalAddress,
                               String finalCity, String finalState, String finalZip) {
-        
         AnimalsDbDao.createAnimalEntry(pet, dist, shelterName);
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             StringPet stringPet = new StringPet(pet, dist, shelterName);
@@ -383,8 +374,8 @@ public class DetailedAnimalFragment extends Fragment {
         shelterData.observe(getViewLifecycleOwner(), new Observer<SheltersOverview>() {
             @Override
             public void onChanged(@Nullable SheltersOverview sheltersOverview) {
-                double lat = 0;
-                double lon = 0;
+                double lat;
+                double lon;
                 if (sheltersOverview != null) {
                     ShelterPetfinder petfinder = sheltersOverview.getPetfinder();
                     if(petfinder !=  null){
@@ -465,12 +456,6 @@ public class DetailedAnimalFragment extends Fragment {
             string = string.replaceAll(charactersToRemove.get(i), "");
         }
         return string;
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onDetailedAnimalFragmentInteraction(uri);
-        }
     }
 
     @Override

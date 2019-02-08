@@ -20,14 +20,9 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.joshuahalvorson.petadoptionhelper.R;
-import com.joshuahalvorson.petadoptionhelper.animal.AnimalId;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.TaggedAnimalsFragment;
@@ -102,14 +97,10 @@ public class TaggedPetListRecyclerViewAdapter extends RecyclerView.Adapter<Tagge
         }
 
         String distance = pet.getsDistance();
-        //if(distance != null){
-            viewHolder.distance.setText(distance + " Miles");
-        //}
+        viewHolder.distance.setText(distance + " Miles");
 
         String shelterName = pet.getsShelterName();
-        //if(shelterName != null){
-            viewHolder.shelterName.setText("Shelter: " + shelterName);
-        //}
+        viewHolder.shelterName.setText("Shelter: " + shelterName);
 
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override

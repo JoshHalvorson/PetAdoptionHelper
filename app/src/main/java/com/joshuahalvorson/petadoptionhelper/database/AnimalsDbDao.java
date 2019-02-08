@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import java.util.ArrayList;
@@ -23,7 +22,8 @@ public class AnimalsDbDao {
 
     public static void createAnimalEntry(Pet animal, String dist, String shelterName){
         if(db != null){
-            if (checkAnimalExists("animals", "animal_id", animal.getId().getAnimalId())){
+            if (checkAnimalExists("animals", "animal_id", animal.getId()
+                    .getAnimalId())){
                 ContentValues values = new ContentValues();
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
                         animal.getId().getAnimalId());
@@ -99,7 +99,8 @@ public class AnimalsDbDao {
 
     public static void createAnimalEntryFromStringPet(StringPet animal){
         if(db != null){
-            if (!checkAnimalExists(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME, "animal_id", animal.getsId())){
+            if (!checkAnimalExists(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
+                    "animal_id", animal.getsId())){
                 ContentValues values = new ContentValues();
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
                         animal.getsId());
@@ -137,7 +138,8 @@ public class AnimalsDbDao {
 
     public static void createAnimalHistoryEntry(Pet animal, String dist, String shelterName){
         if(db != null){
-            if (checkAnimalExists("animals_history", "animal_id", animal.getId().getAnimalId())){
+            if (checkAnimalExists("animals_history", "animal_id", animal.getId()
+                    .getAnimalId())){
                 ContentValues values = new ContentValues();
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_ID,
                         animal.getId().getAnimalId());

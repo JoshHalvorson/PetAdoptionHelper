@@ -72,19 +72,6 @@ public class AnimalViewedHistoryFragment extends Fragment {
 
     }
 
-    public static void refreshList(){
-        animalHistoryList.clear();
-        animalHistoryList.addAll(AnimalsDbDao.readAllTaggedAnimals());
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

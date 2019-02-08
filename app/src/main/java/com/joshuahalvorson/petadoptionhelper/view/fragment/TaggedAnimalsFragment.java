@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,8 +34,6 @@ public class TaggedAnimalsFragment extends Fragment {
     private static TaggedPetListRecyclerViewAdapter adapter;
 
     private static List<StringPet> taggedPetsList;
-
-    private PetFinderApiViewModel viewModel;
 
     private ProgressBar loadingCircle;
 
@@ -60,8 +57,6 @@ public class TaggedAnimalsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
-
         loadingCircle = view.findViewById(R.id.favorite_animals_loading_circle);
 
         taggedPetsList = new ArrayList<>();
@@ -84,7 +79,6 @@ public class TaggedAnimalsFragment extends Fragment {
 
     public static void refreshList(int i){
         taggedPetsList.remove(i);
-        //taggedPetsList.addAll(AnimalsDbDao.readAllTaggedAnimals());
         adapter.notifyDataSetChanged();
     }
 

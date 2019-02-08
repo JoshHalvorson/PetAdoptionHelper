@@ -8,7 +8,6 @@ import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
-import com.joshuahalvorson.petadoptionhelper.shelter.Shelters;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import java.util.List;
 import retrofit2.Call;
@@ -28,7 +27,6 @@ public class PetFinderApiRepository {
     private static AnimalsOverview animalsOverview;
     private static AnimalsOverview petDataOverview;
     private static SheltersOverview sheltersOverview;
-    private static SheltersOverview shelterDataOvervie;
     private static SheltersOverview petsInShelter;
 
     public static ShelterPetfinder shelterPetfinder;
@@ -36,17 +34,6 @@ public class PetFinderApiRepository {
     public static MutableLiveData<AnimalsOverview> getPetsInArea(
             int zipcode, String format, String offset, String count,
             String animal, String breed, String size, String sex, String age){
-
-        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetFinderApiInterface.base_url)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<AnimalsOverview> data = new MutableLiveData<>();
         Call<AnimalsOverview> call = client.getPetsInLocation(Key.API_KEY, zipcode, format, offset,
@@ -60,7 +47,7 @@ public class PetFinderApiRepository {
 
             @Override
             public void onFailure(Call<AnimalsOverview> call, Throwable t) {
-                Log.i("animalOverviewResult", t.getLocalizedMessage());
+
             }
         });
         return data;
@@ -68,17 +55,6 @@ public class PetFinderApiRepository {
 
     public static MutableLiveData<SheltersOverview> getSheltersInArea(
             int zipcode, String format, String offset){
-
-        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetFinderApiInterface.base_url)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<SheltersOverview> data = new MutableLiveData<>();
         Call<SheltersOverview> call =
@@ -93,7 +69,7 @@ public class PetFinderApiRepository {
 
             @Override
             public void onFailure(Call<SheltersOverview> call, Throwable t) {
-                Log.i("shelterOverviewResult", t.getLocalizedMessage());
+
             }
         });
         return data;
@@ -101,17 +77,6 @@ public class PetFinderApiRepository {
 
     public static MutableLiveData<Pet> getAnimalData(
             String id, String format){
-
-        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetFinderApiInterface.base_url)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<Pet> data = new MutableLiveData<>();
         Call<AnimalsOverview> call =
@@ -127,7 +92,7 @@ public class PetFinderApiRepository {
 
             @Override
             public void onFailure(Call<AnimalsOverview> call, Throwable t) {
-                Log.i("petDataResult", t.getLocalizedMessage());
+
             }
         });
         return data;
@@ -135,17 +100,6 @@ public class PetFinderApiRepository {
 
     public static MutableLiveData<List<Pet>> getPetsInShelter(
             String id, String format, String offset){
-
-        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetFinderApiInterface.base_url)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<List<Pet>> data = new MutableLiveData<>();
         Call<SheltersOverview> call = client.getPetsInShelter(Key.API_KEY, id, format, offset);
@@ -160,24 +114,13 @@ public class PetFinderApiRepository {
 
             @Override
             public void onFailure(Call<SheltersOverview> call, Throwable t) {
-                Log.i("petsInShelterDataResult", t.getLocalizedMessage());
+
             }
         });
         return data;
     }
 
     public static MutableLiveData<BreedsOverview> getBreedsForAnimal(String format, String animal){
-
-        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetFinderApiInterface.base_url)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<BreedsOverview> data = new MutableLiveData<>();
         Call<BreedsOverview> call = client.getBreedsForAnimal(Key.API_KEY, format, animal);
@@ -189,24 +132,13 @@ public class PetFinderApiRepository {
 
             @Override
             public void onFailure(Call<BreedsOverview> call, Throwable t) {
-                Log.i("breedsForPetResults", t.getLocalizedMessage());
+
             }
         });
         return data;
     }
 
     public static MutableLiveData<SheltersOverview> getShelterData(String id, String format){
-
-        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetFinderApiInterface.base_url)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        PetFinderApiInterface client = retrofit.create(PetFinderApiInterface.class);*/
 
         final MutableLiveData<SheltersOverview> data = new MutableLiveData<>();
         Call<SheltersOverview> call = client.getShelterData(Key.API_KEY, id, format);
@@ -218,7 +150,7 @@ public class PetFinderApiRepository {
 
             @Override
             public void onFailure(Call<SheltersOverview> call, Throwable t) {
-                Log.i("shelterDataResult", t.getLocalizedMessage());
+
             }
         });
         return data;
