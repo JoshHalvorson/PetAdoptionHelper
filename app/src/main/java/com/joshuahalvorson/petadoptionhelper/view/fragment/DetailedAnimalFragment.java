@@ -300,74 +300,80 @@ public class DetailedAnimalFragment extends Fragment {
                 if(drawable instanceof Animatable){
                     ((Animatable) drawable).start();
                 }
-                AnimalsDbDao.createAnimalEntry(pet, dist, shelterName);
-                if(FirebaseAuth.getInstance().getCurrentUser() != null){
-                    StringPet stringPet = new StringPet(pet, dist, shelterName);
-
-                    stringPet.setsContact("Phone: " + finalPhone + "/n" +
-
-                                    "Email: " + finalEmail + "/n" +
-
-                                    "Location: " + finalAddress + ", " + finalCity + ", " +
-                                    finalState + " " + finalZip
-                            );
-
-                    stringPet.setsBreeds(removeCharsFromString(stringPet.getsBreeds(), chars));
-                    stringPet.setsOptions(removeCharsFromString(stringPet.getsOptions(), chars));
-
-                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("options").setValue(stringPet.getsOptions());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("contact").setValue(stringPet.getsContact());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("age").setValue(stringPet.getsAge());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("size").setValue(stringPet.getsSize());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("media").setValue(stringPet.getsMedia());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("id").setValue(stringPet.getsId());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("breeds").setValue(stringPet.getsBreeds());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("name").setValue(stringPet.getsName());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("sex").setValue(stringPet.getsSex());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("description").setValue(stringPet.getsDescription());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("last_update").setValue(stringPet.getsLastUpdate());
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("shelter_name").setValue(shelterName);
-                    reference.child("users").child(userId).child("animals")
-                            .child(stringPet.getsId())
-                            .child("distance").setValue(dist);
-
-                    Toast.makeText(getContext(), pet.getName().getAnimalName() +
-                                    " added to your favorites!",
-                            Toast.LENGTH_SHORT).show();
-
-                }else{
-                    Toast.makeText(getContext(), pet.getName().getAnimalName() +
-                                    " added to your favorites! (not synced online)",
-                            Toast.LENGTH_SHORT).show();
-                }
+                addAnimalToDb(finalPhone, finalEmail, finalAddress, finalCity, finalState, finalZip);
             }
         });
+    }
+
+    public void addAnimalToDb(String finalPhone, String finalEmail, String finalAddress,
+                              String finalCity, String finalState, String finalZip) {
+        
+        AnimalsDbDao.createAnimalEntry(pet, dist, shelterName);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            StringPet stringPet = new StringPet(pet, dist, shelterName);
+
+            stringPet.setsContact("Phone: " + finalPhone + "/n" +
+
+                            "Email: " + finalEmail + "/n" +
+
+                            "Location: " + finalAddress + ", " + finalCity + ", " +
+                            finalState + " " + finalZip
+                    );
+
+            stringPet.setsBreeds(removeCharsFromString(stringPet.getsBreeds(), chars));
+            stringPet.setsOptions(removeCharsFromString(stringPet.getsOptions(), chars));
+
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("options").setValue(stringPet.getsOptions());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("contact").setValue(stringPet.getsContact());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("age").setValue(stringPet.getsAge());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("size").setValue(stringPet.getsSize());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("media").setValue(stringPet.getsMedia());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("id").setValue(stringPet.getsId());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("breeds").setValue(stringPet.getsBreeds());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("name").setValue(stringPet.getsName());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("sex").setValue(stringPet.getsSex());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("description").setValue(stringPet.getsDescription());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("last_update").setValue(stringPet.getsLastUpdate());
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("shelter_name").setValue(shelterName);
+            reference.child("users").child(userId).child("animals")
+                    .child(stringPet.getsId())
+                    .child("distance").setValue(dist);
+
+            Toast.makeText(getContext(), pet.getName().getAnimalName() +
+                            " added to your favorites!",
+                    Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(getContext(), pet.getName().getAnimalName() +
+                            " added to your favorites! (not synced online)",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getShelterData(){
