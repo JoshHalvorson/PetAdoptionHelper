@@ -235,30 +235,30 @@ public class DetailedStringAnimalFragment extends Fragment {
                         .centerInside())
                 .into(petImage);
 
-        if(favoriteButton.getVisibility() == View.VISIBLE){
-            favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
-            favoriteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
-                    final Drawable drawable = favoriteButton.getDrawable();
-                    if(drawable instanceof Animatable){
-                        ((Animatable) drawable).start();
-                    }
+        if(favoriteButton != null){
+            if(favoriteButton.getVisibility() == View.VISIBLE){
+                favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
+                favoriteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
+                        final Drawable drawable = favoriteButton.getDrawable();
+                        if(drawable instanceof Animatable){
+                            ((Animatable) drawable).start();
+                        }
 
-                    if(AnimalsDbDao.checkAnimalExists("animals", "animal_id", pet.getsId())) {
-                        AnimalsDbDao.createAnimalEntryFromStringPet(pet);
-                        Toast.makeText(getContext(), pet.getsName() +
-                                " added to your favorites!", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getContext(), pet.getsName() +
-                                " is already added to your favorites!", Toast.LENGTH_SHORT).show();
+                        if(AnimalsDbDao.checkAnimalExists("animals", "animal_id", pet.getsId())) {
+                            AnimalsDbDao.createAnimalEntryFromStringPet(pet);
+                            Toast.makeText(getContext(), pet.getsName() +
+                                    " added to your favorites!", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getContext(), pet.getsName() +
+                                    " is already added to your favorites!", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
-
+                });
+            }
         }
-
     }
 
     private void sendEmailToShelter() {
