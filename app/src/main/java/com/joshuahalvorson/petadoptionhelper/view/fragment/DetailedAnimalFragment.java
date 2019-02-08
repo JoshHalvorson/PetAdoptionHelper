@@ -425,7 +425,7 @@ public class DetailedAnimalFragment extends Fragment {
     }
 
     private void openMapsToShelter(){
-        Uri locUri = Uri.parse("geo:0,0$q=1600" + pet.getContact().getAddress1().getAddress() + "," +
+        Uri locUri = Uri.parse("geo:0,0?q=1600 " + pet.getContact().getAddress1().getAddress() + "," +
                 pet.getContact().getState().getState());
         Intent setDestinationIntent = new Intent(Intent.ACTION_VIEW, locUri);
         setDestinationIntent.setPackage("com.google.android.apps.maps");

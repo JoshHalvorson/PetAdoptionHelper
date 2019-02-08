@@ -214,7 +214,8 @@ public class DetailedStringAnimalFragment extends Fragment {
 
     private void callShelter() {
         if(!petContactPhone.getText().toString().contains("Phone unknown")){
-            Uri uri = Uri.parse("tel:" + phone);
+            String[] phoneList = phone.split(":");
+            Uri uri = Uri.parse("tel:" + phoneList[1]);
             Intent callIntent = new Intent(Intent.ACTION_DIAL, uri);
             try {
                 startActivity(callIntent);
@@ -229,7 +230,7 @@ public class DetailedStringAnimalFragment extends Fragment {
 
     private void openMapsToShelter(){
         if(!petContactAddress.getText().toString().contains("Address unknown")){
-            Uri locUri = Uri.parse("geo:0,0$q=1600" + address);
+            Uri locUri = Uri.parse("geo:0,0?q=1600" + address);
             Intent setDestinationIntent = new Intent(Intent.ACTION_VIEW, locUri);
             setDestinationIntent.setPackage("com.google.android.apps.maps");
             startActivity(setDestinationIntent);
