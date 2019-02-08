@@ -191,8 +191,12 @@ public class AnimalsDbDao {
                         animal.getAge().getAge());
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SIZE,
                         animal.getSize().getAnimalSize());
-                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_IMAGE_URL,
-                        animal.getMedia().getPhotos().getPhoto().get(2).getImageUrl());
+
+                if(animal.getMedia().getPhotos() != null){
+                    values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_IMAGE_URL,
+                            animal.getMedia().getPhotos().getPhoto().get(2).getImageUrl());
+                }
+
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_BREEDS,
                         animal.getBreeds().getBreed().toString());
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_HISTORY_COLUMN_ANIMAL_SEX,

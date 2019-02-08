@@ -241,27 +241,30 @@ public class DetailedAnimalFragment extends Fragment {
         });
 
         //can throw error
-        List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
-        Glide.with(getContext())
-                .load(photoList.get(2).getImageUrl())
-                .addListener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                Target<Drawable> target, boolean isFirstResource) {
-                        return false;
-                    }
+        if(pet.getMedia().getPhotos() != null){
+            List<Photo> photoList = pet.getMedia().getPhotos().getPhoto();
+            Glide.with(getContext())
+                    .load(photoList.get(2).getImageUrl())
+                    .addListener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model,
-                                                   Target<Drawable> target, DataSource dataSource,
-                                                   boolean isFirstResource) {
-                        loadingCircle.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.ic_detailed_pet_image_placeholder))
-                .into(petImage);
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model,
+                                                       Target<Drawable> target, DataSource dataSource,
+                                                       boolean isFirstResource) {
+                            loadingCircle.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_detailed_pet_image_placeholder))
+                    .into(petImage);
+        }
+
 
         final String finalPhone = phone;
         final String finalEmail = email;

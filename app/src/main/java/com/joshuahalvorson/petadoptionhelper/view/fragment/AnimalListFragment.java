@@ -79,6 +79,8 @@ public class AnimalListFragment extends Fragment {
     private Button applyFilter;
     private Spinner animalTypeSpinner, animalSizeSpinner, animalAgeSpinner, animalBreedsSpinner;
 
+    private List<String> stringBreeds;
+
     private List<String> animalTypeSpinnerArray, animalSizeSpinnerArray, animalAgeSpinnerArray;
 
 
@@ -225,7 +227,7 @@ public class AnimalListFragment extends Fragment {
                         public void onChanged(@Nullable BreedsOverview breedsOverview) {
                             List<Breed> breeds =
                                     breedsOverview.getPetfinder().getBreeds().getBreed();
-                            List<String> stringBreeds = new ArrayList<>();
+                            stringBreeds = new ArrayList<>();
                             stringBreeds.add("All");
                             for(Breed breed : breeds){
                                 stringBreeds.add(breed.getBreed());
