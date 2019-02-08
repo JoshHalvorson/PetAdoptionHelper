@@ -3,6 +3,7 @@ package com.joshuahalvorson.petadoptionhelper.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -166,12 +167,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onAnimalListFragmentInteraction(Pet item) {
+        FloatingActionButton fab;
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, DetailedAnimalFragment.newInstance(item))
                 .addToBackStack(null)
                 .commit();
-        findViewById(R.id.filter_options_view).setVisibility(View.GONE);
+
     }
 
     @Override
