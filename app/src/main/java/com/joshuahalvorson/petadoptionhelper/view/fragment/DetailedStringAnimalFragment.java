@@ -1,7 +1,10 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
 
+import android.content.Intent;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,9 +12,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -31,6 +37,10 @@ public class DetailedStringAnimalFragment extends Fragment {
     private ImageView petImage;
 
     private ProgressBar loadingCircle;
+
+    private ImageButton mailButton, phoneButton, mapsButton;
+
+    String email, address, phone;
 
     public DetailedStringAnimalFragment() {
 
@@ -65,6 +75,10 @@ public class DetailedStringAnimalFragment extends Fragment {
         petContactEmail = view.findViewById(R.id.pet_contact_email);
         petContactAddress = view.findViewById(R.id.pet_contact_address);
 
+        mailButton = view.findViewById(R.id.mail_button);
+        phoneButton = view.findViewById(R.id.phone_button);
+        mapsButton = view.findViewById(R.id.maps_button);
+
         view.findViewById(R.id.favorite_button).setVisibility(View.GONE);
 
         loadingCircle = view.findViewById(R.id.pet_image_loading_circle);
@@ -91,15 +105,21 @@ public class DetailedStringAnimalFragment extends Fragment {
         String[] contactString = pet.getsContact().split("\n");
 
         if (contactString.length >= 3){
-            petContactPhone.setText(contactString[0]);
-            petContactEmail.setText(contactString[1]);
-            petContactAddress.setText(contactString[2]);
+            phone = contactString[0];
+            email = contactString[1];
+            address = contactString[2];
+            petContactPhone.setText(phone);
+            petContactEmail.setText(email);
+            petContactAddress.setText(address);
         }else{
             contactString = pet.getsContact().split("/n");
             if (contactString.length >= 3){
-                petContactPhone.setText(contactString[0]);
-                petContactEmail.setText(contactString[1]);
-                petContactAddress.setText(contactString[2]);
+                phone = contactString[0];
+                email = contactString[1];
+                address = contactString[2];
+                petContactPhone.setText(phone);
+                petContactEmail.setText(email);
+                petContactAddress.setText(address);
             }
         }
 
@@ -119,6 +139,42 @@ public class DetailedStringAnimalFragment extends Fragment {
         }else{
             petOptions.setText(getString(R.string.options_default_text));
         }
+
+        mailButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_mail_animation));
+        mailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Drawable drawable = mailButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+                sendEmailToShelter();
+            }
+        });
+
+        phoneButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_phone_animation));
+        phoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Drawable drawable = phoneButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+                callShelter();
+            }
+        });
+
+        mapsButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_maps_animation));
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Drawable drawable = mapsButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+                openMapsToShelter();
+            }
+        });
 
         String imageUrl = pet.getsMedia();
         Glide.with(getContext())
@@ -142,6 +198,44 @@ public class DetailedStringAnimalFragment extends Fragment {
                         .placeholder(R.drawable.ic_detailed_pet_image_placeholder)
                         .centerInside())
                 .into(petImage);
+
+    }
+
+    private void sendEmailToShelter() {
+        String[] to = {email};
+        String[] cc = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
+        emailIntent.putExtra(Intent.EXTRA_CC, cc);
+        startActivity(emailIntent);
+    }
+
+    private void callShelter() {
+        if(!petContactPhone.getText().toString().contains("Phone unknown")){
+            Uri uri = Uri.parse("tel:" + phone);
+            Intent callIntent = new Intent(Intent.ACTION_DIAL, uri);
+            try {
+                startActivity(callIntent);
+            } catch (SecurityException e) {
+                Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(getContext(), "No phone found", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void openMapsToShelter(){
+        if(!petContactAddress.getText().toString().contains("Address unknown")){
+            Uri locUri = Uri.parse("geo:0,0$q=1600" + address);
+            Intent setDestinationIntent = new Intent(Intent.ACTION_VIEW, locUri);
+            setDestinationIntent.setPackage("com.google.android.apps.maps");
+            startActivity(setDestinationIntent);
+        }else{
+            Toast.makeText(getContext(), "No address found", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

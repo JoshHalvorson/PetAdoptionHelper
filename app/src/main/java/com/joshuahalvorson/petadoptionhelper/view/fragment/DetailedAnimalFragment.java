@@ -1,9 +1,12 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
+import android.Manifest;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -11,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +43,7 @@ import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
 import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
 import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
+import com.joshuahalvorson.petadoptionhelper.view.MainActivity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -207,10 +212,11 @@ public class DetailedAnimalFragment extends Fragment {
                 if(drawable instanceof Animatable){
                     ((Animatable) drawable).start();
                 }
+                sendEmailToShelter();
             }
         });
 
-        phoneButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_maps_animation));
+        phoneButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_phone_animation));
         phoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,10 +224,11 @@ public class DetailedAnimalFragment extends Fragment {
                 if(drawable instanceof Animatable){
                     ((Animatable) drawable).start();
                 }
+                callShelter();
             }
         });
 
-        mapsButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_phone_animation));
+        mapsButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_maps_animation));
         mapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,6 +236,7 @@ public class DetailedAnimalFragment extends Fragment {
                 if(drawable instanceof Animatable){
                     ((Animatable) drawable).start();
                 }
+                openMapsToShelter();
             }
         });
 
@@ -392,6 +400,36 @@ public class DetailedAnimalFragment extends Fragment {
             }
             return new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP).doubleValue();
         }
+    }
+
+    private void sendEmailToShelter() {
+        String[] to = {pet.getContact().getEmail().getEmail()};
+        String[] cc = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
+        emailIntent.putExtra(Intent.EXTRA_CC, cc);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "About " + pet.getName().getAnimalName());
+        startActivity(emailIntent);
+    }
+
+    private void callShelter() {
+        Uri uri = Uri.parse("tel:" + pet.getContact().getPhone().getPhone());
+        Intent callIntent = new Intent(Intent.ACTION_DIAL, uri);
+        try {
+            startActivity(callIntent);
+        } catch (SecurityException e) {
+            Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void openMapsToShelter(){
+        Uri locUri = Uri.parse("geo:0,0$q=1600" + pet.getContact().getAddress1().getAddress() + "," +
+                pet.getContact().getState().getState());
+        Intent setDestinationIntent = new Intent(Intent.ACTION_VIEW, locUri);
+        setDestinationIntent.setPackage("com.google.android.apps.maps");
+        startActivity(setDestinationIntent);
     }
 
     private String removeCharsFromString(String string, List<String> charactersToRemove){

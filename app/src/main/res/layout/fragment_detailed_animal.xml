@@ -48,8 +48,9 @@
                 </FrameLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:orientation="horizontal">
 
                     <ImageButton
@@ -59,13 +60,13 @@
                         android:background="#00FFFFFF" />
 
                     <ImageButton
-                        android:id="@+id/phone_button"
+                        android:id="@+id/maps_button"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="#00FFFFFF" />
 
                     <ImageButton
-                        android:id="@+id/maps_button"
+                        android:id="@+id/phone_button"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="#00FFFFFF" />
