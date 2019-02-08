@@ -59,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text="TextView"
+                android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -66,7 +67,9 @@
                 android:id="@+id/pet_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="4sp"
                 android:text="TextView"
+                android:textColor="@android:color/black"
                 android:textSize="14sp" />
 
             <TextView
@@ -75,19 +78,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
+                android:textColor="@android:color/black"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/pet_shelter_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/pet_distance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textColor="@android:color/black"
                 android:textSize="14sp" />
 
             <ImageButton
