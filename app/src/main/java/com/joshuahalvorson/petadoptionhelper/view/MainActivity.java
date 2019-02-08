@@ -153,7 +153,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_pets_history:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new AnimalViewedHistoryFragment())
+                        .replace(R.id.fragment_container, new AnimalViewedHistoryFragment(),
+                                "viewed_history")
                         .commit();
                 getSupportActionBar().setTitle("Viewed Pets");
                 break;

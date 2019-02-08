@@ -99,7 +99,7 @@ public class AnimalsDbDao {
 
     public static void createAnimalEntryFromStringPet(StringPet animal){
         if(db != null){
-            if (!checkAnimalExists(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
+            if (checkAnimalExists(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
                     "animal_id", animal.getsId())){
                 ContentValues values = new ContentValues();
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_ID,
@@ -130,6 +130,10 @@ public class AnimalsDbDao {
                         animal.getsDescription());
                 values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_LAST_UPDATE,
                         animal.getsLastUpdate());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_DISTANCE,
+                        animal.getsDistance());
+                values.put(AnimalsDbContract.AnimalEntry.ANIMALS_COLUMN_ANIMAL_SHELTER,
+                        animal.getsShelterName());
                 db.insert(AnimalsDbContract.AnimalEntry.ANIMALS_TABLE_NAME,
                         null, values);
             }

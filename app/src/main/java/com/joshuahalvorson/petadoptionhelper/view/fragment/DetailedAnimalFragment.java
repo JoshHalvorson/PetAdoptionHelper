@@ -297,72 +297,78 @@ public class DetailedAnimalFragment extends Fragment {
         });
     }
 
-    public void addAnimalToDb(String finalPhone, String finalEmail, String finalAddress,
+    private void addAnimalToDb(String finalPhone, String finalEmail, String finalAddress,
                               String finalCity, String finalState, String finalZip) {
-        AnimalsDbDao.createAnimalEntry(pet, dist, shelterName);
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            StringPet stringPet = new StringPet(pet, dist, shelterName);
+        if(AnimalsDbDao.checkAnimalExists("animals", "animal_id", pet.getId().getAnimalId())){
+            AnimalsDbDao.createAnimalEntry(pet, dist, shelterName);
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                StringPet stringPet = new StringPet(pet, dist, shelterName);
 
-            stringPet.setsContact("Phone: " + finalPhone + "/n" +
+                stringPet.setsContact("Phone: " + finalPhone + "/n" +
 
-                            "Email: " + finalEmail + "/n" +
+                        "Email: " + finalEmail + "/n" +
 
-                            "Location: " + finalAddress + ", " + finalCity + ", " +
-                            finalState + " " + finalZip
-                    );
+                        "Location: " + finalAddress + ", " + finalCity + ", " +
+                        finalState + " " + finalZip
+                );
 
-            stringPet.setsBreeds(removeCharsFromString(stringPet.getsBreeds(), chars));
-            stringPet.setsOptions(removeCharsFromString(stringPet.getsOptions(), chars));
+                stringPet.setsBreeds(removeCharsFromString(stringPet.getsBreeds(), chars));
+                stringPet.setsOptions(removeCharsFromString(stringPet.getsOptions(), chars));
 
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("options").setValue(stringPet.getsOptions());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("contact").setValue(stringPet.getsContact());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("age").setValue(stringPet.getsAge());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("size").setValue(stringPet.getsSize());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("media").setValue(stringPet.getsMedia());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("id").setValue(stringPet.getsId());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("breeds").setValue(stringPet.getsBreeds());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("name").setValue(stringPet.getsName());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("sex").setValue(stringPet.getsSex());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("description").setValue(stringPet.getsDescription());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("last_update").setValue(stringPet.getsLastUpdate());
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("shelter_name").setValue(shelterName);
-            reference.child("users").child(userId).child("animals")
-                    .child(stringPet.getsId())
-                    .child("distance").setValue(dist);
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("options").setValue(stringPet.getsOptions());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("contact").setValue(stringPet.getsContact());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("age").setValue(stringPet.getsAge());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("size").setValue(stringPet.getsSize());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("media").setValue(stringPet.getsMedia());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("id").setValue(stringPet.getsId());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("breeds").setValue(stringPet.getsBreeds());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("name").setValue(stringPet.getsName());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("sex").setValue(stringPet.getsSex());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("description").setValue(stringPet.getsDescription());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("last_update").setValue(stringPet.getsLastUpdate());
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("shelter_name").setValue(shelterName);
+                reference.child("users").child(userId).child("animals")
+                        .child(stringPet.getsId())
+                        .child("distance").setValue(dist);
 
-            Toast.makeText(getContext(), pet.getName().getAnimalName() +
-                            " added to your favorites!",
-                    Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), pet.getName().getAnimalName() +
+                                " added to your favorites!",
+                        Toast.LENGTH_SHORT).show();
 
+            }else{
+                Toast.makeText(getContext(), pet.getName().getAnimalName() +
+                                " added to your favorites! (not synced online)",
+                        Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(getContext(), pet.getName().getAnimalName() +
-                            " added to your favorites! (not synced online)",
+                            " is already added to your favorites!",
                     Toast.LENGTH_SHORT).show();
         }
     }

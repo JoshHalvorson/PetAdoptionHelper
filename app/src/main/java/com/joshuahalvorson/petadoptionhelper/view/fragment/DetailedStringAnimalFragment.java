@@ -1,6 +1,9 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
@@ -23,8 +26,18 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
+import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
+import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
+import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
+import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +50,9 @@ public class DetailedStringAnimalFragment extends Fragment {
 
     private ProgressBar loadingCircle;
 
-    private ImageButton mailButton, phoneButton, mapsButton;
+    private ImageButton mailButton, phoneButton, mapsButton, favoriteButton;
 
-    String email, address, phone;
+    private String email, address, phone, city, state, zip;
 
     public DetailedStringAnimalFragment() {
 
@@ -78,7 +91,13 @@ public class DetailedStringAnimalFragment extends Fragment {
         phoneButton = view.findViewById(R.id.phone_button);
         mapsButton = view.findViewById(R.id.maps_button);
 
-        view.findViewById(R.id.favorite_button).setVisibility(View.GONE);
+        if (getActivity().getSupportFragmentManager().findFragmentByTag("viewed_history")
+                != null) {
+            favoriteButton = view.findViewById(R.id.favorite_button);
+            favoriteButton.setVisibility(View.VISIBLE);
+        }else{
+            view.findViewById(R.id.favorite_button).setVisibility(View.GONE);
+        }
 
         loadingCircle = view.findViewById(R.id.pet_image_loading_circle);
     }
@@ -107,6 +126,15 @@ public class DetailedStringAnimalFragment extends Fragment {
             phone = contactString[0];
             email = contactString[1];
             address = contactString[2];
+
+            String[] location = address.split(": ");
+            String[] addressString = location[1].split(", ");
+            String[] stateZip = addressString[2].split(" ");
+
+            city = addressString[1];
+            state = stateZip[0];
+            zip = stateZip[1];
+
             petContactPhone.setText(phone);
             petContactEmail.setText(email);
             petContactAddress.setText(address);
@@ -116,6 +144,15 @@ public class DetailedStringAnimalFragment extends Fragment {
                 phone = contactString[0];
                 email = contactString[1];
                 address = contactString[2];
+
+                String[] location = address.split(": ");
+                String[] addressString = location[1].split(", ");
+                String[] stateZip = addressString[2].split(" ");
+
+                city = addressString[1];
+                state = stateZip[0];
+                zip = stateZip[1];
+
                 petContactPhone.setText(phone);
                 petContactEmail.setText(email);
                 petContactAddress.setText(address);
@@ -197,6 +234,30 @@ public class DetailedStringAnimalFragment extends Fragment {
                         .placeholder(R.drawable.ic_detailed_pet_image_placeholder)
                         .centerInside())
                 .into(petImage);
+
+        if(favoriteButton.getVisibility() == View.VISIBLE){
+            favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
+            favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    favoriteButton.setImageDrawable(getResources().getDrawable(R.drawable.avd_anim_favorite_animation));
+                    final Drawable drawable = favoriteButton.getDrawable();
+                    if(drawable instanceof Animatable){
+                        ((Animatable) drawable).start();
+                    }
+
+                    if(AnimalsDbDao.checkAnimalExists("animals", "animal_id", pet.getsId())) {
+                        AnimalsDbDao.createAnimalEntryFromStringPet(pet);
+                        Toast.makeText(getContext(), pet.getsName() +
+                                " added to your favorites!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getContext(), pet.getsName() +
+                                " is already added to your favorites!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }
 
     }
 
