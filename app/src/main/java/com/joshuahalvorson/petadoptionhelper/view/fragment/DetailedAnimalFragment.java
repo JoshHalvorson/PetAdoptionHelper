@@ -263,6 +263,25 @@ public class DetailedAnimalFragment extends Fragment {
                     .apply(new RequestOptions()
                             .placeholder(R.drawable.ic_detailed_pet_image_placeholder))
                     .into(petImage);
+        }else{
+            Glide.with(getContext())
+                    .load(R.drawable.ic_broken_image_black_24dp)
+                    .addListener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model,
+                                                       Target<Drawable> target, DataSource dataSource,
+                                                       boolean isFirstResource) {
+                            loadingCircle.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(petImage);
         }
 
 

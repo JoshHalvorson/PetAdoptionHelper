@@ -100,6 +100,25 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
                     })
                     .apply(RequestOptions.circleCropTransform())
                     .into(viewHolder.petImage);
+        }else{
+            Glide.with(viewHolder.petImage.getContext())
+                    .load(R.drawable.ic_broken_image_black_24dp)
+                    .addListener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model,
+                                                       Target<Drawable> target, DataSource dataSource,
+                                                       boolean isFirstResource) {
+                            viewHolder.loadingCircle.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(viewHolder.petImage);
         }
 
 
