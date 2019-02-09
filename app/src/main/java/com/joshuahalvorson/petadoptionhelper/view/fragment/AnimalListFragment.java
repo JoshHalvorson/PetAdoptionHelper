@@ -13,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -433,21 +434,8 @@ public class AnimalListFragment extends Fragment {
 
         }
         LocationManager locationManger = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
-        locationManger.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 300, 1000, locationListener);
-        /*fusedLocationProviderClient
-                .getLastLocation()
-                .addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        currentLat = location.getLatitude();
-                        currentLon = location.getLongitude();
-                        zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
-                        petList.clear();
-                        getPetList(zipcode, Integer.toString(pageOffset),
-                                filterAnimal, filterBreed, filterSize, filterSex, filterAge);
-                    }
-                });*/
+        locationManger.requestSingleUpdate(
+                LocationManager.GPS_PROVIDER, locationListener, null);
     }
 
     private String getZipcode(double lat, double lon){
