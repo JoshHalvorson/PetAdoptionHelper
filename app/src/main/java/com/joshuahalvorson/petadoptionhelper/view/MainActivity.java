@@ -93,8 +93,23 @@ public class MainActivity extends AppCompatActivity
 
             zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
 
-            /*getSupportActionBar().setTitle("Pets");
-            navigationView.getMenu().getItem(0).setChecked(true);*/
+
+
+            bundle = new Bundle();
+            bundle.putInt("zipcode", zipcode);
+            bundle.putString("lat", Double.toString(currentLat));
+            bundle.putString("lon", Double.toString(currentLon));
+
+            animalListFragment.setArguments(bundle);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, animalListFragment)
+                    .commit();
+            getSupportActionBar().setTitle("Pets");
+
+            /*getSupportActionBar().setTitle("Pets");*/ 
+            navigationView.getMenu().getItem(0).setChecked(true);
 
             Log.i("locationListener", "(onLocationChanged) Location lat: " +
                     Double.toString(currentLat) + " Location lon: " + Double.toString(currentLon));
@@ -200,6 +215,7 @@ public class MainActivity extends AppCompatActivity
 
         animalListFragment = new AnimalListFragment();
         shelterListFragment = new ShelterListFragment();
+
     }
 
     @Override
