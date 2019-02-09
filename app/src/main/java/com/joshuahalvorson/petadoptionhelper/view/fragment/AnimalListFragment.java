@@ -87,7 +87,7 @@ public class AnimalListFragment extends Fragment {
 
     private List<String> animalTypeSpinnerArray, animalSizeSpinnerArray, animalAgeSpinnerArray;
 
-    private final android.location.LocationListener locationListener = new LocationListener() {
+    /*private final android.location.LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
             currentLat = location.getLatitude();
@@ -117,7 +117,7 @@ public class AnimalListFragment extends Fragment {
         public void onProviderDisabled(String provider) {
             Log.i("locationListener", "(onProviderDisabled) Provider: " + provider);
         }
-    };
+    };*/
 
 
     public AnimalListFragment() {
@@ -136,13 +136,18 @@ public class AnimalListFragment extends Fragment {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
 
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        Bundle bundle = getArguments();
+        currentLat = Double.parseDouble(bundle.getString("lat"));
+        currentLon = Double.parseDouble(bundle.getString("lon"));
+        zipcode = bundle.getInt("zipcode");
+
+        /*if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
             getLocation();
-        }
+        }*/
 
         petList = new ArrayList<>();
 
@@ -240,6 +245,11 @@ public class AnimalListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
+
+
+        petList.clear();
+        getPetList(zipcode, Integer.toString(pageOffset),
+                filterAnimal, filterBreed, filterSize, filterSex, filterAge);
 
         filterList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -422,32 +432,6 @@ public class AnimalListFragment extends Fragment {
         pageOffset = 0;
     }
 
-    private void getLocation() {
-        if (ActivityCompat
-                .checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED
-                && ActivityCompat
-                .checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-
-            return;
-
-        }
-        LocationManager locationManger = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
-        locationManger.requestSingleUpdate(
-                LocationManager.GPS_PROVIDER, locationListener, null);
-    }
-
-    private String getZipcode(double lat, double lon){
-        List<Address> addresses = new ArrayList<>();
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        try {
-            addresses = geocoder.getFromLocation(lat, lon, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return addresses.get(0).getPostalCode();
-    }
 
 
     public interface OnFragmentInteractionListener {

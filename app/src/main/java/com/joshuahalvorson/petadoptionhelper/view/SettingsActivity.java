@@ -38,7 +38,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null){
                     Log.i("settingsActivity", "logged out");
-                    logoutButton.setText("Log In");
+                    logoutButton.setText("You are already logged out");
+                }else{
+                    logoutButton.setText("Log out");
                 }
             }
         };
@@ -49,9 +51,6 @@ public class SettingsActivity extends AppCompatActivity {
                 if(logoutButton.getText().toString().equals("Log out")){
                     auth.signOut();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                }else{
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 }
             }
