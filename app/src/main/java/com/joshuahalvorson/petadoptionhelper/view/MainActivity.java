@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             headerLayout.findViewById(R.id.log_in).setVisibility(View.GONE);
         }else{
-            Snackbar.make(findViewById(R.id.fragment_container), "You are now logged out, " +
+            Snackbar.make(findViewById(R.id.fragment_container), "You are logged out, " +
                     "favorited animals will no longer be saved online!", Snackbar.LENGTH_LONG)
                     .show();
             headerLayout.findViewById(R.id.log_in).setVisibility(View.VISIBLE);
