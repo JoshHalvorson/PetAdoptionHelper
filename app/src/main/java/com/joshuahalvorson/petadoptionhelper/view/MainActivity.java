@@ -263,7 +263,6 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, animalListFragment)
-                        .addToBackStack(null)
                         .commit();
 
                 break;
@@ -277,24 +276,19 @@ public class MainActivity extends AppCompatActivity
 
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, shelterListFragment)
-                        .addToBackStack(null)
-                        .commit();
+                        .replace(R.id.fragment_container, shelterListFragment).commit();
                 break;
             case R.id.nav_favorite_pets:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new TaggedAnimalsFragment())
-                        .addToBackStack(null)
                         .commit();
                 break;
             case R.id.nav_pets_history:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new AnimalViewedHistoryFragment(),
-                                "viewed_history")
-                        .addToBackStack(null)
-                        .commit();
+                                "viewed_history").commit();
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
