@@ -35,7 +35,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity
         TaggedAnimalsFragment.OnFragmentInteractionListener,
         AnimalViewedHistoryFragment.OnFragmentInteractionListener{
 
+    public static final int SIGN_IN_REQUEST_CODE = 1;
+    public static final int PERMISSIONS_REQUEST_CODE = 2;
     double currentLat, currentLon;
     int zipcode;
     Bundle bundle;
@@ -91,25 +96,7 @@ public class MainActivity extends AppCompatActivity
             currentLat = location.getLatitude();
             currentLon = location.getLongitude();
 
-            zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
-
-
-
-            bundle = new Bundle();
-            bundle.putInt("zipcode", zipcode);
-            bundle.putString("lat", Double.toString(currentLat));
-            bundle.putString("lon", Double.toString(currentLon));
-
-            animalListFragment.setArguments(bundle);
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, animalListFragment)
-                    .commit();
-            getSupportActionBar().setTitle("Pets");
-
-            /*getSupportActionBar().setTitle("Pets");*/ 
-            navigationView.getMenu().getItem(0).setChecked(true);
+            passBundle();
 
             Log.i("locationListener", "(onLocationChanged) Location lat: " +
                     Double.toString(currentLat) + " Location lon: " + Double.toString(currentLon));
@@ -144,8 +131,10 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
+
         } else {
             getLocation();
         }
@@ -216,6 +205,18 @@ public class MainActivity extends AppCompatActivity
         animalListFragment = new AnimalListFragment();
         shelterListFragment = new ShelterListFragment();
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_CODE) {
+            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                getLocation();
+            }
+        }
     }
 
     @Override
@@ -307,14 +308,14 @@ public class MainActivity extends AppCompatActivity
 
     private void signIn() {
         Intent signInIntent = googleSignIn.getSignInIntent();
-        startActivityForResult(signInIntent, 1);
+        startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1) {
+        if (requestCode == SIGN_IN_REQUEST_CODE) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -354,8 +355,36 @@ public class MainActivity extends AppCompatActivity
 
         }
         LocationManager locationManger = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationManger.requestSingleUpdate(
-                LocationManager.GPS_PROVIDER, locationListener, null);
+        Location location = locationManger.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        currentLat = location.getLatitude();
+        currentLon = location.getLongitude();
+        if(location == null){
+            locationManger.requestSingleUpdate(
+                    LocationManager.GPS_PROVIDER, locationListener, null);
+        }else{
+            passBundle();
+        }
+
+    }
+
+    private void passBundle() {
+        zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
+
+        bundle = new Bundle();
+        bundle.putInt("zipcode", zipcode);
+        bundle.putString("lat", Double.toString(currentLat));
+        bundle.putString("lon", Double.toString(currentLon));
+
+        animalListFragment.setArguments(bundle);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, animalListFragment)
+                .commit();
+        getSupportActionBar().setTitle("Pets");
+
+        /*getSupportActionBar().setTitle("Pets");*/
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     private String getZipcode(double lat, double lon){
