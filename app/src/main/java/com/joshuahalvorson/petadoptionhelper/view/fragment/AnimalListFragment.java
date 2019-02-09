@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +85,38 @@ public class AnimalListFragment extends Fragment {
     private List<String> stringBreeds;
 
     private List<String> animalTypeSpinnerArray, animalSizeSpinnerArray, animalAgeSpinnerArray;
+
+    private final android.location.LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            currentLat = location.getLatitude();
+            currentLon = location.getLongitude();
+
+            zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
+            petList.clear();
+            getPetList(zipcode, Integer.toString(pageOffset),
+                    filterAnimal, filterBreed, filterSize, filterSex, filterAge);
+            
+            Log.i("locationListener", "(onLocationChanged) Location lat: " +
+                    Double.toString(currentLat) + " Location lon: " + Double.toString(currentLon));
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.i("locationListener", "(onStatusChanged) Provider: " +
+                    provider + " Status: " + Integer.toString(status));
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.i("locationListener", "(onProviderEnabled) Provider: " + provider);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.i("locationListener", "(onProviderDisabled) Provider: " + provider);
+        }
+    };
 
 
     public AnimalListFragment() {
@@ -397,7 +432,10 @@ public class AnimalListFragment extends Fragment {
             return;
 
         }
-        fusedLocationProviderClient
+        LocationManager locationManger = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
+        locationManger.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 300, 1000, locationListener);
+        /*fusedLocationProviderClient
                 .getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
@@ -409,7 +447,7 @@ public class AnimalListFragment extends Fragment {
                         getPetList(zipcode, Integer.toString(pageOffset),
                                 filterAnimal, filterBreed, filterSize, filterSex, filterAge);
                     }
-                });
+                });*/
     }
 
     private String getZipcode(double lat, double lon){
@@ -422,6 +460,7 @@ public class AnimalListFragment extends Fragment {
         }
         return addresses.get(0).getPostalCode();
     }
+
 
     public interface OnFragmentInteractionListener {
         void onAnimalListFragmentInteraction(Pet item);
