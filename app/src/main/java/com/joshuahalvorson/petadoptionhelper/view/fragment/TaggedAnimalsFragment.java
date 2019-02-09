@@ -1,6 +1,5 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +23,7 @@ import com.joshuahalvorson.petadoptionhelper.adapter.TaggedPetListRecyclerViewAd
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalId;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
-import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 

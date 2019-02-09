@@ -1,7 +1,7 @@
 package com.joshuahalvorson.petadoptionhelper.network;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
+
 import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;

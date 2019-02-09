@@ -1,9 +1,6 @@
 package com.joshuahalvorson.petadoptionhelper.view.fragment;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
@@ -26,18 +23,10 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.animal.StringPet;
 import com.joshuahalvorson.petadoptionhelper.database.AnimalsDbDao;
-import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
-import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
-import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
-import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+
 import java.util.ArrayList;
 import java.util.List;
 

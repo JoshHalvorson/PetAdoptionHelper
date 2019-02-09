@@ -4,14 +4,13 @@ import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 
-import retrofit.http.PUT;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface PetFinderApiInterface {
 
-    String base_url = "http://api.petfinder.com/";
+    String base_url = "https://api.petfinder.com/";
 
     @GET("pet.find")
     Call<AnimalsOverview> getPetsInLocation(
