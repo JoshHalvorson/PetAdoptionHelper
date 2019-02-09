@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -38,6 +39,8 @@ public class ShelterListFragment extends Fragment {
     int pageOffset = 0;
 
     private ProgressBar progressCircle;
+
+    private String title = "Shelters";
 
     public ShelterListFragment() {
 
@@ -93,6 +96,8 @@ public class ShelterListFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(PetFinderApiViewModel.class);
         getShelterList(AnimalListFragment.zipcode, Integer.toString(pageOffset));
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 
     private void getShelterList(int zipcode, String offset) {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,8 @@ public class TaggedAnimalsFragment extends Fragment {
     private static List<StringPet> taggedPetsList;
 
     private ProgressBar loadingCircle;
+
+    private String title = "Favorite Pets";
 
     public TaggedAnimalsFragment() {
 
@@ -76,6 +79,8 @@ public class TaggedAnimalsFragment extends Fragment {
 
     }
 
+
+
     public static void refreshList(int i){
         taggedPetsList.remove(i);
         adapter.notifyDataSetChanged();
@@ -84,6 +89,8 @@ public class TaggedAnimalsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
 
         updateDatabases();
 

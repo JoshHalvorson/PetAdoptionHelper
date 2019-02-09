@@ -87,37 +87,8 @@ public class AnimalListFragment extends Fragment {
 
     private List<String> animalTypeSpinnerArray, animalSizeSpinnerArray, animalAgeSpinnerArray;
 
-    /*private final android.location.LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            currentLat = location.getLatitude();
-            currentLon = location.getLongitude();
+    private String title = "Pets";
 
-            zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
-            petList.clear();
-            getPetList(zipcode, Integer.toString(pageOffset),
-                    filterAnimal, filterBreed, filterSize, filterSex, filterAge);
-
-            Log.i("locationListener", "(onLocationChanged) Location lat: " +
-                    Double.toString(currentLat) + " Location lon: " + Double.toString(currentLon));
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.i("locationListener", "(onStatusChanged) Provider: " +
-                    provider + " Status: " + Integer.toString(status));
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            Log.i("locationListener", "(onProviderEnabled) Provider: " + provider);
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            Log.i("locationListener", "(onProviderDisabled) Provider: " + provider);
-        }
-    };*/
 
 
     public AnimalListFragment() {
@@ -140,14 +111,6 @@ public class AnimalListFragment extends Fragment {
         currentLat = Double.parseDouble(bundle.getString("lat"));
         currentLon = Double.parseDouble(bundle.getString("lon"));
         zipcode = bundle.getInt("zipcode");
-
-        /*if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        } else {
-            getLocation();
-        }*/
 
         petList = new ArrayList<>();
 
@@ -229,6 +192,8 @@ public class AnimalListFragment extends Fragment {
         setSpinnerAdapter(animalSizeSpinner, animalSizeSpinnerArray);
         setSpinnerAdapter(animalAgeSpinner, animalAgeSpinnerArray);
 
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
 
     }
 

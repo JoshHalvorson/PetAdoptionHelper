@@ -112,6 +112,9 @@ public class DetailedShelterFragment extends Fragment {
 
         getPetsInShelter(shelter.getId().getId(), Integer.toString(pageOffset));
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar()
+                .setTitle(shelter.getName().getName());
+
     }
 
     private void getPetsInShelter(String id, String offset) {
