@@ -96,7 +96,7 @@ public class AnimalListFragment extends Fragment {
             petList.clear();
             getPetList(zipcode, Integer.toString(pageOffset),
                     filterAnimal, filterBreed, filterSize, filterSex, filterAge);
-            
+
             Log.i("locationListener", "(onLocationChanged) Location lat: " +
                     Double.toString(currentLat) + " Location lon: " + Double.toString(currentLon));
         }
