@@ -7,6 +7,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -34,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -206,6 +209,28 @@ public class AnimalListFragment extends Fragment {
 
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+
+        final ImageButton toTopButton = view.findViewById(R.id.to_top_button);
+        toTopButton.setImageDrawable(getResources()
+                .getDrawable(R.drawable.avd_anim_to_top_arrow_animation));
+        toTopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable drawable = toTopButton.getDrawable();
+                if(drawable instanceof Animatable){
+                    ((Animatable) drawable).start();
+                }
+                RecyclerView.SmoothScroller smoothScroller =
+                        new LinearSmoothScroller(getContext()) {
+                            @Override protected int getVerticalSnapPreference() {
+                                return LinearSmoothScroller.SNAP_TO_START;
+                            }
+                        };
+                smoothScroller.setTargetPosition(0);
+                layoutManager.startSmoothScroll(smoothScroller);
+            }
+        });
+
 
     }
 
