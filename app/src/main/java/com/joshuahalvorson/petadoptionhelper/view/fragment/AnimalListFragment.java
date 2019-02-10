@@ -151,7 +151,7 @@ public class AnimalListFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if(layoutManager.findLastCompletelyVisibleItemPosition() == petList.size() - 1){
                     recyclerView.addOnItemTouchListener(disabler);
-                    pageOffset += 100;
+
                     progressCircle.setVisibility(View.VISIBLE);
                     getPetList(zipcode, Integer.toString(pageOffset),
                             filterAnimal, filterBreed, filterSize, filterSex, filterAge);
@@ -333,7 +333,9 @@ public class AnimalListFragment extends Fragment {
         filterSize = size;
         filterSex = sex;
         filterAge = age;
-        getPetList(zipcode, offset, animal, breed, size, sex, age);
+        pageOffset = 0;
+        petList.clear();
+        getPetList(zipcode, Integer.toString(pageOffset), animal, breed, size, sex, age);
 
     }
 
@@ -366,7 +368,6 @@ public class AnimalListFragment extends Fragment {
 
                                 adapter.notifyDataSetChanged();
                                 progressCircle.setVisibility(View.GONE);
-
                                 RecyclerView.SmoothScroller smoothScroller =
                                         new LinearSmoothScroller(getContext()) {
                                             @Override protected int getVerticalSnapPreference() {
@@ -378,6 +379,7 @@ public class AnimalListFragment extends Fragment {
                                     smoothScroller.setTargetPosition(pageOffset);
                                     layoutManager.startSmoothScroll(smoothScroller);
                                 }
+                                pageOffset += 100;
                             }
                         }
                     }
