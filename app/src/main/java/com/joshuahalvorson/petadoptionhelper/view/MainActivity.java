@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -93,10 +94,7 @@ public class MainActivity extends AppCompatActivity
     private final android.location.LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            currentLat = location.getLatitude();
-            currentLon = location.getLongitude();
-
-            passBundle();
+            passBundle(location);
 
             Log.i("locationListener", "(onLocationChanged) Location lat: " +
                     Double.toString(currentLat) + " Location lon: " + Double.toString(currentLon));
@@ -346,24 +344,21 @@ public class MainActivity extends AppCompatActivity
         }
         LocationManager locationManger = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location location = locationManger.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        currentLat = location.getLatitude();
-        currentLon = location.getLongitude();
-        if(location == null){
+        if(location != null){
+            passBundle(location);
+        }else{
             locationManger.requestSingleUpdate(
                     LocationManager.GPS_PROVIDER, locationListener, null);
-        }else{
-            passBundle();
         }
-
     }
 
-    private void passBundle() {
-        zipcode = Integer.parseInt(getZipcode(currentLat, currentLon));
+    private void passBundle(Location location) {
+        zipcode = Integer.parseInt(getZipcode(location.getLatitude(), location.getLongitude()));
 
         bundle = new Bundle();
         bundle.putInt("zipcode", zipcode);
-        bundle.putString("lat", Double.toString(currentLat));
-        bundle.putString("lon", Double.toString(currentLon));
+        bundle.putString("lat", Double.toString(location.getLatitude()));
+        bundle.putString("lon", Double.toString(location.getLongitude()));
 
         animalListFragment.setArguments(bundle);
 
@@ -373,7 +368,6 @@ public class MainActivity extends AppCompatActivity
                 .commit();
         getSupportActionBar().setTitle("Pets");
 
-        /*getSupportActionBar().setTitle("Pets");*/
         navigationView.getMenu().getItem(0).setChecked(true);
     }
 
@@ -385,7 +379,13 @@ public class MainActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return addresses.get(0).getPostalCode();
+        if(addresses.size() > 0){
+            return addresses.get(0).getPostalCode();
+        }else{
+            Toast.makeText(getApplicationContext(), "Could not find your location",
+                    Toast.LENGTH_LONG).show();
+            return "0";
+        }
     }
 
     @Override
