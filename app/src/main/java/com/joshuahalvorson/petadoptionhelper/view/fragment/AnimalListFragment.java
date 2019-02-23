@@ -382,6 +382,11 @@ public class AnimalListFragment extends Fragment {
                                 List<Pet> tempList = new ArrayList<>();
                                 tempList.addAll(pets.getPet());
 
+                                if(tempList.size() <= 0){
+                                    Snackbar.make(getActivity().findViewById(R.id.fragment_container),
+                                            "Could not get any animals!", Snackbar.LENGTH_LONG).show();
+                                }
+
                                 Collections.sort(tempList, new Comparator<Pet>() {
                                     public int compare(Pet o1, Pet o2) {
                                         return o2.getLastUpdate().getLastUpdate().substring(0, 10)
@@ -391,7 +396,7 @@ public class AnimalListFragment extends Fragment {
                                 });
 
                                 petList.addAll(tempList);
-
+                                
                                 adapter.notifyDataSetChanged();
                                 progressCircle.setVisibility(View.GONE);
                                 RecyclerView.SmoothScroller smoothScroller =
@@ -412,10 +417,7 @@ public class AnimalListFragment extends Fragment {
                 }
             }
         });
-        if(petList.size() == 0){
-            Snackbar.make(getActivity().findViewById(R.id.fragment_container),
-                    "Could not get any animals!", Snackbar.LENGTH_LONG).show();
-        }
+
     }
 
     @Override
