@@ -57,6 +57,26 @@ public class Pet implements Serializable {
     @Expose
     private Animal animal;
 
+    private double distance;
+
+    private String shelterName;
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public String getShelterName() {
+        return shelterName;
+    }
+
+    public void setShelterName(String shelterName) {
+        this.shelterName = shelterName;
+    }
+
     public Options getOptions() {
         return options;
     }

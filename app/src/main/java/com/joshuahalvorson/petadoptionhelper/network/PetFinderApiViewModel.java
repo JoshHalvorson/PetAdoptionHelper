@@ -3,6 +3,8 @@ package com.joshuahalvorson.petadoptionhelper.network;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.v7.app.AppCompatActivity;
+
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
@@ -12,18 +14,19 @@ import java.util.List;
 
 public class PetFinderApiViewModel extends ViewModel {
 
-    private MutableLiveData<AnimalsOverview> data;
+    private MutableLiveData<List<Pet>> data;
     private MutableLiveData<Pet> petData;
     private MutableLiveData<List<Pet>> petsInShelter;
     private MutableLiveData<SheltersOverview> sheltersOverviewMutableLiveData;
     private MutableLiveData<BreedsOverview> breeds;
     private MutableLiveData<SheltersOverview> shelterData;
 
-    public LiveData<AnimalsOverview> getPetsInArea(int zipcode, String format, String offset,
+    public LiveData<List<Pet>> getPetsInArea(int zipcode, String format, String offset,
                                                    String count, String animal, String breed,
-                                                   String size, String sex, String age){
+                                                   String size, String sex, String age,
+                                                   AppCompatActivity activity){
         data = PetFinderApiRepository.getPetsInArea(zipcode, format, offset, count,
-                animal, breed, size, sex, age);
+                animal, breed, size, sex, age, activity);
         return data;
     }
 

@@ -137,41 +137,12 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
             viewHolder.lastUpdated.setText("Last updated: " + lastUpdated);
         }
 
-        LiveData<SheltersOverview> shelterData =
-                viewModel.getShelterData(pet.getShelterId().getShelterId(), "json");
-
-        shelterData.observe(appCompatActivity, new Observer<SheltersOverview>() {
-            @Override
-            public void onChanged(@Nullable SheltersOverview sheltersOverview) {
-                double lat = 0;
-                double lon = 0;
-                if (sheltersOverview != null) {
-                    ShelterPetfinder petfinder = sheltersOverview.getPetfinder();
-                    if(petfinder !=  null){
-                        Shelter shelter = petfinder.getShelter();
-                        if(shelter != null){
-                            lat = Double.parseDouble(
-                                    sheltersOverview.getPetfinder().getShelter().getLatitude()
-                                            .getLatitude());
-                            lon = Double.parseDouble(
-                                    sheltersOverview.getPetfinder().getShelter().getLongitude()
-                                            .getLongitude());
-                            double dist = getDistance(AnimalListFragment.currentLat,
-                                    AnimalListFragment.currentLon, lat, lon, "");
-
-                            viewHolder.distance.setText(Double.toString(dist) + " Miles");
-                            viewHolder.shelterName.setText(
-                                    "Shelter: " +
-                                            sheltersOverview.getPetfinder().getShelter().getName()
-                                                    .getName());
-                        }else{
-                            viewHolder.distance.setText("Contact shelter for information");
-                            viewHolder.shelterName.setText("");
-                        }
-                    }
-                }
-            }
-        });
+        viewHolder.shelterName.setText(pet.getShelterName());
+        viewHolder.distance.setText(Double.toString(pet.getDistance()) + " miles");
+        if(pet.getDistance() == 0.0){
+            viewHolder.shelterName.setText("Contact shelter for information");
+            viewHolder.distance.setText("");
+        }
 
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,27 +152,6 @@ public class PetListRecyclerViewAdapter extends RecyclerView.Adapter<PetListRecy
                 }
             }
         });
-    }
-
-    private double getDistance(double lat1, double lon1, double lat2, double lon2, String unit){
-        if ((lat1 == lat2) && (lon1 == lon2)) {
-            return 0;
-        }
-        else {
-            double theta = lon1 - lon2;
-            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) +
-                    Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                            Math.cos(Math.toRadians(theta));
-            dist = Math.acos(dist);
-            dist = Math.toDegrees(dist);
-            dist = dist * 60 * 1.1515;
-            if (unit == "K") {
-                dist = dist * 1.609344;
-            } else if (unit == "N") {
-                dist = dist * 0.8684;
-            }
-            return new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        }
     }
 
     @Override

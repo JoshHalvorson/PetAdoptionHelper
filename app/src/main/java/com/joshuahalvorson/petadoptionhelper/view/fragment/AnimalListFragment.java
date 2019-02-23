@@ -53,7 +53,13 @@ import com.joshuahalvorson.petadoptionhelper.animal.Pets;
 import com.joshuahalvorson.petadoptionhelper.breed.Breed;
 import com.joshuahalvorson.petadoptionhelper.breed.BreedsOverview;
 import com.joshuahalvorson.petadoptionhelper.network.PetFinderApiViewModel;
+import com.joshuahalvorson.petadoptionhelper.shelter.Shelter;
+import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
+import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
+
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -367,53 +373,39 @@ public class AnimalListFragment extends Fragment {
 
     public void getPetList(int zipcode, String offset,
                             String animal, String breed, String size, String sex, String age) {
-        LiveData<AnimalsOverview> data = viewModel.getPetsInArea(zipcode, "json", offset,
-                "100", animal, breed, size, sex, age);
-        data.observe(this, new Observer<AnimalsOverview>() {
+        LiveData<List<Pet>> data = viewModel.getPetsInArea(zipcode, "json", offset,
+                "100", animal, breed, size, sex, age, (AppCompatActivity) getActivity());
+        data.observe(this, new Observer<List<Pet>>() {
             @Override
-            public void onChanged(@Nullable AnimalsOverview animalsOverview) {
-                if(animalsOverview != null){
-                    AnimalPetfinder petfinder = animalsOverview.getPetfinder();
-                    if(petfinder != null){
-                        Pets pets = petfinder.getPets();
-                        if(pets != null){
-                            List<Pet> list = pets.getPet();
-                            if(list != null){
-                                List<Pet> tempList = new ArrayList<>();
-                                tempList.addAll(pets.getPet());
-
-                                if(tempList.size() <= 0){
-                                    Snackbar.make(getActivity().findViewById(R.id.fragment_container),
-                                            "Could not get any animals!", Snackbar.LENGTH_LONG).show();
-                                }
-
-                                Collections.sort(tempList, new Comparator<Pet>() {
-                                    public int compare(Pet o1, Pet o2) {
-                                        return o2.getLastUpdate().getLastUpdate().substring(0, 10)
-                                                .compareTo
-                                                        (o1.getLastUpdate().getLastUpdate().substring(0, 10));
-                                    }
-                                });
-
-                                petList.addAll(tempList);
-                                
-                                adapter.notifyDataSetChanged();
-                                progressCircle.setVisibility(View.GONE);
-                                RecyclerView.SmoothScroller smoothScroller =
-                                        new LinearSmoothScroller(getContext()) {
-                                            @Override protected int getVerticalSnapPreference() {
-                                                return LinearSmoothScroller.SNAP_TO_START;
-                                            }
-                                        };
-                                if(pageOffset != 0){
-                                    recyclerView.removeOnItemTouchListener(disabler);
-                                    smoothScroller.setTargetPosition(pageOffset);
-                                    layoutManager.startSmoothScroll(smoothScroller);
-                                }
-                                pageOffset += 100;
-                            }
+            public void onChanged(@Nullable List<Pet> pets) {
+                if(pets.size() <= 0){
+                    Snackbar.make(getActivity().findViewById(R.id.fragment_container),
+                            "Could not get any animals!", Snackbar.LENGTH_LONG).show();
+                }else{
+                    Collections.sort(pets, new Comparator<Pet>() {
+                        public int compare(Pet o1, Pet o2) {
+                            return o2.getLastUpdate().getLastUpdate().substring(0, 10)
+                                    .compareTo
+                                            (o1.getLastUpdate().getLastUpdate().substring(0, 10));
                         }
+                    });
+
+                    petList.addAll(pets);
+
+                    adapter.notifyDataSetChanged();
+                    progressCircle.setVisibility(View.GONE);
+                    RecyclerView.SmoothScroller smoothScroller =
+                            new LinearSmoothScroller(getContext()) {
+                                @Override protected int getVerticalSnapPreference() {
+                                    return LinearSmoothScroller.SNAP_TO_START;
+                                }
+                            };
+                    if(pageOffset != 0){
+                        recyclerView.removeOnItemTouchListener(disabler);
+                        smoothScroller.setTargetPosition(pageOffset);
+                        layoutManager.startSmoothScroll(smoothScroller);
                     }
+                    pageOffset += 100;
                 }
             }
         });
