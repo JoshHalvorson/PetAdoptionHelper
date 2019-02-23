@@ -20,6 +20,8 @@ import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +57,7 @@ public class PetFinderApiRepository {
                 animalsOverview = response.body();
                 AnimalPetfinder petfinder = animalsOverview.getPetfinder();
                 Pets pet = petfinder.getPets();
-                List<Pet> petList = pet.getPet();
+                final List<Pet> petList = pet.getPet();
                 for(final Pet p : petList){
                     LiveData<SheltersOverview> shelterData =
                             getShelterData(p.getShelterId().getShelterId(), "json");
@@ -80,13 +82,19 @@ public class PetFinderApiRepository {
 
                                         p.setDistance(dist);
                                         p.setShelterName(shelter.getName().getName());
-
                                     }
                                 }
                             }
+
                         }
                     });
                 }
+                Collections.sort(petList, new Comparator<Pet>() {
+                    @Override
+                    public int compare(Pet c1, Pet c2) {
+                        return Double.compare(c1.getDistance(), c2.getDistance());
+                    }
+                });
                 data.setValue(petList);
             }
 
