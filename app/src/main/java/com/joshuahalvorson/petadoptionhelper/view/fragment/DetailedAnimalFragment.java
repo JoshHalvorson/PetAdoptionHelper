@@ -51,7 +51,7 @@ public class DetailedAnimalFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private TextView petName, petAge, petSex, petSize, petBreeds, petDesc, petOptions,
+    private TextView petName, petShelterName, petAge, petSex, petSize, petBreeds, petDesc, petOptions,
             petContactPhone, petContactEmail, petContactAddress;
     private ImageView petImage;
     private FloatingActionButton favoriteButton;
@@ -100,6 +100,7 @@ public class DetailedAnimalFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         petImage = view.findViewById(R.id.pet_image);
         petName = view.findViewById(R.id.pet_name);
+        petShelterName = view.findViewById(R.id.pet_shelter_name);
         petAge = view.findViewById(R.id.pet_age);
         petSex = view.findViewById(R.id.pet_sex);
         petSize = view.findViewById(R.id.pet_size);
@@ -141,6 +142,7 @@ public class DetailedAnimalFragment extends Fragment {
         chars.add("\\=");
 
         petName.setText(pet.getName().getAnimalName());
+        petShelterName.setText(pet.getShelterName());
         petAge.setText("Age: " + pet.getAge().getAge());
         petSex.setText("Sex: " + pet.getSex().getAnimalSex());
         petSize.setText("Size: " + pet.getSize().getAnimalSize());
