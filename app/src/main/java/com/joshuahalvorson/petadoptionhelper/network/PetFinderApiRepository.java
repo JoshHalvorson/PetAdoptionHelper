@@ -1,13 +1,13 @@
 package com.joshuahalvorson.petadoptionhelper.network;
 
-import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
@@ -18,6 +18,7 @@ import com.joshuahalvorson.petadoptionhelper.shelter.ShelterPetfinder;
 import com.joshuahalvorson.petadoptionhelper.shelter.SheltersOverview;
 import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collections;
@@ -58,44 +59,8 @@ public class PetFinderApiRepository {
                 AnimalPetfinder petfinder = animalsOverview.getPetfinder();
                 Pets pet = petfinder.getPets();
                 final List<Pet> petList = pet.getPet();
-                for(final Pet p : petList){
-                    LiveData<SheltersOverview> shelterData =
-                            getShelterData(p.getShelterId().getShelterId(), "json");
-                    shelterData.observe(activity, new Observer<SheltersOverview>() {
-                        @Override
-                        public void onChanged(@Nullable SheltersOverview sheltersOverview) {
-                            double lat;
-                            double lon;
-                            if (sheltersOverview != null) {
-                                ShelterPetfinder petfinder = sheltersOverview.getPetfinder();
-                                if(petfinder !=  null){
-                                    Shelter shelter = petfinder.getShelter();
-                                    if(shelter != null){
-                                        lat = Double.parseDouble(
-                                                sheltersOverview.getPetfinder().getShelter().getLatitude()
-                                                        .getLatitude());
-                                        lon = Double.parseDouble(
-                                                sheltersOverview.getPetfinder().getShelter().getLongitude()
-                                                        .getLongitude());
-                                        double dist = getDistance(AnimalListFragment.currentLat,
-                                                AnimalListFragment.currentLon, lat, lon, "");
-
-                                        p.setDistance(dist);
-                                        p.setShelterName(shelter.getName().getName());
-                                    }
-                                }
-                            }
-
-                        }
-                    });
-                }
-                Collections.sort(petList, new Comparator<Pet>() {
-                    @Override
-                    public int compare(Pet c1, Pet c2) {
-                        return Double.compare(c1.getDistance(), c2.getDistance());
-                    }
-                });
-                data.setValue(petList);
+                new getData(data).execute(petList);
+                //data.setValue(petList);
             }
 
             @Override
@@ -233,6 +198,59 @@ public class PetFinderApiRepository {
     public static ShelterPetfinder getShelterPetFinder(SheltersOverview sheltersOverview){
         shelterPetfinder = sheltersOverview.getPetfinder();
         return shelterPetfinder;
+    }
+
+    public static class getData extends AsyncTask<List<Pet>, Void, List<Pet>>{
+
+        MutableLiveData<List<Pet>> petsList;
+
+        public getData(MutableLiveData<List<Pet>> petsList) {
+            this.petsList = petsList;
+        }
+
+        @Override
+        protected List<Pet> doInBackground(List<Pet>... lists) {
+            List<Pet> pets = lists[0];
+            for(Pet p : pets){
+                Call<SheltersOverview> call = client.getShelterData(Key.API_KEY, p.getShelterId().getShelterId(), "json");
+                try {
+                    Response<SheltersOverview> response = call.execute();
+                    Shelter shelter = response.body().getPetfinder().getShelter();
+
+                    double lat = Double.parseDouble(
+                            shelter.getLatitude()
+                                    .getLatitude());
+                    double lon = Double.parseDouble(
+                            shelter.getLongitude()
+                                    .getLongitude());
+                    double dist = getDistance(AnimalListFragment.currentLat,
+                            AnimalListFragment.currentLon, lat, lon, "");
+
+                    p.setDistance(dist);
+                    p.setShelterName(shelter.getName().getName());
+
+                    Log.i("petData", p.getShelterName());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Collections.sort(pets, new Comparator<Pet>() {
+                @Override
+                public int compare(Pet c1, Pet c2) {
+                    return Double.compare(c1.getDistance(), c2.getDistance());
+                }
+            });
+
+            return pets;
+        }
+
+        @Override
+        protected void onPostExecute(List<Pet> pets) {
+            petsList.setValue(pets);
+            Log.i("petData", "returned list");
+        }
     }
 
 }
