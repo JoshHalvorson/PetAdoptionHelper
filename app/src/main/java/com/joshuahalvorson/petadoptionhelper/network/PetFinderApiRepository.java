@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.joshuahalvorson.petadoptionhelper.Key;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalPetfinder;
 import com.joshuahalvorson.petadoptionhelper.animal.AnimalsOverview;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
@@ -217,20 +218,21 @@ public class PetFinderApiRepository {
                     Response<SheltersOverview> response = call.execute();
                     Shelter shelter = response.body().getPetfinder().getShelter();
 
-                    double lat = Double.parseDouble(
-                            shelter.getLatitude()
-                                    .getLatitude());
-                    double lon = Double.parseDouble(
-                            shelter.getLongitude()
-                                    .getLongitude());
-                    double dist = getDistance(AnimalListFragment.currentLat,
-                            AnimalListFragment.currentLon, lat, lon, "");
+                    if(shelter != null){
+                        double lat = Double.parseDouble(
+                                shelter.getLatitude()
+                                        .getLatitude());
+                        double lon = Double.parseDouble(
+                                shelter.getLongitude()
+                                        .getLongitude());
+                        double dist = getDistance(AnimalListFragment.currentLat,
+                                AnimalListFragment.currentLon, lat, lon, "");
 
-                    p.setDistance(dist);
-                    p.setShelterName(shelter.getName().getName());
+                        p.setDistance(dist);
+                        p.setShelterName(shelter.getName().getName());
 
-                    Log.i("petData", p.getShelterName());
-
+                        Log.i("petData", p.getShelterName());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
