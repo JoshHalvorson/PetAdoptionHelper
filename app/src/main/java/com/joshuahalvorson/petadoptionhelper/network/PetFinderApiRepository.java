@@ -241,9 +241,27 @@ public class PetFinderApiRepository {
             Collections.sort(pets, new Comparator<Pet>() {
                 @Override
                 public int compare(Pet c1, Pet c2) {
-                    return Double.compare(c1.getDistance(), c2.getDistance());
+                    Double c1Dist = c1.getDistance();
+                    Double c2Dist = c2.getDistance();
+                    int sComp = c1Dist.compareTo(c2Dist);
+
+                    if (sComp != 0) {
+                        return sComp;
+                    }
+
+                    String c1Update = c1.getLastUpdate().getLastUpdate();
+                    String c2Update = c2.getLastUpdate().getLastUpdate();
+                    return c1Update.compareTo(c2Update);
+
+                    //return Double.compare(c1.getDistance(), c2.getDistance());
                 }
             });
+
+            for(int i = pets.size() - 1; i > 0; i--){
+                if(!pets.get(i).getLastUpdate().getLastUpdate().split("-")[0].equals("2019")){
+                    pets.remove(pets.get(i));
+                }
+            }
 
             return pets;
         }
