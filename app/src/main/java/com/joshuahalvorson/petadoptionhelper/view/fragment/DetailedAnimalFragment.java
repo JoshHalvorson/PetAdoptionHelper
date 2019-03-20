@@ -142,7 +142,11 @@ public class DetailedAnimalFragment extends Fragment {
         chars.add("\\=");
 
         petName.setText(pet.getName().getAnimalName());
-        petShelterName.setText(pet.getShelterName());
+        if(pet.getShelterName() != null){
+            petShelterName.setText(pet.getShelterName() + " (" + pet.getDistance() + " miles)");
+        }else{
+            petShelterName.setText("Shelter name unknown");
+        }
         petAge.setText("Age: " + pet.getAge().getAge());
         petSex.setText("Sex: " + pet.getSex().getAnimalSex());
         petSize.setText("Size: " + pet.getSize().getAnimalSize());
