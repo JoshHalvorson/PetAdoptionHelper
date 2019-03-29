@@ -22,6 +22,7 @@ import com.joshuahalvorson.petadoptionhelper.view.fragment.AnimalListFragment;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -154,7 +155,7 @@ public class PetFinderApiRepository {
 
             @Override
             public void onFailure(Call<SheltersOverview> call, Throwable t) {
-
+                data.setValue(new ArrayList<Pet>());
             }
         });
         return data;

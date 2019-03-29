@@ -16,6 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.joshuahalvorson.petadoptionhelper.R;
 import com.joshuahalvorson.petadoptionhelper.adapter.PetListRecyclerViewAdapter;
 import com.joshuahalvorson.petadoptionhelper.animal.Pet;
@@ -123,27 +125,32 @@ public class DetailedShelterFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<Pet> data) {
                 if (data != null) {
-                    //petsList.clear();
                     petsList.addAll(data);
+                    if(petsList.size() > 0){
+                        Collections.sort(petsList, new Comparator<Pet>() {
+                            public int compare(Pet o1, Pet o2) {
+                                return o2.getLastUpdate().getLastUpdate().substring(0, 10)
+                                        .compareTo
+                                                (o1.getLastUpdate().getLastUpdate().substring(0, 10));
+                            }
+                        });
+                        adapter.notifyDataSetChanged();
 
-                    Collections.sort(petsList, new Comparator<Pet>() {
-                        public int compare(Pet o1, Pet o2) {
-                            return o2.getLastUpdate().getLastUpdate().substring(0, 10)
-                                    .compareTo
-                                            (o1.getLastUpdate().getLastUpdate().substring(0, 10));
-                        }
-                    });
-
-                    adapter.notifyDataSetChanged();
-
-                    RecyclerView.SmoothScroller smoothScroller =
-                            new LinearSmoothScroller(getContext()) {
-                                @Override protected int getVerticalSnapPreference() {
-                                    return LinearSmoothScroller.SNAP_TO_START;
-                                }
-                            };
-                    smoothScroller.setTargetPosition(pageOffset);
-                    layoutManager.startSmoothScroll(smoothScroller);
+                        RecyclerView.SmoothScroller smoothScroller =
+                                new LinearSmoothScroller(getContext()) {
+                                    @Override protected int getVerticalSnapPreference() {
+                                        return LinearSmoothScroller.SNAP_TO_START;
+                                    }
+                                };
+                        smoothScroller.setTargetPosition(pageOffset);
+                        layoutManager.startSmoothScroll(smoothScroller);
+                    }else{
+                        Toast.makeText(
+                                getContext(), "No animals found", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(
+                            getContext(), "No animals found", Toast.LENGTH_LONG).show();
                 }
             }
         });
