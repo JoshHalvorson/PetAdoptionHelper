@@ -314,6 +314,8 @@ public class MainActivity extends AppCompatActivity
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             firebaseAuthWithGoogle(account);
         } catch (ApiException e) {
+            Toast.makeText(
+                    getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
